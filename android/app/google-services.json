@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "194653695398",
+    "firebase_url": "https://milkyway-a053f-default-rtdb.firebaseio.com",
+    "project_id": "milkyway-a053f",
+    "storage_bucket": "milkyway-a053f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194653695398:android:c4352b7dd0f356c6b5f367",
+        "android_client_info": {
+          "package_name": "com.example.milkyway"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqlgDkzKwIquL10ODSUrmXAtgPsnVxWjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
