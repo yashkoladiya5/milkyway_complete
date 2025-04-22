@@ -1,12 +1,18 @@
+import 'dart:convert';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
+import 'package:milkyway/cart/model/cart_wallet_model.dart';
 import 'package:milkyway/cart/provider/pay_now_page_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
+import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class PayNowPage extends StatefulWidget {
   const PayNowPage({super.key});
@@ -19,7 +25,7 @@ class _PayNowPageState extends State<PayNowPage> {
   late double height;
   late double width;
   late ThemeController themeController;
-
+  Map<String, dynamic>? paymentIntent;
   late PayNowPageController payNowPageController;
 
   @override
@@ -34,21 +40,21 @@ class _PayNowPageState extends State<PayNowPage> {
       child: ChangeNotifierProvider(
         create: (context) => PayNowPageController(),
         child: Scaffold(
-                  backgroundColor: HexColor(themeController.isLight
-          ? AppColorsLight.backgroundColor
-          : AppColorsDark.backgroundColor),
-                  body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeaderContainer(),
-          _buildHeading(text: AppStrings.uploadBalanceWithUPIId),
-          _buildGridViewOfUPI(),
-          _buildHeading(text: AppStrings.setAutoPayment),
-          _buildPaymentContainer(),
-          _buildPayNowButton(),
-        ],
-                  ),
-                ),
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsDark.backgroundColor),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderContainer(),
+              _buildHeading(text: AppStrings.uploadBalanceWithUPIId),
+              _buildGridViewOfUPI(),
+              _buildHeading(text: AppStrings.setAutoPayment),
+              _buildPaymentContainer(),
+              _buildPayNowButton(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -240,21 +246,32 @@ class _PayNowPageState extends State<PayNowPage> {
 
   Widget _buildPayNowButton() {
     return Center(
-      child: Container(
-        height: height * 0.060,
-        width: width * 0.300,
-        decoration: BoxDecoration(
-            color: HexColor(AppColorsLight.orangeColor),
-            borderRadius: BorderRadius.circular(15)),
-        child: Center(
-          child: Text(
-            AppStrings.payNow,
-            style: TextStyle(
-                color: HexColor(AppColorsDark.whiteColor),
-                fontSize: 19,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
+      child: Consumer<PayNowPageController>(
+        builder: (context, value, child) {
+          return InkWell(
+            onTap: () {
+              if (value.selectedIndex != -1) {
+                makePayment(AppLists.upiBalanceList[value.selectedIndex]);
+              }
+            },
+            child: Container(
+              height: height * 0.060,
+              width: width * 0.300,
+              decoration: BoxDecoration(
+                  color: HexColor(AppColorsLight.orangeColor),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Center(
+                child: Text(
+                  AppStrings.payNow,
+                  style: TextStyle(
+                      color: HexColor(AppColorsDark.whiteColor),
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -418,7 +435,7 @@ class _PayNowPageState extends State<PayNowPage> {
                     borderRadius: BorderRadius.circular(20)),
                 child: value.paymentIndex == index
                     ? Container(
-                        margin: EdgeInsets.all(2),
+                        margin: EdgeInsets.all(3),
                         decoration: BoxDecoration(
                             color: HexColor(AppColorsLight.orangeColor),
                             borderRadius: BorderRadius.circular(20),
@@ -430,6 +447,153 @@ class _PayNowPageState extends State<PayNowPage> {
                       )
                     : SizedBox()),
           ),
+        );
+      },
+    );
+  }
+
+  Future<void> makePayment(String price) async {
+    try {
+      print(price);
+      paymentIntent = await createPaymentIntent(price, 'INR');
+
+      // 2. Initialize Payment Sheet
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntent!['client_secret'],
+          merchantDisplayName: 'Your Business Name',
+          customerId:
+              paymentIntent!['customer'], // Ensure your backend includes this
+          customerEphemeralKeySecret: paymentIntent![
+              'ephemeralKey'], // Ensure your backend includes this
+        ),
+      );
+
+      // 3. Display Payment Sheet
+      await Stripe.instance.presentPaymentSheet();
+
+      // Show Success Popup
+      showPaymentDialog("Payment Successful", "Your payment was successful ✅");
+      String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+      String name = AppStrings.uploadBalanceWithUPIId;
+      int isIncome = 1;
+      String price1 = "₹" + price;
+      String weightValue = "";
+      String weightUnit = "";
+      String quantity = "";
+      String image = "";
+
+      final data = CartWalletModel(
+          date: date,
+          image: image,
+          isExpense: 0,
+          isIncome: isIncome,
+          name: name,
+          price: price1,
+          quantity: quantity,
+          weightUnit: weightUnit,
+          weightValue: weightValue);
+
+      DbHelper dbHelper = DbHelper();
+
+      await dbHelper.insertWalletData(model: data);
+      print("DATA INSERTED");
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+      paymentIntent = null; // Reset after successful payment
+    } catch (e) {
+      if (e is StripeException) {
+        showPaymentDialog(
+          "Payment Failed",
+          "Payment failed ❌: ${e.error.localizedMessage}",
+        );
+      } else {
+        showPaymentDialog("Payment Failed", "An error occurred ❌");
+      }
+    }
+  }
+
+  Future<Map<String, dynamic>> createPaymentIntent(
+    String amount,
+    String currency,
+  ) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': (int.parse(amount) * 100)
+            .toString(), // Stripe requires amount in cents
+        'currency': currency,
+        'payment_method_types[]': 'card',
+      };
+
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        body: body,
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51QeaREP96E6eOehqt78P0qcJka91spvmf8SghebYi4YTPtowoOrXoDLjGNNp05wtTKzHdAoBYXE2CxXqfE0b8CUj00Y8Yq6aTa', // Replace with your secret key
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      );
+
+      return jsonDecode(response.body);
+    } catch (e) {
+      throw Exception('Failed to create payment intent: $e');
+    }
+  }
+
+  // Function to show a pop-up dialog
+  void showPaymentDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: HexColor(AppColorsLight.backgroundColor),
+          title: Text(
+            title,
+            style: TextStyle(
+                color: HexColor(AppColorsLight.darkBlueColor),
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
+          ),
+          content: Container(
+              alignment: Alignment.center,
+              height: height * 0.100,
+              width: width * 0.500,
+              // color: Colors.red,
+              child: Center(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  message,
+                  style: TextStyle(
+                      color: HexColor(AppColorsLight.darkBlueColor),
+                      fontSize: 20),
+                ),
+              )),
+          actions: <Widget>[
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                height: height * 0.070,
+                width: width * 0.600,
+                decoration: BoxDecoration(
+                    color: HexColor(AppColorsLight.orangeColor),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Center(
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    "OK",
+                    style: TextStyle(
+                        color: HexColor(AppColorsDark.whiteColor),
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            )
+          ],
         );
       },
     );

@@ -723,11 +723,18 @@ class _GasBillScreenState extends State<GasBillScreen> {
         builder: (context, value, child) {
           return InkWell(
             onTap: () async {
-              if (value.bookingOperatorData["billAmountRemain"] != null ||
+              if (value.bookingOperatorData["billAmountRemain"] != null &&
                   value.bookingOperatorData["billAmountRemain"] != 0.0) {
                 await makePayment(
                     value.bookingOperatorData["billAmountRemain"].toString());
-              }
+              }else
+                {
+                  Provider.of<GasBillScreenController>(context, listen: false).clearData();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => BillPayScreen()),
+                  );
+                }
             },
             child: Container(
               padding: EdgeInsets.all(20),
@@ -735,16 +742,16 @@ class _GasBillScreenState extends State<GasBillScreen> {
               height: height * 0.080,
               width: value.selectedCategory == 1
                   ? value.bookingOperatorData["billAmountRemain"] == null
-                      ? width * 0.50
+                      ? width * 0.450
                       : value.bookingOperatorData["billAmountRemain"] != 0.0
                           ? value.bookingOperatorData["billAmountRemain"] *
                               0.250
-                          : width * 0.330
+                          : width * 0.320
                   : value.payCustomerData["billAmountRemain"] == null
-                      ? width * 0.50
+                      ? width * 0.450
                       : value.payCustomerData["billAmountRemain"] != 0.0
                           ? value.payCustomerData["billAmountRemain"] * 0.250
-                          : width * 0.330,
+                          : width * 0.320,
               decoration: BoxDecoration(
                   color: HexColor(AppColorsLight.orangeColor),
                   borderRadius: BorderRadius.circular(15)),
@@ -768,16 +775,17 @@ class _GasBillScreenState extends State<GasBillScreen> {
                         style: TextStyle()),
                     TextSpan(
                         text: value.selectedCategory == 1
-                            ? value.bookingOperatorData["billAmountRemain"] !=
-                                    0.0
-                                ? value.bookingOperatorData["billAmountRemain"]
-                                    ?.toString()
-                                : ""
-                            : value.bookingOperatorData["billAmountRemain"] !=
-                                    0.0
-                                ? value.payCustomerData["billAmountRemain"]
-                                    ?.toString()
-                                : "",
+                            ? value.bookingOperatorData["billAmountRemain"] == null
+                            ? ""
+
+                            : value.bookingOperatorData["billAmountRemain"] != 0.0
+                            ? value.bookingOperatorData["billAmountRemain"]
+                            : ""
+                            : value.payCustomerData["billAmountRemain"] == null
+                            ? ""
+                            : value.payCustomerData["billAmountRemain"] != 0.0
+                            ? value.payCustomerData["billAmountRemain"]
+                            : "",
                         style: TextStyle()),
                   ])),
             ),

@@ -5,13 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
+import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
 import 'package:milkyway/cart/provider/payment_page_controller.dart';
+import 'package:milkyway/cart/ui/home_bag_page.dart';
 import 'package:milkyway/cart/ui/offers_page.dart';
 import 'package:milkyway/cart/ui/pay_now_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/constant/payment_constant_keys.dart';
+import 'package:milkyway/dbhelper/db_helper.dart';
+import 'package:milkyway/home/ui/home_screen.dart';
+import 'package:milkyway/home/ui/page_view.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +40,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("PAYMENT SCR EEN BUILD");
+    print("PAYMENT SCREEN BUILD");
     themeController = Provider.of<ThemeController>(context);
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
@@ -43,29 +48,29 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: ChangeNotifierProvider(
         create: (context) => PaymentPageController(),
         child: Scaffold(
-                  backgroundColor: HexColor(themeController.isLight
-          ? AppColorsLight.backgroundColor
-          : AppColorsDark.backgroundColor),
-                  resizeToAvoidBottomInset: false,
-                  body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeaderContainer(),
-            SizedBox(
-              height: height * 0.010,
-            ),
-            _buildSelectModeHeading(title: AppStrings.selectModeForPayment),
-            _buildPaymentModeContainer(),
-            _buildSelectModeHeading(title: AppStrings.deliveryAddress),
-            _buildLocationContainer(widget.userData),
-            _buildSelectModeHeading(title: AppStrings.paymentDetails),
-            _buildBagTotalContainer(),
-            _buildProcessToBuyButton(),
-          ],
-        ),
-                  ),
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsDark.backgroundColor),
+          resizeToAvoidBottomInset: false,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeaderContainer(),
+                SizedBox(
+                  height: height * 0.010,
                 ),
+                _buildSelectModeHeading(title: AppStrings.selectModeForPayment),
+                _buildPaymentModeContainer(),
+                _buildSelectModeHeading(title: AppStrings.deliveryAddress),
+                _buildLocationContainer(widget.userData),
+                _buildSelectModeHeading(title: AppStrings.paymentDetails),
+                _buildBagTotalContainer(),
+                _buildProcessToBuyButton(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -81,9 +86,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
             : AppColorsLight.darkBlueColor),
         boxShadow: [
           if (themeController.isLight)
-            BoxShadow(offset: Offset(0, 10),color: Colors.grey, spreadRadius: 1, blurRadius: 10)
+            BoxShadow(
+                offset: Offset(0, 10),
+                color: Colors.grey,
+                spreadRadius: 1,
+                blurRadius: 10)
           else
-            BoxShadow(offset: Offset(0, 10),color: Colors.black, spreadRadius: 1, blurRadius: 10)
+            BoxShadow(
+                offset: Offset(0, 10),
+                color: Colors.black,
+                spreadRadius: 1,
+                blurRadius: 10)
         ],
       ),
       child: Row(
@@ -376,7 +389,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildSelectedCheckBox() {
     return Container(
-      width: width * 0.044, // Circle size
+      width: width * 0.045, // Circle size
       height: height * 0.022,
       decoration: BoxDecoration(
           color: themeController.isLight ? Colors.grey : HexColor("#464646"),
@@ -600,7 +613,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
           Row(
             children: [
               Text(
-
                 AppStrings.bagTotal,
                 style: TextStyle(
                   fontSize: 15,
@@ -709,15 +721,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Consumer<PaymentPageController>(
         builder: (context, value, child) {
           return InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onTap: () async {
               if (value.expandedStates[0] == true ||
                   value.expandedStates[1] == true ||
                   value.expandedStates[2] == true) {
                 await makePayment(widget.bagTotal!);
-              }else
-                {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Select Any Option First!!")));
-                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    duration: Duration(milliseconds: 1000),
+                    content: Text("Select Any Option First!!")));
+              }
 
               //
               // Navigator.push(context, MaterialPageRoute(
@@ -772,6 +787,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       // Show Success Popup
       showPaymentDialog("Payment Successful", "Your payment was successful ✅");
+      Provider.of<CartItemListController>(context, listen: false).clearList();
+      Provider.of<QuantityListController>(context, listen: false).clearList();
+      DbHelper dbHelper = DbHelper();
+
+      await dbHelper.fetchCartProductsData();
+      await dbHelper.setDefaultQuantityOfProducts();
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return PageViewScreen();
+        },
+      ));
 
       paymentIntent = null; // Reset after successful payment
     } catch (e) {

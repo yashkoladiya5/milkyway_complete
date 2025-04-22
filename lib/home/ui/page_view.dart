@@ -9,6 +9,8 @@ import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../wallet/ui/wallet_page.dart';
+
 class PageViewScreen extends StatefulWidget {
   @override
   _PageViewScreenState createState() => _PageViewScreenState();
@@ -22,18 +24,28 @@ class _PageViewScreenState extends State<PageViewScreen> {
 
   Future<void> _onItemTapped(int index) async {
     if (index == 1) {
-      String refresh;
-      refresh = await Navigator.push(
+      // Push to HomeBagPage and wait
+      final refresh = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const HomeBagPage()),
       );
 
+      // Wait for one frame before updating UI
       if (refresh == "HomeScreen") {
-        refreshNotifier.value = true;
+        Future.delayed(Duration.zero, () {
+          setState(() {
+            _selectedIndex = 0;
+          });
+          _pageController.animateToPage(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        });
       }
     } else {
       setState(() {
-        _selectedIndex = index;
+        _selectedIndex = 0;
       });
       _pageController.animateToPage(
         index,
@@ -62,6 +74,13 @@ class _PageViewScreenState extends State<PageViewScreen> {
         curve: Curves.easeInOut,
       );
     }
+
+    // if (index == 3) {
+    //   final refresh = await Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => const WalletPage()),
+    //   );
+    // }
   }
 
   @override
@@ -88,7 +107,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
             ),
             const HomeBagPage(),
             MedicinePage(),
-            NotificationsPage(),
+            WalletPage(),
             ProfilePage(),
           ],
         ),

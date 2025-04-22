@@ -111,6 +111,12 @@ class AppStrings {
       "Select Electricity Board to Processed";
 
   static const String consumerNumber = "Consumer Number";
+  static const String wallet = "wallet";
+  static const String add = "Add";
+  static const String income = "Income";
+  static const String expense = "Expense";
+  static const String transactionDetail = "Transaction Detail";
+  static const String invoice = "Invoice";
 }
 
 class SharedPreferenceKeys {
@@ -185,6 +191,10 @@ class DatabaseIncomeExpenseTableStrings {
   static const String name = "name";
   static const String price = "price";
   static const String date = "date";
+  static const String quantity = "quantity";
   static const String isExpense = "isExpense";
   static const String isIncome = "isIncome";
+  static const String weightValue = "weightValue";
+  static const String weightUnit = "weightUnit";
+  static const String image = "image";
 }

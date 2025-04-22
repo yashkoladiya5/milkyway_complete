@@ -19,6 +19,7 @@ import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/network_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/splash_screen.dart';
+import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
 import 'package:provider/provider.dart';
 
 import 'bill_pay/recharge/provider/recharge_list_controller.dart';
@@ -107,6 +108,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ElectricityController(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => WalletScreenController(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

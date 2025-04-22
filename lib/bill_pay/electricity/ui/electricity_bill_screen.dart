@@ -207,7 +207,7 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
                                         color: HexColor(themeController.isLight
                                             ? AppColorsLight.darkBlueColor
                                             : AppColorsDark.whiteColor),
-                                        fontSize: 19),
+                                        fontSize: 15),
                                   ),
                                 ),
                               )
@@ -253,42 +253,42 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
     themeController = Provider.of<ThemeController>(context);
 
     return NetworkChecker(
-      child: SafeArea(
-          child: Scaffold(
-        backgroundColor: HexColor(themeController.isLight
-            ? AppColorsLight.backgroundColor
-            : AppColorsDark.backgroundColor),
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeaderContainer(),
-              _buildTextFieldHeading(text: AppStrings.state),
-              _buildStateDropDownTextField(type: "state"),
-              _buildTextFieldHeading(
-                  text: AppStrings.selectElectricityBoardToProceed),
-              _buildStateDropDownTextField(type: "electricity"),
-              _buildTextFieldHeading(text: AppStrings.consumerNumber),
-              _buildMobileTextField(),
-              SizedBox(
-                height: height * 0.020,
-              ),
-              _buildCustomerDetailsContainer(),
-              SizedBox(
-                height: height * 0.050,
-              ),
-              _buildContinueButton()
-            ],
+      child: Scaffold(
+              backgroundColor: HexColor(themeController.isLight
+        ? AppColorsLight.backgroundColor
+        : AppColorsDark.backgroundColor),
+              body: SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeaderContainer(),
+          _buildTextFieldHeading(text: AppStrings.state),
+          _buildStateDropDownTextField(type: "state"),
+          _buildTextFieldHeading(
+              text: AppStrings.selectElectricityBoardToProceed),
+          _buildStateDropDownTextField(type: "electricity"),
+          _buildTextFieldHeading(text: AppStrings.consumerNumber),
+          _buildMobileTextField(),
+          SizedBox(
+            height: height * 0.020,
           ),
-        ),
-      )),
+          _buildCustomerDetailsContainer(),
+          SizedBox(
+            height: height * 0.050,
+          ),
+          _buildContinueButton()
+        ],
+      ),
+              ),
+            ),
     );
   }
 
   Widget _buildHeaderContainer() {
     return Container(
-      height: height * 0.120,
+      padding: EdgeInsets.only(top: height * 0.050),
+      height: height * 0.150,
       width: double.infinity,
       decoration: BoxDecoration(
           color: HexColor(themeController.isLight
@@ -377,7 +377,7 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
                         : AppColorsDark.whiteColor),
                     fontWeight: FontWeight.bold,
                     overflow: TextOverflow.ellipsis,
-                    fontSize: 17),
+                    fontSize: 15),
                 controller: type == "state"
                     ? value.stateController
                     : value.electricityController,
@@ -719,7 +719,7 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
               alignment: Alignment.centerLeft,
               height: height * 0.085,
               width: value.electricityData["amount"] == null
-                  ? width * 0.30
+                  ? width * 0.250
                   //     :
                   // value.electricityData["amount"] != 0.0
                   //         ? value.electricityData["amount"] * 0.250

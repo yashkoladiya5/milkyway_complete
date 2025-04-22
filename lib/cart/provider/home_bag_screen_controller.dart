@@ -39,6 +39,12 @@ class CartItemListController extends ChangeNotifier {
     _cartItemList.removeAt(index);
     notifyListeners();
   }
+
+  clearList()
+  {
+    _cartItemList = [];
+    notifyListeners();
+  }
 }
 
 class QuantityListController extends ChangeNotifier {
@@ -93,6 +99,12 @@ class QuantityListController extends ChangeNotifier {
       _bagTotal = _bagTotal + (quantity * price);
     }
     print("BAG TOTAL : $bagTotal");
+    notifyListeners();
+  }
+
+  clearList()
+  {
+    _quantityList = [];
     notifyListeners();
   }
 }

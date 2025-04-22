@@ -6,9 +6,11 @@ class HomePageController extends ChangeNotifier {
   int _selectedIndex = 0;
   int _activePage = 0;
   List<ProductModel> _favouriteProductList = [];
+  String _totalAmount = "";
 
   int get selectedIndex => _selectedIndex;
   int get activePage => _activePage;
+  String get totalAmount => _totalAmount;
   List<ProductModel> get favouriteProductList => _favouriteProductList;
 
   void changeIndex({required int index}) {
@@ -38,5 +40,10 @@ class HomePageController extends ChangeNotifier {
       print(_favouriteProductList.length);
     }
     notifyListeners();
+  }
+
+  Future fetchTotalBalance() async {
+    DbHelper dbHelper = DbHelper();
+    _totalAmount = await dbHelper.fetchTotalBalanceData();
   }
 }

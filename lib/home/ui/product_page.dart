@@ -371,7 +371,8 @@ class _ProductPageState extends State<ProductPage> {
               bottomLeft: Radius.circular(10),
               bottomRight: Radius.circular(10),
             ),
-            child: InkWell(
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () {
                 _buildRelatedImagePageView(context);
               },
@@ -382,10 +383,11 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 30),
+        Positioned(
+          top: height * 0.080,
+          left: width * 0.050,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
                   onPressed: () {
@@ -399,6 +401,7 @@ class _ProductPageState extends State<ProductPage> {
                         ? AppColorsLight.darkBlueColor
                         : AppColorsDark.whiteColor),
                   )),
+              SizedBox(width: width * 0.620,),
               IconButton(
                   onPressed: () {},
                   icon: Icon(

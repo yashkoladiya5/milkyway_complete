@@ -180,7 +180,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
             : AppColorsLight.darkBlueColor),
         boxShadow: [
           if (themeController.isLight)
-            BoxShadow(offset: Offset(0, 0),color: Colors.grey, spreadRadius: 1, blurRadius: 10)
+            BoxShadow(offset: Offset(0, 10),color: Colors.grey, spreadRadius: 1, blurRadius: 10)
           else
             BoxShadow(offset: Offset(0, 10),color: Colors.black, spreadRadius: 1, blurRadius: 10)
         ],
@@ -191,7 +191,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
         children: [
           IconButton(
               onPressed: () {
-                Navigator.maybePop(context, "HomeScreen");
+                Navigator.pop(context, "HomeScreen");
               },
               icon: Icon(
                 Icons.arrow_back,
@@ -655,7 +655,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
 
   Widget _buildHeading({required String text}) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: height * 0.010),
+      padding: EdgeInsets.symmetric(horizontal: height * 0.010,vertical: height * 0.020),
       child: Text(
         text,
         style: TextStyle(
@@ -1012,60 +1012,72 @@ class _HomeBagPageState extends State<HomeBagPage> {
     return Padding(
       padding: EdgeInsets.only(top: height * 0.050),
       child: Center(
-        child: InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return LocationPage(
-                  bagTotal: quantityListController.bagTotal.toString(),
-                );
+        child: Consumer<CartItemListController>(
+          builder: (context, value, child) {
+            return InkWell(
+              onTap: () {
+                if(value.cartItemList.isNotEmpty)
+                  {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return LocationPage(
+                          bagTotal: quantityListController.bagTotal.toString(),
+                        );
+                      },
+                    ));
+                  }else
+                    {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(milliseconds: 1000),content: Text("Please Add Any Item to Cart...")));
+                    }
+
               },
-            ));
-          },
-          child: Container(
-            height: height * 0.060,
-            width: width * 0.650,
-            decoration: BoxDecoration(
-                color: HexColor(AppColorsLight.orangeColor),
-                borderRadius: BorderRadius.circular(20)),
-            child: Row(
-              children: [
-                Container(
-                  height: height * 0.040,
-                  width: width * 0.280,
-                  decoration: BoxDecoration(
-                      // color: Colors.red,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Text(
-                      "data",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+              child: Container(
+                height: height * 0.060,
+                width: width * 0.650,
+                decoration: BoxDecoration(
+                    color: HexColor(AppColorsLight.orangeColor),
+                    borderRadius: BorderRadius.circular(20)),
+                child: Row(
+                  children: [
+                    Container(
+                      height: height * 0.040,
+                      width: width * 0.280,
+                      decoration: BoxDecoration(
+                        // color: Colors.red,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                        child: Text(
+                          "data",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: height * 0.005, bottom: height * 0.005),
+                      height: height * 0.060,
+                      width: width * 0.003,
+                      color: Colors.white,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: width * 0.030),
+                      child: Text(
+                        AppStrings.placeOrder,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    )
+                  ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                      top: height * 0.005, bottom: height * 0.005),
-                  height: height * 0.060,
-                  width: width * 0.003,
-                  color: Colors.white,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: width * 0.030),
-                  child: Text(
-                    AppStrings.placeOrder,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                )
-              ],
-            ),
-          ),
+              ),
+            );
+          },
+
         ),
       ),
     );
@@ -1135,7 +1147,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
                       : AppColorsDark.whiteColor),
                 ),
               ),
-              SizedBox(width: width * 0.450),
+              SizedBox(width: width * 0.470),
               Container(
                 width: width * 0.300,
                 // color: Colors.red,
@@ -1178,7 +1190,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
                 ),
               ),
               SizedBox(
-                width: width * 0.375,
+                width: width * 0.365,
               ),
               Container(
                 width: width * 0.300,

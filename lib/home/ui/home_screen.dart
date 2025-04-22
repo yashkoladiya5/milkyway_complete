@@ -18,6 +18,7 @@ import 'package:milkyway/home/ui/search_screen.dart';
 import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
+import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../../bill_pay/bill_pay_screen.dart';
@@ -172,6 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         loadingController.changeLoad();
         await homePageController.fetchFavouriteProductList();
+        await homePageController.fetchTotalBalance();
+        DbHelper dbHelper = DbHelper();
+        await dbHelper.fetchTotalBalanceData();
         loadingController.changeLoad();
       },
     );
@@ -223,7 +227,6 @@ class _HomeScreenState extends State<HomeScreen> {
             // bottomNavigationBar: CustomNavigationBar(),
             resizeToAvoidBottomInset: false,
             body: SingleChildScrollView(
-
               scrollDirection: Axis.vertical,
               child: Container(
                 color: themeController.isLight
@@ -298,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(
                     fontSize: 15, color: HexColor(AppColorsDark.whiteColor)),
               ),
-              Text("1200.00",
+              Text(homePageController.totalAmount,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -345,6 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (refresh == "searchScreen") {
                         loadingController.changeLoad();
                         await homePageController.fetchFavouriteProductList();
+                        await homePageController.fetchTotalBalance();
                         loadingController.changeLoad();
                         setState(() {});
                       }
@@ -1000,9 +1004,8 @@ class _HomeScreenState extends State<HomeScreen> {
           )));
     } else {
       return SizedBox(
-
         // color: Colors.red,
-        height: homePageController.favouriteProductList.length *height * 0.180,
+        height: homePageController.favouriteProductList.length * height * 0.180,
         child: ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
@@ -1041,11 +1044,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
                 child: Container(
-
                   height: height * 0.170,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    // color: Colors.blue,
+                      // color: Colors.blue,
                       color: HexColor(themeController.isLight
                           ? AppColorsLight.backgroundColor
                           : "#000000"),

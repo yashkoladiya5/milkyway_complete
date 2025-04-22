@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:intl/intl.dart';
+import 'package:milkyway/cart/model/cart_wallet_model.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/home/model/product_model.dart';
+import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -66,6 +69,10 @@ String incomeExpensePrice = DatabaseIncomeExpenseTableStrings.price;
 String incomeExpenseDate = DatabaseIncomeExpenseTableStrings.date;
 String isExpense = DatabaseIncomeExpenseTableStrings.isExpense;
 String isIncome = DatabaseIncomeExpenseTableStrings.isIncome;
+String weightValue = DatabaseIncomeExpenseTableStrings.weightValue;
+String weightUnit = DatabaseIncomeExpenseTableStrings.weightUnit;
+String quantity1 = DatabaseIncomeExpenseTableStrings.quantity;
+String image3 = DatabaseIncomeExpenseTableStrings.image;
 
 class DbHelper {
   Database? _database;
@@ -99,7 +106,7 @@ class DbHelper {
             'CREATE TABLE $tableName4($customerNo TEXT,$electricityProvider TEXT,$image2 TEXT,$dueDate TEXT,$amount REAL,$state TEXT,$customerName1 TEXT)');
 
         db.execute(
-            'CREATE TABLE $tableName5($incomeExpenseName TEXT,$incomeExpensePrice TEXT,$incomeExpenseDate DATE,$isExpense INTEGER NOT NULL DEFAULT 0,$isIncome INTEGER NOT NULL DEFAULT 0)');
+            'CREATE TABLE $tableName5($incomeExpenseName TEXT,$incomeExpensePrice TEXT,$incomeExpenseDate DATE,$weightValue TEXT,$weightUnit TEXT, $isExpense INTEGER NOT NULL DEFAULT 0,$isIncome INTEGER NOT NULL DEFAULT 0,$quantity1 TEXT,$image TEXT)');
       },
     );
     return _database;
@@ -159,6 +166,48 @@ class DbHelper {
     await db!.update(tableName, model, where: 'id = ?', whereArgs: [id]);
 
     print("LIST UPDATED SUCCESSFULLY...");
+  }
+
+  Future fetchCartProductsData() async {
+    Database? db = await database;
+
+    final data = await db!.rawQuery('''
+    SELECT 
+      name,
+      price,
+      quantity,
+      image,
+      TRIM(SUBSTR(weight, 1, INSTR(weight, ' ') - 1)) AS weightValue,
+      TRIM(SUBSTR(weight, INSTR(weight, ' ') + 1)) AS weightUnit
+    FROM ProductTable 
+    WHERE quantity > 0;
+    ''');
+
+    List<CartWalletModel> finalData = [];
+    for (int i = 0; i < data.length; i++) {
+      finalData.add(CartWalletModel.fromJson(data[i]));
+
+      finalData[i].date =
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()).toString();
+      finalData[i].isExpense = 1;
+    }
+
+    print("CART WALLET DATA :: ${finalData.map(
+      (e) => e.toJson(),
+    )}");
+
+    for (int i = 0; i < finalData.length; i++) {
+      await db!.insert(tableName5, finalData[i].toJson());
+    }
+  }
+
+  Future setDefaultQuantityOfProducts() async {
+    Database? db = await database;
+
+    int rowsAffected = await db!
+        .rawUpdate('UPDATE $tableName SET $quantity = 0 WHERE $quantity > 0');
+
+    print("ROWS UPDATED IN DATABASE :::: $rowsAffected");
   }
 
   Future<void> insertPlansData() async {
@@ -261,5 +310,61 @@ class DbHelper {
         whereArgs: [state, provider, number]);
 
     return data;
+  }
+
+  Future insertWalletData({required CartWalletModel model}) async {
+    Database? db = await database;
+
+    await db!.insert(tableName5, model.toJson());
+  }
+
+  Future<List<CartWalletModel>> fetchWalletData(
+      {required String start, required String end}) async {
+    Database? db = await database;
+
+    final data = await db!.query(tableName5,
+        where: '$incomeExpenseDate BETWEEN ? AND ?', whereArgs: [start, end]);
+
+    List<CartWalletModel> finalData = [];
+
+    for (int i = 0; i < data.length; i++) {
+      finalData.add(CartWalletModel.fromJson(data[i]));
+    }
+
+    return finalData;
+  }
+
+  Future<String> fetchTotalBalanceData() async {
+    Database? db = await database;
+
+    final data = await db!.query(tableName5);
+
+    List<CartWalletModel> finalData = [];
+
+    finalData.addAll(data.map(
+      (e) => CartWalletModel.fromJson(e),
+    ));
+
+    double _expense = 0.0;
+    double _income = 0.0;
+    for (int i = 0; i < finalData.length; i++) {
+      double price = double.parse(
+          finalData[i].price.substring(1, finalData[i].price.length));
+      print(price);
+
+      if (finalData[i].isExpense == 1) {
+        _expense += price;
+      } else if (finalData[i].isIncome == 1) {
+        _income += price;
+      }
+    }
+
+    double total = _income - _expense;
+    print("TOTAL ::: $total");
+
+    print("EXPENSES TOTAL : $_expense");
+    print("INCOMES TOTAL : $_income");
+
+    return total.toString();
   }
 }
