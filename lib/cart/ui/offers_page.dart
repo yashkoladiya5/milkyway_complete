@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/cart/ui/pay_now_page.dart';
@@ -9,7 +11,8 @@ import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
 
 class OffersPage extends StatefulWidget {
-  const OffersPage({super.key});
+  String amount;
+  OffersPage({super.key, required this.amount});
 
   @override
   State<OffersPage> createState() => _OffersPageState();
@@ -106,15 +109,53 @@ class _OffersPageState extends State<OffersPage> {
       padding: EdgeInsets.zero,
       itemCount: 3,
       itemBuilder: (context, index) {
+        String price = AppLists.offerCategoryList[index].substring(5, 12);
+        int first =
+            int.parse(AppLists.offerPercentageList[index].substring(0, 2));
+        int last =
+            int.parse(AppLists.offerPercentageList[index].substring(6, 8));
+
+        Random random = Random();
+        int percentage = first + random.nextInt(last - first + 1);
+
+        print(price);
+        print(first);
+        print(last);
+        print(percentage);
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return PayNowPage();
-                },
-              ));
+            onTap: () async {
+              if (widget.amount.isNotEmpty) {
+                double bagPrice = double.parse(widget.amount);
+                double offerPrice = double.parse(price);
+
+                if (bagPrice < offerPrice) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: Duration(milliseconds: 500),
+                      content: Text(
+                          "This offer will not be applied to your order")));
+                } else {
+                  print("OFFER APPLIED");
+
+                  String price =
+                      AppLists.offerCategoryList[index].substring(5, 12);
+                  int first = int.parse(
+                      AppLists.offerPercentageList[index].substring(0, 2));
+                  int last = int.parse(
+                      AppLists.offerPercentageList[index].substring(6, 8));
+
+                  Random random = Random();
+                  int percentage = first + random.nextInt(last - first + 1);
+                  await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: Duration(milliseconds: 500),
+                      content: Text(
+                          "Congratulations!!You get $percentage% Discount On Order")));
+                  double percentagePrice = bagPrice * percentage / 100;
+                  print("PERCENTAGE PRICE ::::: $percentagePrice");
+                  Navigator.pop(context, "PERCENTAGE : $percentagePrice");
+                }
+              }
             },
             child: Container(
               height: height * 0.150,

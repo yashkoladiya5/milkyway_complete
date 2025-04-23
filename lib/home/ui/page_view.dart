@@ -4,6 +4,7 @@ import 'package:milkyway/cart/ui/home_bag_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/home/ui/home_screen.dart';
 import 'package:milkyway/medicine/ui/medicine_page.dart';
+import 'package:milkyway/profile/ui/profile_screen.dart';
 
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
@@ -107,8 +108,10 @@ class _PageViewScreenState extends State<PageViewScreen> {
             ),
             const HomeBagPage(),
             MedicinePage(),
-            WalletPage(),
-            ProfilePage(),
+            WalletPage(
+              isBottomBar: true,
+            ),
+            ProfileScreen(),
           ],
         ),
         bottomNavigationBar: CustomNavigationBar(
@@ -194,29 +197,5 @@ class CustomNavigationBar extends StatelessWidget {
         }),
       ),
     );
-  }
-}
-
-class AddPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-        child: Text('Add Page', style: TextStyle(fontSize: 24)));
-  }
-}
-
-class NotificationsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-        child: Text('Notifications Page', style: TextStyle(fontSize: 24)));
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-        child: Text('Profile Page', style: TextStyle(fontSize: 24)));
   }
 }

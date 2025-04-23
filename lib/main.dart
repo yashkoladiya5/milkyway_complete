@@ -15,6 +15,7 @@ import 'package:milkyway/home/provider/home_page_controller.dart';
 import 'package:milkyway/home/provider/product_page_controller.dart';
 
 import 'package:milkyway/home/provider/search_controller.dart';
+import 'package:milkyway/profile/provider/profile_screen_controller.dart';
 import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/network_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -110,6 +111,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => WalletScreenController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileScreenController(),
         )
       ],
       child: MaterialApp(

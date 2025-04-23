@@ -19,6 +19,7 @@ import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
+import 'package:milkyway/wallet/ui/wallet_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../bill_pay/bill_pay_screen.dart';
@@ -176,6 +177,8 @@ class _HomeScreenState extends State<HomeScreen> {
         await homePageController.fetchTotalBalance();
         DbHelper dbHelper = DbHelper();
         await dbHelper.fetchTotalBalanceData();
+        Provider.of<HomePageController>(context, listen: false)
+            .convertUiDateToYyyyMmDd(allDatesFromToday[0]);
         loadingController.changeLoad();
       },
     );
@@ -221,35 +224,32 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     } else {
       return NetworkChecker(
-        child: ChangeNotifierProvider(
-          create: (context) => HomePageController(),
-          child: Scaffold(
-            // bottomNavigationBar: CustomNavigationBar(),
-            resizeToAvoidBottomInset: false,
-            body: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Container(
-                color: themeController.isLight
-                    ? HexColor(AppColorsLight.backgroundColor)
-                    : HexColor(AppColorsDark.backgroundColor),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: height * 0.030,
-                    ),
-                    _buildHeaderRowOfLogoAndBalance(),
-                    _buildSearchBarHomeScreen(),
-                    _buildPaymentOptionRow(),
-                    _buildProductTable(),
-                    _buildPageView(),
-                    _buildPageViewCircleAvatar(),
-                    _buildCategoriesTitle(),
-                    _buildCategoriesGridView(),
-                    _buildFavouriteProductsTitle(),
-                    _buildFavouriteProductList()
-                  ],
-                ),
+        child: Scaffold(
+          // bottomNavigationBar: CustomNavigationBar(),
+          resizeToAvoidBottomInset: false,
+          body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Container(
+              color: themeController.isLight
+                  ? HexColor(AppColorsLight.backgroundColor)
+                  : HexColor(AppColorsDark.backgroundColor),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: height * 0.030,
+                  ),
+                  _buildHeaderRowOfLogoAndBalance(),
+                  _buildSearchBarHomeScreen(),
+                  _buildPaymentOptionRow(),
+                  _buildProductTable(),
+                  _buildPageView(),
+                  _buildPageViewCircleAvatar(),
+                  _buildCategoriesTitle(),
+                  _buildCategoriesGridView(),
+                  _buildFavouriteProductsTitle(),
+                  _buildFavouriteProductList()
+                ],
               ),
             ),
           ),
@@ -278,35 +278,46 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           width: width * 0.300,
         ),
-        Container(
-          margin: const EdgeInsets.only(top: 30),
-          height: height * 0.060,
-          width: width * 0.300,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: HexColor(AppColorsLight.orangeColor),
-                  blurRadius: 5,
-                  spreadRadius: 1)
-            ],
-            color: HexColor(AppColorsLight.orangeColor),
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                AppStrings.balanceHomePage,
-                style: TextStyle(
-                    fontSize: 15, color: HexColor(AppColorsDark.whiteColor)),
-              ),
-              Text(homePageController.totalAmount,
+        InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return WalletPage(
+                  isBottomBar: false,
+                );
+              },
+            ));
+          },
+          child: Container(
+            margin: const EdgeInsets.only(top: 30),
+            height: height * 0.060,
+            width: width * 0.300,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: HexColor(AppColorsLight.orangeColor),
+                    blurRadius: 5,
+                    spreadRadius: 1)
+              ],
+              color: HexColor(AppColorsLight.orangeColor),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  AppStrings.balanceHomePage,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: HexColor(AppColorsDark.whiteColor))),
-            ],
+                      fontSize: 15, color: HexColor(AppColorsDark.whiteColor)),
+                ),
+                Text("${homePageController.totalAmount}0",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: HexColor(AppColorsDark.whiteColor))),
+              ],
+            ),
           ),
         ),
       ],
@@ -509,7 +520,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const OffersPage(),
+                    builder: (context) => OffersPage(
+                      amount: "",
+                    ),
                   ));
             },
             image: themeController.isLight
@@ -557,7 +570,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return InkWell(
                 onTap: () {
+                  print(allDatesFromToday[index]);
                   value.changeIndex(index: index);
+
+                  value.convertUiDateToYyyyMmDd(allDatesFromToday[index]);
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 15),
@@ -844,34 +860,117 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: height * 0.010,
           ),
-          Container(
-            height: height * 0.200,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightGreyColor
-                  : AppColorsDark.darkGreyColor),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildTableHeaderRow(),
-                  Divider(
-                    color: HexColor(themeController.isLight
-                        ? AppColorsLight.greyColor
-                        : "#464646"),
-                    thickness: 0.5,
+          Consumer<HomePageController>(
+            builder: (context, value, child) {
+              return Container(
+                height: height * 0.210,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.lightGreyColor
+                      : AppColorsDark.darkGreyColor),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 14.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _buildTableHeaderRow(),
+                      Divider(
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.greyColor
+                            : "#464646"),
+                        thickness: 0.5,
+                      ),
+                      Container(
+                        // alignment: Alignment.topCenter,
+                        height: height * 0.130,
+                        width: double.infinity,
+                        // color: Colors.blue,
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: value.dateWiseProductList.isEmpty
+                              ? 0
+                              : value.dateWiseProductList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: height * 0.002),
+                              child: Container(
+                                height: height * 0.025,
+                                width: double.infinity,
+                                // color: Colors.blue,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding:
+                                          EdgeInsets.only(right: width * 0.020),
+                                      height: height * 0.025,
+                                      width: width * 0.220,
+                                      // color: Colors.green,
+                                      child: Center(
+                                          child: Text((index + 1).toString())),
+                                    ),
+                                    Container(
+                                      height: height * 0.025,
+                                      width: width * 0.420,
+                                      // color: Colors.black,
+                                      child: Text(value
+                                          .dateWiseProductList[index].name),
+                                    ),
+                                    Container(
+                                      height: height * 0.025,
+                                      width: width * 0.115,
+                                      // color: Colors.red,
+                                      child: Center(
+                                        child: Text(value
+                                                    .dateWiseProductList[index]
+                                                    .weightUnit ==
+                                                "litre"
+                                            ? value.dateWiseProductList[index]
+                                                .weightUnit
+                                            : ""),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: height * 0.025,
+                                      width: width * 0.115,
+                                      // color: Colors.green,
+                                      child: Center(
+                                        child: Text(value
+                                                    .dateWiseProductList[index]
+                                                    .weightUnit ==
+                                                "kg"
+                                            ? value.dateWiseProductList[index]
+                                                .weightUnit
+                                            : ""),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: height * 0.025,
+                                      width: width * 0.120,
+                                      // color: Colors.pink,
+                                      child: Center(
+                                        child: Text(value
+                                                    .dateWiseProductList[index]
+                                                    .weightUnit ==
+                                                "gm"
+                                            ? value.dateWiseProductList[index]
+                                                .weightUnit
+                                            : ""),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
                   ),
-                  _buildTableRow(srNo: "1", productName: "Milk", liter: "3"),
-                  _buildTableRow(srNo: "2", productName: "Ghee", kg: "2"),
-                  _buildTableRow(srNo: "3", productName: "Paneer", gm: "500"),
-                  _buildTableRow(
-                      srNo: "4", productName: "Chocolate Cake", kg: "1"),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
           SizedBox(
             height: height * 0.015,

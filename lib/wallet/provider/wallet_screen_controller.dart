@@ -34,15 +34,17 @@ class WalletScreenController extends ChangeNotifier {
       DateTime startDate = _picked!.start;
       DateTime endDate = _picked!.end;
 
+      endDate =
+          endDate.add(const Duration(hours: 23, minutes: 59, seconds: 59));
+
       _startDate = startDate.toString().substring(0, 19);
       _endDate = endDate.toString().substring(0, 19);
 
       print(_startDate);
       print(_endDate);
 
-      _dateTimeRange = (DateFormat('dd/MM/yyyy').format(startDate) +
-          " - " +
-          DateFormat('dd/MM/yyyy').format(endDate));
+      _dateTimeRange =
+          ("${DateFormat('dd/MM/yyyy').format(startDate)} - ${DateFormat('dd/MM/yyyy').format(endDate)}");
       await fetchDataAccordingToDate();
       notifyListeners();
     } else {
@@ -93,5 +95,17 @@ class WalletScreenController extends ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  void clearData() {
+    _dateTimeRange = "Select Date Range";
+    _startDate = "";
+    _endDate = "";
+    _transactionData = [];
+    _totalAmount = "0.00";
+    _totalIncome = "0.00";
+    _totalExpense = "0.00";
+    print("DATA CLEARED");
+    notifyListeners();
   }
 }

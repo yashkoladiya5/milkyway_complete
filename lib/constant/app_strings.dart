@@ -117,6 +117,9 @@ class AppStrings {
   static const String expense = "Expense";
   static const String transactionDetail = "Transaction Detail";
   static const String invoice = "Invoice";
+  static const String profile = "Profile";
+  static const String editProfile = "Edit Profile";
+  static const String save = "Save";
 }
 
 class SharedPreferenceKeys {

@@ -26,7 +26,6 @@ class _PayNowPageState extends State<PayNowPage> {
   late double width;
   late ThemeController themeController;
   Map<String, dynamic>? paymentIntent;
-  late PayNowPageController payNowPageController;
 
   @override
   Widget build(BuildContext context) {
@@ -477,7 +476,7 @@ class _PayNowPageState extends State<PayNowPage> {
       String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
       String name = AppStrings.uploadBalanceWithUPIId;
       int isIncome = 1;
-      String price1 = "₹" + price;
+      String price1 = "₹" + price + ".00";
       String weightValue = "";
       String weightUnit = "";
       String quantity = "";

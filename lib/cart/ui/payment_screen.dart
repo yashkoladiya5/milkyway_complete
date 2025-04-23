@@ -39,36 +39,45 @@ class _PaymentScreenState extends State<PaymentScreen> {
   bool isSelected = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        Provider.of<PaymentPageController>(context, listen: false)
+            .updateDiscountAndTotalAmount(bagTotal: widget.bagTotal!);
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     print("PAYMENT SCREEN BUILD");
     themeController = Provider.of<ThemeController>(context);
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return NetworkChecker(
-      child: ChangeNotifierProvider(
-        create: (context) => PaymentPageController(),
-        child: Scaffold(
-          backgroundColor: HexColor(themeController.isLight
-              ? AppColorsLight.backgroundColor
-              : AppColorsDark.backgroundColor),
-          resizeToAvoidBottomInset: false,
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeaderContainer(),
-                SizedBox(
-                  height: height * 0.010,
-                ),
-                _buildSelectModeHeading(title: AppStrings.selectModeForPayment),
-                _buildPaymentModeContainer(),
-                _buildSelectModeHeading(title: AppStrings.deliveryAddress),
-                _buildLocationContainer(widget.userData),
-                _buildSelectModeHeading(title: AppStrings.paymentDetails),
-                _buildBagTotalContainer(),
-                _buildProcessToBuyButton(),
-              ],
-            ),
+      child: Scaffold(
+        backgroundColor: HexColor(themeController.isLight
+            ? AppColorsLight.backgroundColor
+            : AppColorsDark.backgroundColor),
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderContainer(),
+              SizedBox(
+                height: height * 0.010,
+              ),
+              _buildSelectModeHeading(title: AppStrings.selectModeForPayment),
+              _buildPaymentModeContainer(),
+              _buildSelectModeHeading(title: AppStrings.deliveryAddress),
+              _buildLocationContainer(widget.userData),
+              _buildSelectModeHeading(title: AppStrings.paymentDetails),
+              _buildBagTotalContainer(),
+              _buildProcessToBuyButton(),
+            ],
           ),
         ),
       ),
@@ -591,128 +600,159 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildBagTotalContainer() {
-    return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(top: height * 0.010, bottom: height * 0.050),
-      height: height * 0.120,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: HexColor(themeController.isLight
-              ? AppColorsLight.backgroundColor
-              : AppColorsDark.darkGreyColor),
-          boxShadow: [
-            BoxShadow(
-                color: themeController.isLight
-                    ? Colors.grey
-                    : Colors.black.withOpacity(0.5),
-                blurRadius: 10,
-                spreadRadius: 0.5)
-          ]),
-      child: Column(
-        children: [
-          Row(
+    return Consumer<PaymentPageController>(
+      builder: (context, value, child) {
+        return Container(
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.only(top: height * 0.010, bottom: height * 0.050),
+          height: height * 0.120,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.backgroundColor
+                  : AppColorsDark.darkGreyColor),
+              boxShadow: [
+                BoxShadow(
+                    color: themeController.isLight
+                        ? Colors.grey
+                        : Colors.black.withOpacity(0.5),
+                    blurRadius: 10,
+                    spreadRadius: 0.5)
+              ]),
+          child: Column(
             children: [
-              Text(
-                AppStrings.bagTotal,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                ),
+              Row(
+                children: [
+                  Text(
+                    AppStrings.bagTotal,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: HexColor(themeController.isLight
+                          ? AppColorsLight.darkBlueColor
+                          : AppColorsDark.whiteColor),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width * 0.430,
+                  ),
+                  Container(
+                    width: width * 0.300,
+                    // color: Colors.red,
+                    child: Text(
+                      overflow: TextOverflow.ellipsis,
+                      "₹ ${widget.bagTotal}0",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      if (value.discountPrice == "00.00") {
+                        String? refresh =
+                            await Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return OffersPage(
+                              amount: widget.bagTotal.toString(),
+                            );
+                          },
+                        ));
+                        if (refresh != null) {
+                          if (refresh.contains("PERCENTAGE : ")) {
+                            String discount =
+                                refresh.substring(14, refresh.length);
+                            value.updateAfterDiscountApplied(
+                                discount: discount);
+                          }
+                        } else {}
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text("You have already added discount...")));
+                      }
+                    },
+                    child: Text(
+                      AppStrings.discount,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: width * 0.450),
+                  Container(
+                    width: width * 0.300,
+                    // color: Colors.red,
+                    child: Text(
+                      "₹ ${value.discountPrice}",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
-                width: width * 0.430,
+                height: height * 0.010,
               ),
-              Container(
-                width: width * 0.300,
-                // color: Colors.red,
-                child: Text(
-                  overflow: TextOverflow.ellipsis,
-                  "₹ ${widget.bagTotal!}0",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: HexColor(themeController.isLight
-                        ? AppColorsLight.darkBlueColor
-                        : AppColorsDark.whiteColor),
+              Divider(
+                endIndent: 1,
+                indent: 1,
+                height: 1,
+                thickness: 1,
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.greyColor
+                    : "#464646"),
+              ),
+              SizedBox(
+                height: height * 0.009,
+              ),
+              Row(
+                children: [
+                  Text(
+                    AppStrings.totalAmount,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: HexColor(themeController.isLight
+                          ? AppColorsLight.darkBlueColor
+                          : AppColorsDark.whiteColor),
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    width: width * 0.395,
+                  ),
+                  Container(
+                    width: width * 0.260,
+                    // color: Colors.red,
+                    child: Text(
+                      "₹ ${value.totalPrice}",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                      ),
+                    ),
+                  )
+                ],
               )
             ],
           ),
-          Row(
-            children: [
-              Text(
-                AppStrings.discount,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                ),
-              ),
-              SizedBox(width: width * 0.450),
-              Container(
-                width: width * 0.300,
-                // color: Colors.red,
-                child: Text(
-                  "₹ 00.00",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: HexColor(themeController.isLight
-                        ? AppColorsLight.darkBlueColor
-                        : AppColorsDark.whiteColor),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: height * 0.010,
-          ),
-          Divider(
-            endIndent: 1,
-            indent: 1,
-            height: 1,
-            thickness: 1,
-            color: HexColor(
-                themeController.isLight ? AppColorsLight.greyColor : "#464646"),
-          ),
-          SizedBox(
-            height: height * 0.009,
-          ),
-          Row(
-            children: [
-              Text(
-                AppStrings.totalAmount,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                ),
-              ),
-              SizedBox(
-                width: width * 0.395,
-              ),
-              Container(
-                width: width * 0.260,
-                // color: Colors.red,
-                child: Text(
-                  "₹ ${widget.bagTotal!}0",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: HexColor(themeController.isLight
-                        ? AppColorsLight.darkBlueColor
-                        : AppColorsDark.whiteColor),
-                  ),
-                ),
-              )
-            ],
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -727,7 +767,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               if (value.expandedStates[0] == true ||
                   value.expandedStates[1] == true ||
                   value.expandedStates[2] == true) {
-                await makePayment(widget.bagTotal!);
+                await makePayment(value.totalPrice);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     duration: Duration(milliseconds: 1000),
@@ -766,7 +806,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Future<void> makePayment(String price) async {
     try {
-      price = price.substring(0, price.length - 2);
+      price = price.substring(0, price.length - 3);
       print(price);
       paymentIntent = await createPaymentIntent(price, 'INR');
 
@@ -789,6 +829,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       showPaymentDialog("Payment Successful", "Your payment was successful ✅");
       Provider.of<CartItemListController>(context, listen: false).clearList();
       Provider.of<QuantityListController>(context, listen: false).clearList();
+      Provider.of<PaymentPageController>(context, listen: false).clearData();
       DbHelper dbHelper = DbHelper();
 
       await dbHelper.fetchCartProductsData();

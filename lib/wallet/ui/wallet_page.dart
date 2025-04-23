@@ -9,7 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class WalletPage extends StatefulWidget {
-  const WalletPage({super.key});
+  bool isBottomBar;
+  WalletPage({super.key, required this.isBottomBar});
 
   @override
   State<WalletPage> createState() => _WalletPageState();
@@ -19,6 +20,18 @@ class _WalletPageState extends State<WalletPage> {
   late double height;
   late double width;
   late ThemeController themeController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async {
+        Provider.of<WalletScreenController>(context, listen: false).clearData();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -78,7 +91,7 @@ class _WalletPageState extends State<WalletPage> {
         children: [
           IconButton(
               onPressed: () {
-                Navigator.pop(context, "walletPage");
+                Navigator.maybePop(context, "walletPage");
               },
               icon: Icon(
                 Icons.arrow_back,
@@ -450,7 +463,7 @@ class _WalletPageState extends State<WalletPage> {
 
   Widget _buildInvoiceButton() {
     return Positioned(
-      bottom: width * 0.250,
+      bottom: widget.isBottomBar == false ? width * 0.100 : width * 0.250,
       left: width / 2.9,
       child: Container(
         height: height * 0.055,

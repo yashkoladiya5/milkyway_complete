@@ -157,6 +157,146 @@ class AppLists {
     "From 2000.00 shopping"
   ];
 
+  List<Map<String, dynamic>> profileOptionLightList = [
+    {
+      "name": "Theme",
+      "image":
+          "assets/images/profile/light/8674513_ic_fluent_color_regular_icon 1.png"
+    },
+    {
+      "name": "Edit Profile",
+      "image":
+          "assets/images/profile/light/5402373_write_modify_tool_edit_pen_icon 1.png"
+    },
+    {
+      "name": "Change Password",
+      "image": "assets/images/profile/light/185088_lock_locker_icon 2 1.png"
+    },
+    {
+      "name": "Location",
+      "image":
+          "assets/images/profile/light/8324266_ui_essential_app_location_map_icon 1.png"
+    },
+    {
+      "name": "Order History",
+      "image":
+          "assets/images/profile/light/3209355_document_edit_note_review_writing_icon 1.png"
+    },
+    {
+      "name": "Favorite",
+      "image":
+          "assets/images/profile/light/1814104_favorite_heart_like_love_icon 1.png"
+    },
+    {
+      "name": "Language",
+      "image":
+          "assets/images/profile/light/646196_earth_global_globe_internet_network_icon 1.png"
+    },
+    {
+      "name": "Connect with us",
+      "image": "assets/images/profile/light/whatsapp_black_24dp 1.png"
+    },
+    {
+      "name": "Terms & Condition",
+      "image":
+          "assets/images/profile/light/3209355_document_edit_note_review_writing_icon 1.png"
+    },
+    {
+      "name": "Privacy policy",
+      "image":
+          "assets/images/profile/light/4280489_outlined_shield_secure_security_icon 1.png"
+    },
+    {
+      "name": "Cancellation policy",
+      "image": "assets/images/profile/light/226567_no_icon 1.png"
+    },
+    {
+      "name": "Share us",
+      "image":
+          "assets/images/profile/light/1814118_graph_network_share_social_icon 1.png"
+    },
+    {
+      "name": "FAQ’s",
+      "image":
+          "assets/images/profile/light/6318082_about_faq_help_question_icon 1.png"
+    },
+    {
+      "name": "Log Out",
+      "image":
+          "assets/images/profile/light/3403739_log out_off_out_power_shutdown_icon 1.png"
+    },
+  ];
+
+  List<Map<String, dynamic>> profileOptionDarkList = [
+    {
+      "name": "Theme",
+      "image":
+          "assets/images/profile/dark/8674513_ic_fluent_color_regular_icon 1.png"
+    },
+    {
+      "name": "Edit Profile",
+      "image":
+          "assets/images/profile/dark/5402373_write_modify_tool_edit_pen_icon 1.png"
+    },
+    {
+      "name": "Change Password",
+      "image": "assets/images/profile/dark/185088_lock_locker_icon 2 1.png"
+    },
+    {
+      "name": "Location",
+      "image":
+          "assets/images/profile/dark/8324266_ui_essential_app_location_map_icon 1.png"
+    },
+    {
+      "name": "Order History",
+      "image":
+          "assets/images/profile/dark/3209355_document_edit_note_review_writing_icon 1.png"
+    },
+    {
+      "name": "Favorite",
+      "image":
+          "assets/images/profile/dark/1814104_favorite_heart_like_love_icon 1.png"
+    },
+    {
+      "name": "Language",
+      "image":
+          "assets/images/profile/dark/646196_earth_global_globe_internet_network_icon 1.png"
+    },
+    {
+      "name": "Connect with us",
+      "image": "assets/images/profile/dark/whatsapp_black_24dp 1.png"
+    },
+    {
+      "name": "Terms & Condition",
+      "image":
+          "assets/images/profile/dark/3209355_document_edit_note_review_writing_icon 1.png"
+    },
+    {
+      "name": "Privacy policy",
+      "image":
+          "assets/images/profile/dark/4280489_outlined_shield_secure_security_icon 1.png"
+    },
+    {
+      "name": "Cancellation policy",
+      "image": "assets/images/profile/dark/226567_no_icon 1.png"
+    },
+    {
+      "name": "Share us",
+      "image":
+          "assets/images/profile/dark/1814118_graph_network_share_social_icon 1.png"
+    },
+    {
+      "name": "FAQ’s",
+      "image":
+          "assets/images/profile/dark/6318082_about_faq_help_question_icon 1.png"
+    },
+    {
+      "name": "Log Out",
+      "image":
+          "assets/images/profile/dark/3403739_log out_off_out_power_shutdown_icon 1.png"
+    },
+  ];
+
   static List<String> balanceList = [
     "100.00",
     "200.00",

@@ -89,6 +89,8 @@ flutter:
      - assets/images/Home/home_light_theme/
      - assets/images/Home/home_dark_theme/
      - assets/images/bill_pay/light/
+     - assets/images/profile/light/
+     - assets/images/profile/dark/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
