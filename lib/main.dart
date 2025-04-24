@@ -15,6 +15,9 @@ import 'package:milkyway/home/provider/home_page_controller.dart';
 import 'package:milkyway/home/provider/product_page_controller.dart';
 
 import 'package:milkyway/home/provider/search_controller.dart';
+import 'package:milkyway/profile/provider/change_password_controller.dart';
+import 'package:milkyway/profile/provider/location_page_controller.dart';
+import 'package:milkyway/profile/provider/profile_edit_screen_controller.dart';
 import 'package:milkyway/profile/provider/profile_screen_controller.dart';
 import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/network_controller.dart';
@@ -114,6 +117,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ProfileScreenController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileEditScreenController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ChangePasswordController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LocationPageController(),
         )
       ],
       child: MaterialApp(

@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/profile/provider/profile_screen_controller.dart';
+import 'package:milkyway/profile/ui/change_password_page.dart';
+import 'package:milkyway/profile/ui/location_page.dart';
 import 'package:milkyway/profile/ui/profile_edit_screen.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:provider/provider.dart';
@@ -158,7 +162,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           size: 70,
                         ),
                       )
-                    : Image.asset(value.userData["image"]),
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.file(File(value.userData["image"]))),
               ),
               Container(
                 padding: EdgeInsets.only(left: width * 0.050),
@@ -172,14 +178,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: height * 0.030,
                       width: width * 0.600,
                       // color: Colors.blue,
-                      child: Text(
-                        value.userData["name"] ?? "",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 21,
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.darkBlueColor
-                                : AppColorsDark.whiteColor)),
+                      child: Row(
+                        children: [
+                          Text(
+                            value.userData["name"] ?? "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 21,
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.darkBlueColor
+                                    : AppColorsDark.whiteColor)),
+                          ),
+                          Text(
+                            value.userData.containsKey("lastName") == true
+                                ? " " + value.userData["lastName"]
+                                : "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 21,
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.darkBlueColor
+                                    : AppColorsDark.whiteColor)),
+                          ),
+                        ],
                       ),
                     ),
                     Container(
@@ -232,74 +253,99 @@ class _ProfileScreenState extends State<ProfileScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(2.0),
-            child: InkWell(
-              onTap: () {
-                if (index == 1) {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return ProfileEditScreen();
-                    },
-                  ));
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: width * 0.020),
-                height: height * 0.070,
-                width: double.infinity,
-                // color: Colors.blue,
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                            width: 1,
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.greyColor
-                                : AppColorsDark.greyColor)))),
-                child: Row(
-                  children: [
-                    Container(
-                      height: height * 0.030,
-                      width: width * 0.160,
-                      // color: Colors.red,
-                      decoration: BoxDecoration(),
-                      child: Image.asset(
-                        themeController.isLight
-                            ? AppLists().profileOptionLightList[index]["image"]
-                            : AppLists().profileOptionDarkList[index]["image"],
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: width * 0.020),
-                      alignment: Alignment.bottomLeft,
-                      height: height * 0.040,
-                      width: width * 0.500,
-                      // color: Colors.red,
-                      child: Text(
-                        AppLists().profileOptionLightList[index]["name"],
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ),
-                    index == 0
-                        ? Padding(
-                            padding: EdgeInsets.only(left: width * 0.080),
-                            child: Consumer<ProfileScreenController>(
-                              builder: (context, value, child) {
-                                return CupertinoSwitch(
-                                  thumbColor: Colors.black,
-                                  focusColor: Colors.red,
-                                  activeTrackColor: Colors.grey,
-                                  value: value.isSelected,
-                                  onChanged: (v) {
-                                    value.updateSelected();
+            child: Consumer<ProfileScreenController>(
+              builder: (context, value, child) {
+                return InkWell(
+                  onTap: () async {
+                    if (index == 1) {
+                      String refresh =
+                          await Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ProfileEditScreen(
+                            userData: value.userData,
+                          );
+                        },
+                      ));
+
+                      if (refresh.isNotEmpty) {
+                        value.fetchData();
+                      }
+                    } else if (index == 2) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return ChangePasswordPage();
+                        },
+                      ));
+                    } else if (index == 3) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return LocationPage();
+                        },
+                      ));
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: width * 0.020),
+                    height: height * 0.070,
+                    width: double.infinity,
+                    // color: Colors.blue,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1,
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.greyColor
+                                    : AppColorsDark.greyColor)))),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: height * 0.030,
+                          width: width * 0.160,
+                          // color: Colors.red,
+                          decoration: BoxDecoration(),
+                          child: Image.asset(
+                            themeController.isLight
+                                ? AppLists().profileOptionLightList[index]
+                                    ["image"]
+                                : AppLists().profileOptionDarkList[index]
+                                    ["image"],
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: width * 0.020),
+                          alignment: Alignment.bottomLeft,
+                          height: height * 0.040,
+                          width: width * 0.500,
+                          // color: Colors.red,
+                          child: Text(
+                            AppLists().profileOptionLightList[index]["name"],
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ),
+                        index == 0
+                            ? Padding(
+                                padding: EdgeInsets.only(left: width * 0.080),
+                                child: Consumer<ProfileScreenController>(
+                                  builder: (context, value, child) {
+                                    return CupertinoSwitch(
+                                      thumbColor: Colors.black,
+                                      focusColor: Colors.red,
+                                      activeTrackColor: Colors.grey,
+                                      value: value.isSelected,
+                                      onChanged: (v) {
+                                        value.updateSelected();
+                                      },
+                                    );
                                   },
-                                );
-                              },
-                            ),
-                          )
-                        : SizedBox()
-                  ],
-                ),
-              ),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           );
         },

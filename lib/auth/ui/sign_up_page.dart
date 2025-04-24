@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:milkyway/auth/model/location_model.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
 import 'package:milkyway/auth/provider/log_in_page_controller.dart';
 import 'package:milkyway/auth/provider/sign_up_page_controller.dart';
@@ -232,6 +233,27 @@ class _SignUpPageState extends State<SignUpPage> {
               if (prefs.getString(SharedPreferenceKeys.userIdKey) != null) {
                 userId = prefs.getString(SharedPreferenceKeys.userIdKey)!;
                 print("USER FOUNDED ==== $userId");
+                LocationModel userData;
+                Map<String, dynamic> finalData = {};
+                await FirebaseFirestore.instance
+                    .collection("user")
+                    .doc(userId)
+                    .get()
+                    .then(
+                  (value) {
+                    final data = value.data()!;
+
+                    userData = LocationModel.fromJson(data);
+
+                    finalData = userData.toJson();
+                  },
+                );
+
+                await FirebaseFirestore.instance
+                    .collection("user")
+                    .doc(userId)
+                    .collection("location")
+                    .add(finalData);
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return PageViewScreen();
@@ -254,13 +276,14 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await obscureTextController.setDefault();
-      regExp = RegExp(emailPattern);
-      signUpController.stateController.text = signUpController.stateValue ?? "";
-    },);
-
-
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async {
+        await obscureTextController.setDefault();
+        regExp = RegExp(emailPattern);
+        signUpController.stateController.text =
+            signUpController.stateValue ?? "";
+      },
+    );
   }
 
   @override

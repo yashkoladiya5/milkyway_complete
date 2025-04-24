@@ -120,6 +120,8 @@ class AppStrings {
   static const String profile = "Profile";
   static const String editProfile = "Edit Profile";
   static const String save = "Save";
+  static const String changePassword = "Change Password";
+  static const String change = "Change";
 }
 
 class SharedPreferenceKeys {
