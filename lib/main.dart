@@ -25,6 +25,7 @@ import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/splash_screen.dart';
 import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'bill_pay/recharge/provider/recharge_list_controller.dart';
 import 'bill_pay/recharge/provider/recharge_plan_controller.dart';
@@ -36,6 +37,12 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Stripe.publishableKey = publishable_key;
   await Stripe.instance.applySettings();
+
+  await Supabase.initialize(
+    url: 'https://ozwbziudevgrgqcbmbbq.supabase.co', // Your Supabase URL
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96d2J6aXVkZXZncmdxY2JtYmJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTcyMjksImV4cCI6MjA2MTEzMzIyOX0.DiJJrYAeHljAotcIgUCBWdtLsHaebWhdUjKJfDpvFo0', // Your Supabase Anon Key
+  );
   runApp(const MyApp());
 }
 

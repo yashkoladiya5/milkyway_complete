@@ -37,7 +37,7 @@ class SignUpModel {
         mobileNumber: json["mobileNumber"],
         password: json["password"],
         confirmPassword: json["confirmPassword"],
-        pincode: json["pincode"]);
+        pincode: int.tryParse(json["pincode"].toString()));
   }
 
   Map<String, dynamic> toJson() {

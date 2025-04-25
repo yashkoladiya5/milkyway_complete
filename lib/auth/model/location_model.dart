@@ -2,7 +2,7 @@ class LocationModel {
   String name;
   String address;
   String area;
-  int pincode;
+  int? pincode;
   String mobileNumber;
   String email;
 
@@ -21,7 +21,7 @@ class LocationModel {
         area: json["area"],
         email: json["email"],
         mobileNumber: json["mobileNumber"],
-        pincode: json["pincode"]);
+        pincode: int.tryParse(json["pincode"].toString()));
   }
 
   Map<String, dynamic> toJson() {

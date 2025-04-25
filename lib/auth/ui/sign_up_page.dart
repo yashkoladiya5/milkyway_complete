@@ -253,7 +253,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     .collection("user")
                     .doc(userId)
                     .collection("location")
-                    .add(finalData);
+                    .add(finalData)
+                    .then(
+                  (value) async {
+                    final locationId = value.id;
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    print("LOCATION ID   ${locationId}");
+                    prefs.setString(
+                        SharedPreferenceKeys.locationIdKey, locationId);
+                  },
+                );
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return PageViewScreen();

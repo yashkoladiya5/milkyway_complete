@@ -227,14 +227,14 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     borderRadius: BorderRadius.circular(50),
                     color: Colors.grey,
                   ),
-                  child: value.selectedFile == null
+                  child: value.imageUrl.isEmpty
                       ? Icon(
                           Icons.person,
                           size: 50,
                         )
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: Image.file(File(value.selectedFile!.path)))),
+                          child: Image.network(value.imageUrl))),
             );
           },
         ),
@@ -316,17 +316,17 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       "mobileNumber": value.mobileController.text,
                       "password": userData["password"],
                       "pincode": userData["pincode"],
-                      "image": value.selectedFile!.path
+                      "image": value.imageUrl ?? "",
                     };
 
                     print("UPDATED DATA TYPE : ${updatedData}");
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Data Updated Sucessfully")));
-                    Navigator.pop(context, "refresh");
                   },
                 );
-
                 await firestore.doc(userId).set(updatedData);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Data Updated Sucessfully")));
+
+                Navigator.pop(context, "refresh");
               } else {
                 print("NULL IMAGE");
 

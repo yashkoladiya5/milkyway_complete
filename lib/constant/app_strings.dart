@@ -122,12 +122,14 @@ class AppStrings {
   static const String save = "Save";
   static const String changePassword = "Change Password";
   static const String change = "Change";
+  static const String order = "Order";
 }
 
 class SharedPreferenceKeys {
   static const String userIdKey = "userId";
   static const String userDataKey = "userEmailPassword";
   static const String planKey = "selectedPlan";
+  static const String locationIdKey = "locationId";
 }
 
 class DatabaseProductTableStrings {

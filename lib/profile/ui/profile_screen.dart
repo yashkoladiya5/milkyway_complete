@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constant/app_strings.dart';
+import 'order_history_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -164,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: Image.file(File(value.userData["image"]))),
+                        child: Image.network(value.userData["image"])),
               ),
               Container(
                 padding: EdgeInsets.only(left: width * 0.050),
@@ -280,6 +281,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return LocationPage();
+                        },
+                      ));
+                    } else if (index == 4) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return OrderHistoryPage();
                         },
                       ));
                     }

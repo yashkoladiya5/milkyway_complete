@@ -1,12 +1,19 @@
 import 'dart:io';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:milkyway/constant/app_strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfileEditScreenController extends ChangeNotifier {
   File? _selectedFile;
+  String _imageUrl = "";
   ImagePicker _picker = ImagePicker();
   Map<String, dynamic> _userData = {};
   TextEditingController _nameController = TextEditingController();
@@ -15,6 +22,7 @@ class ProfileEditScreenController extends ChangeNotifier {
   TextEditingController _mobileController = TextEditingController();
 
   File? get selectedFile => _selectedFile;
+  String get imageUrl => _imageUrl;
   ImagePicker get picker => _picker;
   Map<String, dynamic> get userData => _userData;
   TextEditingController get nameController => _nameController;
@@ -31,14 +39,46 @@ class ProfileEditScreenController extends ChangeNotifier {
           source: ImageSource.camera,
         );
         if (photo != null) {
-          final directory = await getTemporaryDirectory();
-
           _selectedFile = File(photo.path);
-          notifyListeners();
+
+          final user = Supabase.instance.client.auth.currentUser;
+
+          if (user == null) {
+            print("User is not authenticated");
+
+            final response =
+                await Supabase.instance.client.auth.signInWithPassword(
+              email: 'yash.aviratinfo@gmail.com',
+              password: 'Yash@Avirat2489',
+            );
+
+            if (response.user == null) {
+              print('Authentication failed: ${response}');
+            } else {
+              print('User signed in: ${response}');
+            }
+
+            return;
+          }
+
+          final storage = Supabase.instance.client.storage.from('user-images');
+          final filePath = 'uploads/${photo.name}';
+
+          final response = await storage.upload(filePath, _selectedFile!);
+
+          if (response.isNotEmpty) {
+            final fileUrl = await storage.getPublicUrl(filePath);
+            print('File URL: $fileUrl');
+            _imageUrl = fileUrl;
+
+            Future.microtask(() {
+              Navigator.pop(context);
+            });
+          } else {
+            print('Error uploading file: ${response}');
+          }
+
           print("Image Path: ${photo.path}");
-          Future.microtask(() {
-            Navigator.pop(context); // pop once
-          });
         }
       } catch (e) {
         print("Error capturing image: $e");
@@ -61,14 +101,46 @@ class ProfileEditScreenController extends ChangeNotifier {
           source: ImageSource.gallery,
         );
         if (photo != null) {
-          final directory = await getTemporaryDirectory();
-
           _selectedFile = File(photo.path);
 
+          final user = Supabase.instance.client.auth.currentUser;
+
+          if (user == null) {
+            print("User is not authenticated");
+
+            final response =
+                await Supabase.instance.client.auth.signInWithPassword(
+              email: 'yash.aviratinfo@gmail.com',
+              password: 'Yash@Avirat2489',
+            );
+
+            if (response.user == null) {
+              print('Authentication failed: ${response}');
+            } else {
+              print('User signed in: ${response}');
+            }
+
+            return;
+          }
+
+          final storage = Supabase.instance.client.storage.from('user-images');
+          final filePath = 'uploads/${photo.name}';
+
+          final response = await storage.upload(filePath, _selectedFile!);
+
+          if (response.isNotEmpty) {
+            final fileUrl = await storage.getPublicUrl(filePath);
+            print('File URL: $fileUrl');
+            _imageUrl = fileUrl;
+
+            Future.microtask(() {
+              Navigator.pop(context);
+            });
+          } else {
+            print('Error uploading file: ${response}');
+          }
+
           print("Image Path: ${photo.path}");
-          Future.microtask(() {
-            Navigator.pop(context); // pop once
-          });
         }
       } catch (e) {
         print("Error capturing image: $e");
@@ -87,17 +159,17 @@ class ProfileEditScreenController extends ChangeNotifier {
       List<String> nameData = data["name"].split(' ');
 
       if (nameData.length < 2) {
-        _nameController.text = _userData["name"];
+        _nameController.text = data["name"];
         _lastNameController.text = "";
         _mobileController.text = data["mobileNumber"];
         _emailController.text = data["email"];
       } else if (nameData.length > 2) {
-        _nameController.text = _userData["name"];
+        _nameController.text = nameData[0];
         _lastNameController.text = nameData[1] + nameData[2];
         _mobileController.text = data["mobileNumber"];
         _emailController.text = data["email"];
       } else {
-        _nameController.text = _userData["name"];
+        _nameController.text = nameData[0];
         _lastNameController.text = nameData[1];
         _mobileController.text = data["mobileNumber"];
         _emailController.text = data["email"];
@@ -167,12 +239,12 @@ class ProfileEditScreenController extends ChangeNotifier {
   }
 
   String? mobileValidation(String value) {
-    final mobileRegex = RegExp(r"^(\+91[\-\s]?)?[6-9]\d{9}$");
+    final mobileRegex = RegExp(r"^(\+91[\-\s]?)?[4-9]\d{9}$");
 
     if (value.isEmpty) {
       return "Required Field!!";
     } else if (!mobileRegex.hasMatch(value)) {
-      return "Enter Valid Email";
+      return "Enter Valid Mobile Number";
     } else {
       return null;
     }
