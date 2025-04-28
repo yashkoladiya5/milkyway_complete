@@ -123,6 +123,9 @@ class AppStrings {
   static const String changePassword = "Change Password";
   static const String change = "Change";
   static const String order = "Order";
+  static const String favourite = "Favourite";
+  static const String ourRecommendation = "Our Recommendations";
+  static const String language = "Language";
 }
 
 class SharedPreferenceKeys {
@@ -194,7 +197,7 @@ class DatabaseElectricityTableStrings {
 }
 
 class DatabaseIncomeExpenseTableStrings {
-  static const String tableName = "incomeExpense";
+  static const String tableName = "IncomeExpense";
   static const String name = "name";
   static const String price = "price";
   static const String date = "date";
@@ -204,4 +207,8 @@ class DatabaseIncomeExpenseTableStrings {
   static const String weightValue = "weightValue";
   static const String weightUnit = "weightUnit";
   static const String image = "image";
+}
+
+class DatabaseDailyTableStrings {
+  static const String tableName = "DailyProductsTable";
 }

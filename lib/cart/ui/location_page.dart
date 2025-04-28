@@ -17,7 +17,8 @@ import 'package:shimmer/shimmer.dart';
 
 class LocationPage extends StatefulWidget {
   String? bagTotal;
-  LocationPage({super.key, this.bagTotal});
+  List<int> dailyProducts = [];
+  LocationPage({super.key, this.bagTotal, required this.dailyProducts});
 
   @override
   State<LocationPage> createState() => _LocationPageState();
@@ -352,7 +353,8 @@ class _LocationPageState extends State<LocationPage> {
                   ? Colors.grey.withOpacity(0.5)
                   : Colors.transparent,
               child: Text(
-                userData?.address ?? "",
+                "${userData?.address} , \n${userData?.area}-${userData?.pincode}" ??
+                    "",
                 style: TextStyle(
                   fontSize: 18,
                   color: HexColor(themeController.isLight
@@ -409,6 +411,7 @@ class _LocationPageState extends State<LocationPage> {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
               return PaymentScreen(
+                dailyProductList: widget.dailyProducts,
                 bagTotal: widget.bagTotal,
                 userData: userData!,
               );

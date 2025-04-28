@@ -483,6 +483,8 @@ class _PayNowPageState extends State<PayNowPage> {
       String image = "";
 
       final data = CartWalletModel(
+          isDaily: 0, //CHANGE
+          id: 0,
           date: date,
           image: image,
           isExpense: 0,

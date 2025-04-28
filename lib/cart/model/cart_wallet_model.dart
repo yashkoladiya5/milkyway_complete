@@ -1,4 +1,5 @@
 class CartWalletModel {
+  int id;
   String name;
   String price;
   String quantity;
@@ -8,9 +9,11 @@ class CartWalletModel {
   String date;
   int isIncome;
   int isExpense;
+  int isDaily;
 
   CartWalletModel(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.price,
       required this.weightValue,
       required this.quantity,
@@ -18,10 +21,12 @@ class CartWalletModel {
       required this.image,
       required this.isExpense,
       required this.isIncome,
+      required this.isDaily,
       required this.weightUnit});
 
   factory CartWalletModel.fromJson(Map<String, dynamic> json) {
     return CartWalletModel(
+        id: json["id"] ?? 0,
         name: json["name"] ?? "",
         price: json["price"] ?? "",
         weightValue: json["weightValue"] ?? "",
@@ -30,11 +35,13 @@ class CartWalletModel {
         image: json["image"] ?? "",
         isExpense: json["isExpense"] as int? ?? 0,
         isIncome: json["isIncome"] as int? ?? 0,
+        isDaily: json["isDaily"] as int? ?? 0,
         weightUnit: json["weightUnit"] ?? "");
   }
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "price": price,
       "quantity": quantity,
@@ -43,6 +50,7 @@ class CartWalletModel {
       "weightUnit": weightUnit,
       "date": date,
       "isIncome": isIncome,
+      "isDaily": isDaily,
       "isExpense": isExpense
     };
   }

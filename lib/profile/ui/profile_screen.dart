@@ -7,6 +7,7 @@ import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/profile/provider/profile_screen_controller.dart';
 import 'package:milkyway/profile/ui/change_password_page.dart';
+import 'package:milkyway/profile/ui/favourite_page.dart';
 import 'package:milkyway/profile/ui/location_page.dart';
 import 'package:milkyway/profile/ui/profile_edit_screen.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constant/app_strings.dart';
+import 'language_page.dart';
 import 'order_history_page.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -287,6 +289,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           return OrderHistoryPage();
+                        },
+                      ));
+                    } else if (index == 5) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return FavouritePage();
+                        },
+                      ));
+                    } else if (index == 6) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return LanguagePage();
                         },
                       ));
                     }

@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:milkyway/constant/app_colors.dart';
+import 'package:milkyway/profile/provider/order_history_page_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -17,6 +20,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   late double height;
   late double width;
   late ThemeController themeController;
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -26,11 +30,173 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
       backgroundColor: HexColor(themeController.isLight
           ? AppColorsLight.backgroundColor
           : AppColorsDark.backgroundColor),
-      body: Column(
-        children: [
-          _buildHeaderContainer(),
-          _buildDateRow(),
-        ],
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            _buildHeaderContainer(),
+            _buildDateRow(),
+            SizedBox(
+              height: height * 0.010,
+            ),
+            Consumer<OrderHistoryPageController>(
+              builder: (context, value, child) {
+                return SizedBox(
+                  height: height * 0.730,
+                  // color: Colors.blue,
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount:
+                        value.orderList.isEmpty ? 1 : value.orderList.length,
+                    itemBuilder: (context, index) {
+                      if (value.orderList.isEmpty) {
+                        return Center(
+                            child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "No Order",
+                            style: TextStyle(color: Colors.red, fontSize: 25),
+                          ),
+                        ));
+                      }
+
+                      String? image = value.orderList[index].image;
+                      String? name = value.orderList[index].name;
+                      String? weight = value.orderList[index].weightValue +
+                          " " +
+                          value.orderList[index].weightUnit;
+                      String? price = value.orderList[index].price;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Container(
+                          height: height * 0.170,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.backgroundColor
+                                  : AppColorsLight.darkBlueColor),
+                              boxShadow: [
+                                if (themeController.isLight)
+                                  BoxShadow(
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.lightGreyColor
+                                          : AppColorsDark.darkGreyColor),
+                                      blurRadius: 10,
+                                      spreadRadius: 0.5)
+                                else
+                                  const BoxShadow(
+                                      color: Colors.black,
+                                      blurRadius: 10,
+                                      spreadRadius: 0.5)
+                              ]),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: width * 0.030),
+                                height: height * 0.140,
+                                width: width * 0.280,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.network(
+                                    image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: width * 0.030),
+                                        height: height * 0.025,
+                                        width: width * 0.540,
+                                        // color: Colors.grey,
+                                        child: Text(
+                                          name,
+                                          style: TextStyle(
+                                              color: HexColor(themeController
+                                                      .isLight
+                                                  ? AppColorsLight.darkBlueColor
+                                                  : AppColorsDark.whiteColor),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(left: width * 0.030),
+                                    height: height * 0.025,
+                                    width: width * 0.300,
+                                    // color: Colors.grey,
+                                    child: Text(
+                                      weight,
+                                      style: TextStyle(
+                                          color: HexColor(
+                                              themeController.isLight
+                                                  ? AppColorsLight.darkBlueColor
+                                                  : AppColorsDark.whiteColor),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: height * 0.005,
+                                            left: width * 0.030),
+                                        height: height * 0.025,
+                                        width: width * 0.120,
+                                        // color: Colors.grey,
+                                        child: Text(
+                                          "MRP.",
+                                          style: TextStyle(
+                                              color: HexColor(
+                                                  AppColorsLight.silverColor),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: height * 0.005,
+                                        ),
+                                        height: height * 0.025,
+                                        width: width * 0.250,
+                                        // color: Colors.grey,
+                                        child: Text(
+                                          price,
+                                          style: TextStyle(
+                                              color: HexColor(
+                                                  AppColorsLight.darkBlueColor),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -101,86 +267,142 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   }
 
   Widget _buildDateRow() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          margin: EdgeInsets.only(top: height * 0.020, left: width * 0.050),
-          height: height * 0.050,
-          width: width * 0.400,
-          decoration: BoxDecoration(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightGreyColor
-                  : AppColorsDark.greyColor),
-              borderRadius: BorderRadius.circular(15)),
-          child: Row(
-            children: [
-              Container(
-                height: height * 0.030,
-                width: width * 0.320,
-                // color: Colors.yellow,
-                child: Center(
-                  child: Text(
-                    "31/12/2025",
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor)),
+    return Consumer<OrderHistoryPageController>(
+      builder: (context, value, child) {
+        if (value.picked != null) {
+          String? date = value.picked?.toString().substring(0, 10);
+          DateTime convertedDate = DateTime.parse(date!);
+          String formattedDate = DateFormat('dd/MM/yyyy').format(convertedDate);
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: height * 0.020, left: width * 0.050),
+              height: height * 0.050,
+              width: width * 0.400,
+              decoration: BoxDecoration(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.lightGreyColor
+                      : AppColorsDark.greyColor),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      value.updateDateSelection(context: context);
+                    },
+                    child: Container(
+                      height: height * 0.030,
+                      width: width * 0.320,
+                      // color: Colors.yellow,
+                      child: Center(
+                        child: Text(
+                          value.picked != null
+                              ? DateFormat('dd/MM/yyyy').format(DateTime.parse(
+                                  value.picked.toString().substring(0, 10)))
+                              : "select Date",
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.darkBlueColor
+                                  : AppColorsDark.whiteColor)),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 25,
+                  )
+                ],
               ),
-              Icon(
-                Icons.keyboard_arrow_down,
-                size: 25,
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          width: width * 0.080,
-        ),
-        Container(
-          margin: EdgeInsets.only(
-              left: width * 0.020, top: height * 0.020, right: width * 0.020),
-          height: height * 0.025,
-          width: width * 0.055,
-          decoration: BoxDecoration(
-              color: HexColor(AppColorsLight.greyColor),
-              borderRadius: BorderRadius.circular(50)),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: height * 0.020),
-          child: Text(
-            "Past",
-            style: TextStyle(
-                fontSize: 15,
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor)),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(
-              left: width * 0.060, top: height * 0.020, right: width * 0.020),
-          height: height * 0.025,
-          width: width * 0.055,
-          decoration: BoxDecoration(
-              color: HexColor(AppColorsLight.greyColor),
-              borderRadius: BorderRadius.circular(50)),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: height * 0.020),
-          child: Text(
-            "Future",
-            style: TextStyle(
-                fontSize: 15,
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor)),
-          ),
-        )
-      ],
+            ),
+            SizedBox(
+              width: width * 0.080,
+            ),
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              onTap: () {
+                value.updateIndex(index: 0);
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                    left: width * 0.020,
+                    top: height * 0.020,
+                    right: width * 0.020),
+                height: height * 0.025,
+                width: width * 0.055,
+                decoration: BoxDecoration(
+                    color: HexColor(AppColorsLight.greyColor),
+                    borderRadius: BorderRadius.circular(50)),
+                child: value.selectedIndex == 0
+                    ? Container(
+                        margin: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: Colors.black),
+                            color: HexColor(AppColorsLight.orangeColor)),
+                      )
+                    : SizedBox(),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: height * 0.020),
+              child: Text(
+                "Past",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor)),
+              ),
+            ),
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              onTap: () {
+                value.updateIndex(index: 1);
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                    left: width * 0.020,
+                    top: height * 0.020,
+                    right: width * 0.020),
+                height: height * 0.025,
+                width: width * 0.055,
+                decoration: BoxDecoration(
+                    color: HexColor(AppColorsLight.greyColor),
+                    borderRadius: BorderRadius.circular(50)),
+                child: value.selectedIndex == 1
+                    ? Container(
+                        margin: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: Colors.black),
+                            color: HexColor(AppColorsLight.orangeColor)),
+                      )
+                    : SizedBox(),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: height * 0.020),
+              child: Text(
+                "Future",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor)),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

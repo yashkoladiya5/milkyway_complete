@@ -29,7 +29,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
   late QuantityListController quantityListController;
   late FavouriteListController favouriteListController;
   late RelatedProductListController relatedProductListController;
-
+  late DailyProductListController dailyProductListController;
 
   fetchData() async {
     await cartItemListController.fetchData();
@@ -59,6 +59,10 @@ class _HomeBagPageState extends State<HomeBagPage> {
         cartItemListController.cartItemList[index].toJson());
 
     if (cartItemListController.cartItemList[index].quantity == '0') {
+      await relatedProductListController.defaultQuantityOfRemovedProduct(
+          id: cartItemListController.cartItemList[index].id!);
+      await dailyProductListController.deleteFromProductList(
+          id: cartItemListController.cartItemList[index].id!);
       await cartItemListController.deleteProductFromCart(index);
       await favouriteListController.deleteFavouriteProduct(index);
       await quantityListController.deleteQuantityProduct(
@@ -127,6 +131,8 @@ class _HomeBagPageState extends State<HomeBagPage> {
         Provider.of<FavouriteListController>(context, listen: false);
     relatedProductListController =
         Provider.of<RelatedProductListController>(context, listen: false);
+    dailyProductListController =
+        Provider.of<DailyProductListController>(context, listen: false);
 
     if (homeBagScreenController.isLoading &&
         relatedProductListController.relatedProductList.isEmpty) {
@@ -143,35 +149,37 @@ class _HomeBagPageState extends State<HomeBagPage> {
     } else {
       return NetworkChecker(
         child: Scaffold(
-                  backgroundColor: HexColor(themeController.isLight
-          ? AppColorsLight.backgroundColor
-          : AppColorsDark.backgroundColor),
-                  body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeaderContainer(),
-            _buildCartItemsList(),
-            _buildHeading(text: AppStrings.productYouMightLike),
-            _buildRelatedProductsList(),
-            _buildHeading(text: AppStrings.paymentDetails),
-            _buildBagTotalContainer(),
-            _buildPlaceOrderButton(),
-            SizedBox(
-              height: height * 0.050,
-            )
-          ],
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsDark.backgroundColor),
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeaderContainer(),
+                _buildCartItemsList(),
+                _buildHeading(text: AppStrings.productYouMightLike),
+                _buildRelatedProductsList(),
+                _buildHeading(text: AppStrings.paymentDetails),
+                _buildBagTotalContainer(),
+                _buildPlaceOrderButton(),
+                SizedBox(
+                  height: height * 0.050,
+                )
+              ],
+            ),
+          ),
         ),
-                  ),
-                ),
       );
     }
   }
 
   Widget _buildHeaderContainer() {
     return Container(
-      padding: EdgeInsets.only(top: height * 0.050,),
+      padding: EdgeInsets.only(
+        top: height * 0.050,
+      ),
       height: height * 0.170,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -180,9 +188,17 @@ class _HomeBagPageState extends State<HomeBagPage> {
             : AppColorsLight.darkBlueColor),
         boxShadow: [
           if (themeController.isLight)
-            BoxShadow(offset: Offset(0, 10),color: Colors.grey, spreadRadius: 1, blurRadius: 10)
+            BoxShadow(
+                offset: Offset(0, 10),
+                color: Colors.grey,
+                spreadRadius: 1,
+                blurRadius: 10)
           else
-            BoxShadow(offset: Offset(0, 10),color: Colors.black, spreadRadius: 1, blurRadius: 10)
+            BoxShadow(
+                offset: Offset(0, 10),
+                color: Colors.black,
+                spreadRadius: 1,
+                blurRadius: 10)
         ],
       ),
       child: Row(
@@ -372,40 +388,51 @@ class _HomeBagPageState extends State<HomeBagPage> {
                               isDaily
                                   ? Row(
                                       children: [
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              right: width * 0.020),
-                                          height: height * 0.030,
-                                          width: width * 0.150,
-                                          decoration: BoxDecoration(
-                                              color: HexColor(
-                                                  themeController.isLight
-                                                      ? AppColorsLight
-                                                          .lightGreyColor
-                                                      : AppColorsDark
-                                                          .darkGreyColor),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: themeController
-                                                            .isLight
-                                                        ? Colors.grey
-                                                        : Colors.black
-                                                            .withOpacity(0.5),
-                                                    blurRadius: 8,
-                                                    offset: Offset(0, 2),
-                                                    spreadRadius: 0.5)
-                                              ],
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Center(
-                                            child: Text(
-                                              "Daily",
-                                              style: TextStyle(
-                                                color: HexColor(themeController
-                                                        .isLight
-                                                    ? AppColorsLight
-                                                        .darkBlueColor
-                                                    : AppColorsDark.whiteColor),
+                                        InkWell(
+                                          onTap: () async {
+                                            await dailyProductListController
+                                                .updateDailyProductList(
+                                                    id: cartItemListController
+                                                        .cartItemList[index]
+                                                        .id!,
+                                                    context: context);
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                right: width * 0.020),
+                                            height: height * 0.030,
+                                            width: width * 0.150,
+                                            decoration: BoxDecoration(
+                                                color: HexColor(
+                                                    themeController.isLight
+                                                        ? AppColorsLight
+                                                            .lightGreyColor
+                                                        : AppColorsDark
+                                                            .darkGreyColor),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: themeController
+                                                              .isLight
+                                                          ? Colors.grey
+                                                          : Colors.black
+                                                              .withOpacity(0.5),
+                                                      blurRadius: 8,
+                                                      offset: Offset(0, 2),
+                                                      spreadRadius: 0.5)
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Center(
+                                              child: Text(
+                                                "Daily",
+                                                style: TextStyle(
+                                                  color: HexColor(
+                                                      themeController.isLight
+                                                          ? AppColorsLight
+                                                              .darkBlueColor
+                                                          : AppColorsDark
+                                                              .whiteColor),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -655,7 +682,8 @@ class _HomeBagPageState extends State<HomeBagPage> {
 
   Widget _buildHeading({required String text}) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: height * 0.010,vertical: height * 0.020),
+      padding: EdgeInsets.symmetric(
+          horizontal: height * 0.010, vertical: height * 0.020),
       child: Text(
         text,
         style: TextStyle(
@@ -671,33 +699,48 @@ class _HomeBagPageState extends State<HomeBagPage> {
   Widget _buildDailyButtonView(int index) {
     return Row(
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(
-            top: height * 0.010,
-          ),
-          height: height * 0.030,
-          width: width * 0.140,
-          decoration: BoxDecoration(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightGreyColor
-                  : AppColorsDark.darkGreyColor),
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: [
-                BoxShadow(
-                    color: HexColor(themeController.isLight
-                            ? AppColorsLight.greyColor
-                            : AppColorsDark.backgroundColor)
-                        .withOpacity(0.5),
-                    blurRadius: 2,
-                    spreadRadius: 0.2)
-              ]),
-          child: Center(
-            child: Text(
-              "Daily",
-              style: TextStyle(
+        InkWell(
+          onTap: () async {
+            await relatedProductListController.updateQuantity(
+                index: index, context: context);
+            await cartItemListController.fetchData();
+            await favouriteListController
+                .defaultFavouriteList(cartItemListController.cartItemList);
+            await quantityListController
+                .defaultQuantityList(cartItemListController.cartItemList);
+
+            await dailyProductListController.updateDailyProductList(
+                id: relatedProductListController.relatedProductList[index].id!,
+                context: context);
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+              top: height * 0.010,
+            ),
+            height: height * 0.030,
+            width: width * 0.140,
+            decoration: BoxDecoration(
                 color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor),
+                    ? AppColorsLight.lightGreyColor
+                    : AppColorsDark.darkGreyColor),
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                      color: HexColor(themeController.isLight
+                              ? AppColorsLight.greyColor
+                              : AppColorsDark.backgroundColor)
+                          .withOpacity(0.5),
+                      blurRadius: 2,
+                      spreadRadius: 0.2)
+                ]),
+            child: Center(
+              child: Text(
+                "Daily",
+                style: TextStyle(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.darkBlueColor
+                      : AppColorsDark.whiteColor),
+                ),
               ),
             ),
           ),
@@ -753,8 +796,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
       child: Consumer<RelatedProductListController>(
         builder: (context, relatedProductListController, child) {
           return GridView.builder(
-            padding: EdgeInsets.zero
-            ,
+            padding: EdgeInsets.zero,
             // shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: relatedProductListController.relatedProductList.length,
@@ -1016,20 +1058,21 @@ class _HomeBagPageState extends State<HomeBagPage> {
           builder: (context, value, child) {
             return InkWell(
               onTap: () {
-                if(value.cartItemList.isNotEmpty)
-                  {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return LocationPage(
-                          bagTotal: quantityListController.bagTotal.toString(),
-                        );
-                      },
-                    ));
-                  }else
-                    {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(milliseconds: 1000),content: Text("Please Add Any Item to Cart...")));
-                    }
-
+                if (value.cartItemList.isNotEmpty) {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return LocationPage(
+                        dailyProducts:
+                            dailyProductListController.dailyProductList,
+                        bagTotal: quantityListController.bagTotal.toString(),
+                      );
+                    },
+                  ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: Duration(milliseconds: 1000),
+                      content: Text("Please Add Any Item to Cart...")));
+                }
               },
               child: Container(
                 height: height * 0.060,
@@ -1043,7 +1086,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
                       height: height * 0.040,
                       width: width * 0.280,
                       decoration: BoxDecoration(
-                        // color: Colors.red,
+                          // color: Colors.red,
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: Text(
@@ -1077,7 +1120,6 @@ class _HomeBagPageState extends State<HomeBagPage> {
               ),
             );
           },
-
         ),
       ),
     );

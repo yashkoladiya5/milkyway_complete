@@ -16,9 +16,13 @@ import 'package:milkyway/home/provider/product_page_controller.dart';
 
 import 'package:milkyway/home/provider/search_controller.dart';
 import 'package:milkyway/profile/provider/change_password_controller.dart';
+import 'package:milkyway/profile/provider/favourite_page_controller.dart';
+import 'package:milkyway/profile/provider/language_page_controller.dart';
 import 'package:milkyway/profile/provider/location_page_controller.dart';
+import 'package:milkyway/profile/provider/order_history_page_controller.dart';
 import 'package:milkyway/profile/provider/profile_edit_screen_controller.dart';
 import 'package:milkyway/profile/provider/profile_screen_controller.dart';
+import 'package:milkyway/provider/language_controller.dart';
 import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/network_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -133,6 +137,21 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => LocationPageController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderHistoryPageController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DailyProductListController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FavouritePageController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LanguagePageController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LanguageProvider(),
         )
       ],
       child: MaterialApp(

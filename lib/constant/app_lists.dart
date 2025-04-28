@@ -412,6 +412,13 @@ class AppLists {
     "Rajasthan"
   ];
 
+  List<String> languageOptionsList = [
+    "English(UK)",
+    "Hindi",
+    "Gujarati",
+    "Marathi"
+  ];
+
   List<String> rechargePlansCategoryList = [
     "Popular",
     "Annual Plans",

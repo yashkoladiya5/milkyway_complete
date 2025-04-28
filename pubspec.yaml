@@ -41,6 +41,7 @@ dependencies:
   firebase_storage: ^12.4.5
   firebase_dynamic_links: ^6.1.5
   supabase_flutter: ^2.8.4
+  translator: ^1.0.3+1
 
 
 

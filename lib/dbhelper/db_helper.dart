@@ -6,7 +6,7 @@ import 'package:milkyway/cart/model/cart_wallet_model.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/home/model/product_model.dart';
-import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -74,6 +74,8 @@ String weightUnit = DatabaseIncomeExpenseTableStrings.weightUnit;
 String quantity1 = DatabaseIncomeExpenseTableStrings.quantity;
 String image3 = DatabaseIncomeExpenseTableStrings.image;
 
+String tableName6 = DatabaseDailyTableStrings.tableName;
+
 class DbHelper {
   Database? _database;
 
@@ -106,7 +108,10 @@ class DbHelper {
             'CREATE TABLE $tableName4($customerNo TEXT,$electricityProvider TEXT,$image2 TEXT,$dueDate TEXT,$amount REAL,$state TEXT,$customerName1 TEXT)');
 
         db.execute(
-            'CREATE TABLE $tableName5($incomeExpenseName TEXT,$incomeExpensePrice TEXT,$incomeExpenseDate DATE,$weightValue TEXT,$weightUnit TEXT, $isExpense INTEGER NOT NULL DEFAULT 0,$isIncome INTEGER NOT NULL DEFAULT 0,$quantity1 TEXT,$image TEXT)');
+            'CREATE TABLE $tableName5($id INTEGER,$incomeExpenseName TEXT,$incomeExpensePrice TEXT,$incomeExpenseDate DATE,$weightValue TEXT,$weightUnit TEXT, $isExpense INTEGER NOT NULL DEFAULT 0,$isIncome INTEGER NOT NULL DEFAULT 0,$quantity1 TEXT,$image TEXT,$isDaily int)');
+
+        db.execute(
+            'CREATE TABLE $tableName6($id INTEGER,$name TEXT,$weight TEXT,$price TEXT,$isFavourite INTEGER,$isDaily INTEGER,$description TEXT,$rating TEXT,$category TEXT,$relatedImages TEXT,$image TEXT,$quantity TEXT )');
       },
     );
     return _database;
@@ -173,9 +178,11 @@ class DbHelper {
 
     final data = await db!.rawQuery('''
     SELECT 
+      id,
       name,
       price,
       quantity,
+      isDaily,
       image,
       TRIM(SUBSTR(weight, 1, INSTR(weight, ' ') - 1)) AS weightValue,
       TRIM(SUBSTR(weight, INSTR(weight, ' ') + 1)) AS weightUnit
@@ -334,6 +341,21 @@ class DbHelper {
     return finalData;
   }
 
+  Future<List<CartWalletModel>> fetchFutureWalletData(
+      {required String date}) async {
+    Database? db = await database;
+
+    final data = await db!.query(tableName5,
+        where: '$incomeExpenseDate < ? AND $isDaily = 1', whereArgs: [date]);
+    List<CartWalletModel> finalData = [];
+
+    for (int i = 0; i < data.length; i++) {
+      finalData.add(CartWalletModel.fromJson(data[i]));
+    }
+
+    return finalData;
+  }
+
   Future<String> fetchTotalBalanceData() async {
     Database? db = await database;
 
@@ -366,5 +388,36 @@ class DbHelper {
     print("INCOMES TOTAL : $_income");
 
     return total.toString();
+  }
+
+  Future<List<ProductModel>> fetchDailyProductsData() async {
+    Database? db = await database;
+    List<ProductModel> productList = [];
+
+    final data = await db!.query(tableName6);
+
+    productList = data
+        .map(
+          (e) => ProductModel.fromJson(e),
+        )
+        .toList();
+
+    return productList;
+  }
+
+  Future insertDailyProductData({required int id}) async {
+    Database? db = await database;
+
+    final data = await db!.query(tableName, where: 'id = ?', whereArgs: [id]);
+
+    List<Map<String, dynamic>> userData = data
+        .map(
+          (e) => e,
+        )
+        .toList();
+
+    await db!.insert(tableName6, userData[0]);
+
+    print("Data inserted to the Daily Products Table");
   }
 }

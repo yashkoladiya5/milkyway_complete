@@ -87,11 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (isAdded) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           duration: Duration(milliseconds: 200),
-          content: Text("Product Added To Favourite List")));
+          content: Text("Product Removed From Favourite List")));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           duration: Duration(milliseconds: 200),
-          content: Text("Product Removed From Favourite List")));
+          content: Text("Product Added To Favourite List")));
     }
     await homePageController.fetchFavouriteProductList();
     // await updateUI();
@@ -101,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
   updateData(int index) async {
     homePageController.favouriteProductList[index].isFavourite =
         homePageController.favouriteProductList[index].isFavourite == 1 ? 0 : 1;
-    homePageController.favouriteProductList[index].isFavourite =
-        homePageController.favouriteProductList[index].isFavourite == 1 ? 0 : 1;
+    // homePageController.favouriteProductList[index].isFavourite =
+    //     homePageController.favouriteProductList[index].isFavourite == 1 ? 0 : 1;
 
     ProductModel productModel = homePageController.favouriteProductList[index];
 

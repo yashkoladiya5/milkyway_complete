@@ -25,7 +25,12 @@ import 'package:http/http.dart' as http;
 class PaymentScreen extends StatefulWidget {
   String? bagTotal;
   SignUpModel userData;
-  PaymentScreen({super.key, required this.userData, this.bagTotal});
+  List<int> dailyProductList = [];
+  PaymentScreen(
+      {super.key,
+      required this.userData,
+      this.bagTotal,
+      required this.dailyProductList});
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -553,7 +558,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ? Colors.grey.withOpacity(0.5)
                   : Colors.transparent,
               child: Text(
-                userData?.address ?? "",
+                "${userData?.address} , \n${userData?.area}-${userData?.pincode}" ??
+                    "",
                 style: TextStyle(
                   fontSize: 18,
                   color: HexColor(themeController.isLight
@@ -831,6 +837,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       Provider.of<QuantityListController>(context, listen: false).clearList();
       Provider.of<PaymentPageController>(context, listen: false).clearData();
       DbHelper dbHelper = DbHelper();
+      Provider.of<PaymentPageController>(context, listen: false)
+          .addToDailyProducts(data: widget.dailyProductList, context: context);
 
       await dbHelper.fetchCartProductsData();
       await dbHelper.setDefaultQuantityOfProducts();

@@ -40,8 +40,7 @@ class CartItemListController extends ChangeNotifier {
     notifyListeners();
   }
 
-  clearList()
-  {
+  clearList() {
     _cartItemList = [];
     notifyListeners();
   }
@@ -102,8 +101,7 @@ class QuantityListController extends ChangeNotifier {
     notifyListeners();
   }
 
-  clearList()
-  {
+  clearList() {
     _quantityList = [];
     notifyListeners();
   }
@@ -158,7 +156,7 @@ class RelatedProductListController extends ChangeNotifier {
 
   updateFavouriteProduct({required int index}) async {
     _relatedProductList[index].isFavourite =
-        _relatedProductList[index].isFavourite;
+        _relatedProductList[index].isFavourite == 1 ? 0 : 1;
     await DbHelper().updateProduct(
         _relatedProductList[index].id!, _relatedProductList[index].toJson());
     notifyListeners();
@@ -180,5 +178,48 @@ class RelatedProductListController extends ChangeNotifier {
           duration: Duration(milliseconds: 200),
           content: Text("Product Added to cart")));
     }
+  }
+
+  defaultQuantityOfRemovedProduct({required int id}) {
+    for (int i = 0; i < _relatedProductList.length; i++) {
+      if (_relatedProductList[i].id == id) {
+        _relatedProductList[i].quantity = '0';
+        print("RELATED PRODUCT QUANTITY ::: $id");
+        break;
+      }
+    }
+  }
+}
+
+class DailyProductListController extends ChangeNotifier {
+  List<int> _dailyProductList = [];
+
+  List<int> get dailyProductList => _dailyProductList;
+
+  updateDailyProductList({required int id, required BuildContext context}) {
+    if (!_dailyProductList.contains(id)) {
+      _dailyProductList.add(id);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Product is already in Daily Product List")));
+    }
+
+    print("DAILY PRODUCT LIST ::: $dailyProductList");
+  }
+
+  deleteFromProductList({required int id}) {
+    if (_dailyProductList.contains(id) == true) {
+      _dailyProductList.remove(id);
+      print("DAILY PRODUCT REMOVED ::: $id");
+      print("DAILY PRODUCT AFTER REMOVED ::: $_dailyProductList");
+    } else {
+      print("NO PRODUCT OF THIS ID IN DAILY");
+    }
+  }
+
+  clearList() {
+    _dailyProductList.clear();
+
+    notifyListeners();
   }
 }

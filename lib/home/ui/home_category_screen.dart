@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
@@ -40,7 +41,6 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
   String? errorMessage;
   late LoadingController loadingController;
   String? refresh;
-
 
   Future updateUI() async {
     List<ProductModel> productData = [];
@@ -166,32 +166,32 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
     if (loadingController.isLoading) {
       return NetworkChecker(
         child: Scaffold(
-                  backgroundColor: HexColor(themeController.isLight
-          ? AppColorsLight.backgroundColor
-          : AppColorsLight.darkBlueColor),
-                  body: Center(
-        child: CircularProgressIndicator(
-          color: HexColor(AppColorsLight.orangeColor),
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsLight.darkBlueColor),
+          body: Center(
+            child: CircularProgressIndicator(
+              color: HexColor(AppColorsLight.orangeColor),
+            ),
+          ),
         ),
-                  ),
-                ),
       );
     }
 
     if (errorMessage?.isNotEmpty ?? false) {
       return NetworkChecker(
         child: Scaffold(
-                  backgroundColor: HexColor(themeController.isLight
-          ? AppColorsLight.backgroundColor
-          : AppColorsLight.darkBlueColor),
-                  body: Center(
-        child: Text(
-          errorMessage!,
-          style: const TextStyle(
-              color: Colors.red, fontSize: 25, fontWeight: FontWeight.bold),
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsLight.darkBlueColor),
+          body: Center(
+            child: Text(
+              errorMessage!,
+              style: const TextStyle(
+                  color: Colors.red, fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          ),
         ),
-                  ),
-                ),
       );
     }
     return NetworkChecker(
@@ -199,23 +199,23 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
         create: (context) => HomePageController(),
         child: Scaffold(
           backgroundColor: HexColor(AppColorsLight.backgroundColor),
-                  body: SingleChildScrollView(
-        child: Container(
-          color: HexColor(themeController.isLight
-              ? AppColorsLight.backgroundColor
-              : AppColorsLight.darkBlueColor),
-          child: Column(
-            children: [
-              _buildHeaderContainer(),
-              _buildCustomGridView(),
-              _buildPageViewOfRelatedImages(),
-              _buildPageViewCircleAvatar(),
-              _buildProductListView()
-            ],
+          body: SingleChildScrollView(
+            child: Container(
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.backgroundColor
+                  : AppColorsLight.darkBlueColor),
+              child: Column(
+                children: [
+                  _buildHeaderContainer(),
+                  _buildCustomGridView(),
+                  _buildPageViewOfRelatedImages(),
+                  _buildPageViewCircleAvatar(),
+                  _buildProductListView()
+                ],
+              ),
+            ),
           ),
         ),
-                  ),
-                ),
       ),
     );
   }
@@ -231,10 +231,13 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
             : AppColorsLight.darkBlueColor),
         boxShadow: [
           if (themeController.isLight)
-            const BoxShadow(  offset: Offset(0, 10),color: Colors.grey, spreadRadius: 0.5, blurRadius: 10)
+            const BoxShadow(
+                offset: Offset(0, 10),
+                color: Colors.grey,
+                spreadRadius: 0.5,
+                blurRadius: 10)
           else
             const BoxShadow(
-
                 color: Colors.black, spreadRadius: 1, blurRadius: 10)
         ],
       ),
@@ -645,35 +648,47 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: width * 0.030, top: height * 0.015),
-                                height: height * 0.040,
-                                width: width * 0.200,
-                                decoration: BoxDecoration(
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.lightGreyColor
-                                        : AppColorsDark.backgroundColor),
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: themeController.isLight
-                                              ? HexColor(
-                                                      AppColorsLight.greyColor)
-                                                  .withOpacity(0.5)
-                                              : Colors.black,
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 4),
-                                          spreadRadius: 0.2)
-                                    ]),
-                                child: Center(
-                                  child: Text(
-                                    "Daily",
-                                    style: TextStyle(
-                                        color: HexColor(themeController.isLight
-                                            ? AppColorsLight.darkBlueColor
-                                            : AppColorsDark.whiteColor),
-                                        fontSize: 17),
+                              InkWell(
+                                onTap: () {
+                                  addToCart(index: index);
+                                  Provider.of<DailyProductListController>(
+                                          context,
+                                          listen: false)
+                                      .updateDailyProductList(
+                                          id: sortedList[index].id!,
+                                          context: context);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      left: width * 0.030, top: height * 0.015),
+                                  height: height * 0.040,
+                                  width: width * 0.200,
+                                  decoration: BoxDecoration(
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.lightGreyColor
+                                          : AppColorsDark.backgroundColor),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: themeController.isLight
+                                                ? HexColor(AppColorsLight
+                                                        .greyColor)
+                                                    .withOpacity(0.5)
+                                                : Colors.black,
+                                            blurRadius: 5,
+                                            offset: const Offset(0, 4),
+                                            spreadRadius: 0.2)
+                                      ]),
+                                  child: Center(
+                                    child: Text(
+                                      "Daily",
+                                      style: TextStyle(
+                                          color: HexColor(
+                                              themeController.isLight
+                                                  ? AppColorsLight.darkBlueColor
+                                                  : AppColorsDark.whiteColor),
+                                          fontSize: 17),
+                                    ),
                                   ),
                                 ),
                               ),
