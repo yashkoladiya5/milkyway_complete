@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/auth/ui/forgot_password_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -85,16 +86,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.changePassword,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.changePassword).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -238,14 +240,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               },
             ));
           },
-          child: Text(
-            AppStrings.forgotPassword,
-            style: TextStyle(
-                fontSize: 15,
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor)),
-          ),
+          child: Builder(builder: (context) {
+            return Text(
+              (AppStrings.forgotPassword).tr(),
+              style: TextStyle(
+                  fontSize: 15,
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.darkBlueColor
+                      : AppColorsDark.whiteColor)),
+            );
+          }),
         ),
       ),
       SizedBox(
@@ -267,13 +271,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               decoration: BoxDecoration(
                   color: HexColor(AppColorsLight.orangeColor),
                   borderRadius: BorderRadius.circular(10)),
-              child: Text(
-                AppStrings.change,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: HexColor(AppColorsDark.whiteColor)),
-              ),
+              child: Builder(builder: (context) {
+                return Text(
+                  (AppStrings.change).tr(),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: HexColor(AppColorsDark.whiteColor)),
+                );
+              }),
             ),
           );
         },

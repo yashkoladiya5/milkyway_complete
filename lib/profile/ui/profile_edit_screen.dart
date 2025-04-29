@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
@@ -182,16 +183,17 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.editProfile,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.editProfile).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -375,13 +377,15 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 color: HexColor(AppColorsLight.orangeColor),
                 borderRadius: BorderRadius.circular(15)),
             child: Center(
-              child: Text(
-                AppStrings.save,
-                style: TextStyle(
-                    fontSize: 18,
-                    color: HexColor(AppColorsDark.whiteColor),
-                    fontWeight: FontWeight.bold),
-              ),
+              child: Builder(builder: (context) {
+                return Text(
+                  (AppStrings.save).tr(),
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: HexColor(AppColorsDark.whiteColor),
+                      fontWeight: FontWeight.bold),
+                );
+              }),
             ),
           ),
         );

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/ui/create_new_password_page.dart';
@@ -54,20 +55,24 @@ class _OtpPageState extends State<OtpPage> {
                 EdgeInsets.only(left: 15, top: 20, bottom: 40, right: 10),
             backgroundColor: HexColor(AppColorsLight.darkBlueColor),
             title: Center(
-              child: Text(
-                AppStrings.oopsMessage,
+              child: Builder(builder: (context) {
+                return Text(
+                  (AppStrings.oopsMessage).tr(),
+                  style: TextStyle(
+                      color: HexColor(AppColorsLight.redColor), fontSize: 22),
+                );
+              }),
+            ),
+            content: Builder(builder: (context) {
+              return Text(
+                (AppStrings.otpDialogErrorContent).tr(),
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: HexColor(AppColorsLight.redColor), fontSize: 22),
-              ),
-            ),
-            content: Text(
-              AppStrings.otpDialogErrorContent,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                color: HexColor(AppColorsLight.backgroundColor),
-              ),
-            ),
+                  fontSize: 12,
+                  color: HexColor(AppColorsLight.backgroundColor),
+                ),
+              );
+            }),
           ),
         );
       },
@@ -129,27 +134,31 @@ class _OtpPageState extends State<OtpPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          AppStrings.enterOTP,
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: HexColor(themeController.isLight
-                                  ? AppColorsLight.darkBlueColor
-                                  : AppColorsDark.whiteColor),
-                              fontWeight: FontWeight.w500),
-                        ),
+                        Builder(builder: (context) {
+                          return Text(
+                            (AppStrings.enterOTP).tr(),
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.darkBlueColor
+                                    : AppColorsDark.whiteColor),
+                                fontWeight: FontWeight.w500),
+                          );
+                        }),
                         SizedBox(
                           height: height * 0.080,
                         ),
-                        Text(
-                          AppStrings.otpDescription,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: HexColor(themeController.isLight
-                                  ? AppColorsLight.silverColor
-                                  : AppColorsDark.greyColor)),
-                        ),
+                        Builder(builder: (context) {
+                          return Text(
+                            (AppStrings.otpDescription).tr(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.silverColor
+                                    : AppColorsDark.greyColor)),
+                          );
+                        }),
                         SizedBox(
                           height: height * 0.05,
                         ),
@@ -164,16 +173,18 @@ class _OtpPageState extends State<OtpPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              AppStrings.doNotGetCode,
-                              style: TextStyle(
-                                  color: HexColor(
-                                    themeController.isLight
-                                        ? AppColorsLight.silverColor
-                                        : AppColorsDark.greyColor,
-                                  ),
-                                  fontSize: 12),
-                            ),
+                            Builder(builder: (context) {
+                              return Text(
+                                (AppStrings.doNotGetCode).tr(),
+                                style: TextStyle(
+                                    color: HexColor(
+                                      themeController.isLight
+                                          ? AppColorsLight.silverColor
+                                          : AppColorsDark.greyColor,
+                                    ),
+                                    fontSize: 12),
+                              );
+                            }),
                             SizedBox(
                               width: width * 0.010,
                             ),
@@ -181,19 +192,21 @@ class _OtpPageState extends State<OtpPage> {
                               onTap: () {
                                 _buildDialog();
                               },
-                              child: Text(
-                                AppStrings.resendButton,
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: HexColor(
-                                        themeController.isLight
-                                            ? AppColorsLight.darkBlueColor
-                                            : AppColorsDark.whiteColor),
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.whiteColor),
-                                    fontSize: 14),
-                              ),
+                              child: Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.resendButton).tr(),
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: HexColor(
+                                          themeController.isLight
+                                              ? AppColorsLight.darkBlueColor
+                                              : AppColorsDark.whiteColor),
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.whiteColor),
+                                      fontSize: 14),
+                                );
+                              }),
                             )
                           ],
                         )
@@ -250,13 +263,15 @@ class _OtpPageState extends State<OtpPage> {
             color: HexColor(AppColorsLight.orangeColor),
             borderRadius: BorderRadius.circular(15)),
         child: Center(
-          child: Text(
-            AppStrings.verifyButton,
-            style: TextStyle(
-                color: HexColor(AppColorsLight.backgroundColor),
-                fontSize: 16,
-                fontWeight: FontWeight.w600),
-          ),
+          child: Builder(builder: (context) {
+            return Text(
+              (AppStrings.verifyButton).tr(),
+              style: TextStyle(
+                  color: HexColor(AppColorsLight.backgroundColor),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+            );
+          }),
         ),
       ),
     );

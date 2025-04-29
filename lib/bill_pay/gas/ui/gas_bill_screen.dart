@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/bill_pay/gas/provider/gas_bill_screen_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -133,45 +134,52 @@ class _GasBillScreenState extends State<GasBillScreen> {
     print("Gas Bill Screen Build");
     return NetworkChecker(
       child: Scaffold(
-              backgroundColor: HexColor(themeController.isLight
-        ? AppColorsLight.backgroundColor
-        : AppColorsDark.backgroundColor),
-              body: SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeaderContainer(),
-          _buildSelectOptionRow(),
-          SizedBox(
-            height: height * 0.010,
-          ),
-          _buildSelectProviderHeading(text: AppStrings.selectGasProvider),
-          _buildGasProviderDropDownTextField(),
-          Consumer<GasBillScreenController>(
-            builder: (context, value, child) {
-              if (value.selectedCategory != 0) {
-                return _buildSelectProviderHeading(
-                    text: AppStrings.enterMobileNumber);
-              } else {
-                return _buildSelectProviderHeading(
-                    text: AppStrings.enterCustomerID);
-              }
-            },
-          ),
-          _buildCustomerMobileTextField(),
-          SizedBox(
-            height: height * 0.050,
-          ),
-          _buildCustomerDetailsContainer(),
-          SizedBox(
-            height: height * 0.150,
-          ),
-          _buildPayButton(),
-        ],
-      ),
+        backgroundColor: HexColor(themeController.isLight
+            ? AppColorsLight.backgroundColor
+            : AppColorsDark.backgroundColor),
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderContainer(),
+              _buildSelectOptionRow(),
+              SizedBox(
+                height: height * 0.010,
               ),
-            ),
+              Builder(builder: (context) {
+                return _buildSelectProviderHeading(
+                    text: (AppStrings.selectGasProvider).tr());
+              }),
+              _buildGasProviderDropDownTextField(),
+              Consumer<GasBillScreenController>(
+                builder: (context, value, child) {
+                  if (value.selectedCategory != 0) {
+                    return Builder(builder: (context) {
+                      return _buildSelectProviderHeading(
+                          text: (AppStrings.enterMobileNumber).tr());
+                    });
+                  } else {
+                    return Builder(builder: (context) {
+                      return _buildSelectProviderHeading(
+                          text: (AppStrings.enterCustomerID).tr());
+                    });
+                  }
+                },
+              ),
+              _buildCustomerMobileTextField(),
+              SizedBox(
+                height: height * 0.050,
+              ),
+              _buildCustomerDetailsContainer(),
+              SizedBox(
+                height: height * 0.150,
+              ),
+              _buildPayButton(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -214,15 +222,17 @@ class _GasBillScreenState extends State<GasBillScreen> {
           SizedBox(
             width: width * 0.30,
           ),
-          Text(
-            AppStrings.gasBill,
-            style: TextStyle(
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor),
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
-          )
+          Builder(builder: (context) {
+            return Text(
+              (AppStrings.gasBill).tr(),
+              style: TextStyle(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.darkBlueColor
+                      : AppColorsDark.whiteColor),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            );
+          })
         ],
       ),
     );
@@ -274,15 +284,17 @@ class _GasBillScreenState extends State<GasBillScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: width * 0.030),
-                child: Text(
-                  AppStrings.payGasBill,
-                  style: TextStyle(
-                      color: HexColor(themeController.isLight
-                          ? AppColorsLight.darkBlueColor
-                          : AppColorsDark.whiteColor),
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold),
-                ),
+                child: Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.payGasBill).tr(),
+                    style: TextStyle(
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  );
+                }),
               ),
               InkWell(
                 splashColor: Colors.transparent,
@@ -323,15 +335,17 @@ class _GasBillScreenState extends State<GasBillScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: width * 0.030),
-                child: Text(
-                  AppStrings.bookAGasCylinder,
-                  style: TextStyle(
-                      color: HexColor(themeController.isLight
-                          ? AppColorsLight.darkBlueColor
-                          : AppColorsDark.whiteColor),
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold),
-                ),
+                child: Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.bookAGasCylinder).tr(),
+                    style: TextStyle(
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  );
+                }),
               )
             ],
           );
@@ -471,45 +485,54 @@ class _GasBillScreenState extends State<GasBillScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RichText(
-                      text: TextSpan(
-                          style: TextStyle(fontSize: 16, fontFamily: "poppins"),
-                          children: [
-                        TextSpan(
-                            text: AppStrings.customerName,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? "#484848"
-                                    : AppColorsDark.greyColor))),
-                      ])),
+                  Builder(builder: (context) {
+                    return RichText(
+                        text: TextSpan(
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: "poppins"),
+                            children: [
+                          TextSpan(
+                              text: (AppStrings.customerName).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? "#484848"
+                                      : AppColorsDark.greyColor))),
+                        ]));
+                  }),
                   SizedBox(
                     height: height * 0.020,
                   ),
-                  RichText(
-                      text: TextSpan(
-                          style: TextStyle(fontSize: 16, fontFamily: "poppins"),
-                          children: [
-                        TextSpan(
-                            text: AppStrings.dealerName,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? "#484848"
-                                    : AppColorsDark.greyColor))),
-                      ])),
+                  Builder(builder: (context) {
+                    return RichText(
+                        text: TextSpan(
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: "poppins"),
+                            children: [
+                          TextSpan(
+                              text: (AppStrings.dealerName).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? "#484848"
+                                      : AppColorsDark.greyColor))),
+                        ]));
+                  }),
                   SizedBox(
                     height: height * 0.020,
                   ),
-                  RichText(
-                      text: TextSpan(
-                          style: TextStyle(fontSize: 16, fontFamily: "poppins"),
-                          children: [
-                        TextSpan(
-                            text: AppStrings.billAmount,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? "#484848"
-                                    : AppColorsDark.greyColor))),
-                      ])),
+                  Builder(builder: (context) {
+                    return RichText(
+                        text: TextSpan(
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: "poppins"),
+                            children: [
+                          TextSpan(
+                              text: (AppStrings.billAmount).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? "#484848"
+                                      : AppColorsDark.greyColor))),
+                        ]));
+                  }),
                 ],
               ),
               SizedBox(width: width * 0.020),
@@ -727,14 +750,14 @@ class _GasBillScreenState extends State<GasBillScreen> {
                   value.bookingOperatorData["billAmountRemain"] != 0.0) {
                 await makePayment(
                     value.bookingOperatorData["billAmountRemain"].toString());
-              }else
-                {
-                  Provider.of<GasBillScreenController>(context, listen: false).clearData();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => BillPayScreen()),
-                  );
-                }
+              } else {
+                Provider.of<GasBillScreenController>(context, listen: false)
+                    .clearData();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => BillPayScreen()),
+                );
+              }
             },
             child: Container(
               padding: EdgeInsets.all(20),
@@ -755,39 +778,47 @@ class _GasBillScreenState extends State<GasBillScreen> {
               decoration: BoxDecoration(
                   color: HexColor(AppColorsLight.orangeColor),
                   borderRadius: BorderRadius.circular(15)),
-              child: RichText(
-                  text: TextSpan(
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: HexColor(AppColorsDark.whiteColor),
-                          fontFamily: "poppins",
-                          fontWeight: FontWeight.bold),
-                      children: [
-                    TextSpan(
-                        text: value.selectedCategory == 1
-                            ? value.bookingOperatorData["billAmountRemain"] !=
-                                    0.0
-                                ? AppStrings.continueToPay
-                                : "Continue"
-                            : value.payCustomerData["billAmountRemain"] != 0.0
-                                ? AppStrings.continueToPay
-                                : "Continue",
-                        style: TextStyle()),
-                    TextSpan(
-                        text: value.selectedCategory == 1
-                            ? value.bookingOperatorData["billAmountRemain"] == null
-                            ? ""
-
-                            : value.bookingOperatorData["billAmountRemain"] != 0.0
-                            ? value.bookingOperatorData["billAmountRemain"]
-                            : ""
-                            : value.payCustomerData["billAmountRemain"] == null
-                            ? ""
-                            : value.payCustomerData["billAmountRemain"] != 0.0
-                            ? value.payCustomerData["billAmountRemain"]
-                            : "",
-                        style: TextStyle()),
-                  ])),
+              child: Builder(builder: (context) {
+                return RichText(
+                    text: TextSpan(
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: HexColor(AppColorsDark.whiteColor),
+                            fontFamily: "poppins",
+                            fontWeight: FontWeight.bold),
+                        children: [
+                      TextSpan(
+                          text: value.selectedCategory == 1
+                              ? value.bookingOperatorData["billAmountRemain"] !=
+                                      0.0
+                                  ? (AppStrings.continueToPay).tr()
+                                  : "Continue"
+                              : value.payCustomerData["billAmountRemain"] != 0.0
+                                  ? (AppStrings.continueToPay).tr()
+                                  : "Continue",
+                          style: TextStyle()),
+                      TextSpan(
+                          text: value.selectedCategory == 1
+                              ? value.bookingOperatorData["billAmountRemain"] ==
+                                      null
+                                  ? ""
+                                  : value.bookingOperatorData[
+                                              "billAmountRemain"] !=
+                                          0.0
+                                      ? value.bookingOperatorData[
+                                          "billAmountRemain"]
+                                      : ""
+                              : value.payCustomerData["billAmountRemain"] ==
+                                      null
+                                  ? ""
+                                  : value.payCustomerData["billAmountRemain"] !=
+                                          0.0
+                                      ? value
+                                          .payCustomerData["billAmountRemain"]
+                                      : "",
+                          style: TextStyle()),
+                    ]));
+              }),
             ),
           );
         },

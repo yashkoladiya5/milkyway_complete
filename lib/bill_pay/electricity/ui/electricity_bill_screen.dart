@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -254,34 +255,41 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
 
     return NetworkChecker(
       child: Scaffold(
-              backgroundColor: HexColor(themeController.isLight
-        ? AppColorsLight.backgroundColor
-        : AppColorsDark.backgroundColor),
-              body: SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeaderContainer(),
-          _buildTextFieldHeading(text: AppStrings.state),
-          _buildStateDropDownTextField(type: "state"),
-          _buildTextFieldHeading(
-              text: AppStrings.selectElectricityBoardToProceed),
-          _buildStateDropDownTextField(type: "electricity"),
-          _buildTextFieldHeading(text: AppStrings.consumerNumber),
-          _buildMobileTextField(),
-          SizedBox(
-            height: height * 0.020,
-          ),
-          _buildCustomerDetailsContainer(),
-          SizedBox(
-            height: height * 0.050,
-          ),
-          _buildContinueButton()
-        ],
-      ),
+        backgroundColor: HexColor(themeController.isLight
+            ? AppColorsLight.backgroundColor
+            : AppColorsDark.backgroundColor),
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderContainer(),
+              Builder(builder: (context) {
+                return _buildTextFieldHeading(text: (AppStrings.state).tr());
+              }),
+              _buildStateDropDownTextField(type: "state"),
+              Builder(builder: (context) {
+                return _buildTextFieldHeading(
+                    text: (AppStrings.selectElectricityBoardToProceed).tr());
+              }),
+              _buildStateDropDownTextField(type: "electricity"),
+              Builder(builder: (context) {
+                return _buildTextFieldHeading(
+                    text: (AppStrings.consumerNumber).tr());
+              }),
+              _buildMobileTextField(),
+              SizedBox(
+                height: height * 0.020,
               ),
-            ),
+              _buildCustomerDetailsContainer(),
+              SizedBox(
+                height: height * 0.050,
+              ),
+              _buildContinueButton()
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -324,15 +332,17 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
           SizedBox(
             width: width * 0.20,
           ),
-          Text(
-            AppStrings.electricityBill,
-            style: TextStyle(
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor),
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
-          )
+          Builder(builder: (context) {
+            return Text(
+              (AppStrings.electricityBill).tr(),
+              style: TextStyle(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.darkBlueColor
+                      : AppColorsDark.whiteColor),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            );
+          })
         ],
       ),
     );
@@ -472,48 +482,54 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RichText(
-                      text: TextSpan(
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: "poppins"),
-                          children: [
-                        TextSpan(
-                            text: AppStrings.customerName,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? "#484848"
-                                    : AppColorsDark.greyColor))),
-                      ])),
+                  Builder(builder: (context) {
+                    return RichText(
+                        text: TextSpan(
+                            style: const TextStyle(
+                                fontSize: 16, fontFamily: "poppins"),
+                            children: [
+                          TextSpan(
+                              text: (AppStrings.customerName).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? "#484848"
+                                      : AppColorsDark.greyColor))),
+                        ]));
+                  }),
                   SizedBox(
                     height: height * 0.020,
                   ),
-                  RichText(
-                      text: TextSpan(
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: "poppins"),
-                          children: [
-                        TextSpan(
-                            text: AppStrings.dueDate,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? "#484848"
-                                    : AppColorsDark.greyColor))),
-                      ])),
+                  Builder(builder: (context) {
+                    return RichText(
+                        text: TextSpan(
+                            style: const TextStyle(
+                                fontSize: 16, fontFamily: "poppins"),
+                            children: [
+                          TextSpan(
+                              text: (AppStrings.dueDate).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? "#484848"
+                                      : AppColorsDark.greyColor))),
+                        ]));
+                  }),
                   SizedBox(
                     height: height * 0.020,
                   ),
-                  RichText(
-                      text: TextSpan(
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: "poppins"),
-                          children: [
-                        TextSpan(
-                            text: AppStrings.billAmount,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? "#484848"
-                                    : AppColorsDark.greyColor))),
-                      ])),
+                  Builder(builder: (context) {
+                    return RichText(
+                        text: TextSpan(
+                            style: const TextStyle(
+                                fontSize: 16, fontFamily: "poppins"),
+                            children: [
+                          TextSpan(
+                              text: (AppStrings.billAmount).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? "#484848"
+                                      : AppColorsDark.greyColor))),
+                        ]));
+                  }),
                 ],
               ),
               SizedBox(width: width * 0.020),
@@ -727,25 +743,27 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
               decoration: BoxDecoration(
                   color: HexColor(AppColorsLight.orangeColor),
                   borderRadius: BorderRadius.circular(15)),
-              child: RichText(
-                  text: TextSpan(
-                      style: TextStyle(
-                          fontSize: 21,
-                          color: HexColor(AppColorsDark.whiteColor),
-                          fontFamily: "poppins",
-                          fontWeight: FontWeight.bold),
-                      children: [
-                    TextSpan(
-                        text: value.electricityData["amount"] != null
-                            ? AppStrings.continueToPay
-                            : "Fetch Bill",
-                        style: const TextStyle()),
-                    TextSpan(
-                        text: value.electricityData["amount"] != 0.0
-                            ? value.electricityData["amount"]?.toString()
-                            : "",
-                        style: const TextStyle()),
-                  ])),
+              child: Builder(builder: (context) {
+                return RichText(
+                    text: TextSpan(
+                        style: TextStyle(
+                            fontSize: 21,
+                            color: HexColor(AppColorsDark.whiteColor),
+                            fontFamily: "poppins",
+                            fontWeight: FontWeight.bold),
+                        children: [
+                      TextSpan(
+                          text: value.electricityData["amount"] != null
+                              ? (AppStrings.continueToPay).tr()
+                              : "Fetch Bill",
+                          style: const TextStyle()),
+                      TextSpan(
+                          text: value.electricityData["amount"] != 0.0
+                              ? value.electricityData["amount"]?.toString()
+                              : "",
+                          style: const TextStyle()),
+                    ]));
+              }),
             ),
           );
         },

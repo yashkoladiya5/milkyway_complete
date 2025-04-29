@@ -1,6 +1,7 @@
 import 'dart:io' show File;
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -64,13 +65,15 @@ class _MedicineAddPageState extends State<MedicineAddPage> {
                       color: HexColor(AppColorsLight.orangeColor),
                       borderRadius: BorderRadius.circular(10)),
                   child: Center(
-                    child: Text(
-                      AppStrings.upload,
-                      style: TextStyle(
-                          color: HexColor(AppColorsDark.whiteColor),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25),
-                    ),
+                    child: Builder(builder: (context) {
+                      return Text(
+                        (AppStrings.upload).tr(),
+                        style: TextStyle(
+                            color: HexColor(AppColorsDark.whiteColor),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25),
+                      );
+                    }),
                   ),
                 ),
               ),
@@ -100,15 +103,17 @@ class _MedicineAddPageState extends State<MedicineAddPage> {
                     SizedBox(
                       height: height * 0.020,
                     ),
-                    Text(
-                      textAlign: TextAlign.center,
-                      AppStrings.medicineAddPageDescription,
-                      style: TextStyle(
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor),
-                          fontSize: 18),
-                    ),
+                    Builder(builder: (context) {
+                      return Text(
+                        textAlign: TextAlign.center,
+                        (AppStrings.medicineAddPageDescription).tr(),
+                        style: TextStyle(
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor),
+                            fontSize: 18),
+                      );
+                    }),
                     SizedBox(
                       height: height * 0.010,
                     ),

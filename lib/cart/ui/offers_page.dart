@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/cart/ui/pay_now_page.dart';
@@ -78,16 +79,17 @@ class _OffersPageState extends State<OffersPage> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.offers,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.offers).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -176,15 +178,17 @@ class _OffersPageState extends State<OffersPage> {
                           topRight: Radius.circular(20),
                         )),
                     child: Center(
-                      child: Text(
-                        AppStrings.milkywayWebsite,
-                        style: TextStyle(
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.darkBlueColor
-                                : AppColorsDark.whiteColor),
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      child: Builder(builder: (context) {
+                        return Text(
+                          (AppStrings.milkywayWebsite).tr(),
+                          style: TextStyle(
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.darkBlueColor
+                                  : AppColorsDark.whiteColor),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        );
+                      }),
                     ),
                   ),
                   Container(

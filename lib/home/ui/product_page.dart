@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -289,67 +290,67 @@ class _ProductPageState extends State<ProductPage> {
     if (loadingController.isLoading) {
       return NetworkChecker(
         child: Scaffold(
-                  backgroundColor: HexColor(themeController.isLight
-          ? AppColorsLight.backgroundColor
-          : AppColorsDark.backgroundColor),
-                  body: Center(
-        child: CircularProgressIndicator(
-          color: HexColor(AppColorsLight.orangeColor),
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsDark.backgroundColor),
+          body: Center(
+            child: CircularProgressIndicator(
+              color: HexColor(AppColorsLight.orangeColor),
+            ),
+          ),
         ),
-                  ),
-                ),
       );
     } else {
       if (productPageController.productModel == null) {
         return NetworkChecker(
           child: Scaffold(
-                      body: CircularProgressIndicator(
-          color: HexColor(AppColorsLight.orangeColor),
-                      ),
-                    ),
+            body: CircularProgressIndicator(
+              color: HexColor(AppColorsLight.orangeColor),
+            ),
+          ),
         );
       }
       return NetworkChecker(
         child: Scaffold(
-                  backgroundColor: HexColor(themeController.isLight
-          ? AppColorsLight.backgroundColor
-          : AppColorsLight.darkBlueColor),
-                  body: SingleChildScrollView(
-        child: Container(
-          // color: Colors.red,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _buildProductImage(),
-              _buildNameAndFavouriteRow(),
-              _buildWeightText(),
-              _buildPriceRow(),
-              Divider(
-                color: HexColor(AppColorsLight.greyColor),
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsLight.darkBlueColor),
+          body: SingleChildScrollView(
+            child: Container(
+              // color: Colors.red,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _buildProductImage(),
+                  _buildNameAndFavouriteRow(),
+                  _buildWeightText(),
+                  _buildPriceRow(),
+                  Divider(
+                    color: HexColor(AppColorsLight.greyColor),
+                  ),
+                  if (productPageController.productModel!.isDaily == 1)
+                    _buildDailyButtonView()
+                  else
+                    _buildWithoutDailyButtonView(),
+                  Divider(
+                    color: HexColor(AppColorsLight.greyColor),
+                  ),
+                  _buildProductDescription(),
+                  Divider(
+                    color: HexColor(AppColorsLight.greyColor),
+                  ),
+                  _buildRatingContainer(),
+                  Divider(
+                    color: HexColor(AppColorsLight.greyColor),
+                  ),
+                  _buildAddToCartButton(),
+                  _buildRelatedProductHeading(),
+                  _buildRelatedProductList()
+                ],
               ),
-              if (productPageController.productModel!.isDaily == 1)
-                _buildDailyButtonView()
-              else
-                _buildWithoutDailyButtonView(),
-              Divider(
-                color: HexColor(AppColorsLight.greyColor),
-              ),
-              _buildProductDescription(),
-              Divider(
-                color: HexColor(AppColorsLight.greyColor),
-              ),
-              _buildRatingContainer(),
-              Divider(
-                color: HexColor(AppColorsLight.greyColor),
-              ),
-              _buildAddToCartButton(),
-              _buildRelatedProductHeading(),
-              _buildRelatedProductList()
-            ],
+            ),
           ),
         ),
-                  ),
-                ),
       );
     }
   }
@@ -401,7 +402,9 @@ class _ProductPageState extends State<ProductPage> {
                         ? AppColorsLight.darkBlueColor
                         : AppColorsDark.whiteColor),
                   )),
-              SizedBox(width: width * 0.620,),
+              SizedBox(
+                width: width * 0.620,
+              ),
               IconButton(
                   onPressed: () {},
                   icon: Icon(
@@ -726,15 +729,17 @@ class _ProductPageState extends State<ProductPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppStrings.rating,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15),
-            ),
+            Builder(builder: (context) {
+              return Text(
+                (AppStrings.rating).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15),
+              );
+            }),
             Row(
               children: [
                 Text(
@@ -783,15 +788,17 @@ class _ProductPageState extends State<ProductPage> {
   Widget _buildRelatedProductHeading() {
     return Padding(
       padding: EdgeInsets.only(left: width * 0.02),
-      child: Text(
-        AppStrings.productYouMightLike,
-        style: TextStyle(
-            color: HexColor(themeController.isLight
-                ? AppColorsLight.darkBlueColor
-                : AppColorsDark.whiteColor),
-            fontSize: 17,
-            fontWeight: FontWeight.bold),
-      ),
+      child: Builder(builder: (context) {
+        return Text(
+          (AppStrings.productYouMightLike).tr(),
+          style: TextStyle(
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.darkBlueColor
+                  : AppColorsDark.whiteColor),
+              fontSize: 17,
+              fontWeight: FontWeight.bold),
+        );
+      }),
     );
   }
 
@@ -823,12 +830,14 @@ class _ProductPageState extends State<ProductPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                AppStrings.addToCart,
-                style: TextStyle(
-                    color: HexColor(AppColorsDark.whiteColor),
-                    fontWeight: FontWeight.bold),
-              ),
+              Builder(builder: (context) {
+                return Text(
+                  (AppStrings.addToCart).tr(),
+                  style: TextStyle(
+                      color: HexColor(AppColorsDark.whiteColor),
+                      fontWeight: FontWeight.bold),
+                );
+              }),
               SizedBox(
                 width: width * 0.010,
               ),
@@ -1002,7 +1011,7 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ],
                 ),
-                if (otherProductsList[index].isDaily == 0)
+                if (otherProductsList[index].isDaily == 1)
                   _buildRelatedProductButtonWithDaily()
                 else
                   _buildRelatedProductWithoutDaily(),
@@ -1017,64 +1026,67 @@ class _ProductPageState extends State<ProductPage> {
   Widget _buildRelatedProductButtonWithDaily() {
     return Padding(
       padding: EdgeInsets.only(top: height * 0.002),
-      child: Row(
-        children: [
-          Container(
-            height: height * 0.030,
-            width: width * 0.120,
-            decoration: BoxDecoration(
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.lightGreyColor
-                    : AppColorsDark.darkGreyColor),
-                boxShadow: [
-                  BoxShadow(
-                    color: themeController.isLight
-                        ? HexColor(AppColorsLight.greyColor).withOpacity(0.5)
-                        : HexColor(AppColorsDark.darkGreyColor)
-                            .withOpacity(0.5),
-                    spreadRadius: 0.5,
-                    blurRadius: 10,
-                  )
-                ],
-                borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: Text(
-                "Daily",
-                style: TextStyle(
-                    color: HexColor(themeController.isLight
-                        ? AppColorsLight.darkBlueColor
-                        : AppColorsDark.whiteColor),
-                    fontSize: 12),
+      child: Builder(builder: (context) {
+        return Row(
+          children: [
+            Container(
+              height: height * 0.030,
+              width: width * 0.120,
+              decoration: BoxDecoration(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.lightGreyColor
+                      : AppColorsDark.darkGreyColor),
+                  boxShadow: [
+                    BoxShadow(
+                      color: themeController.isLight
+                          ? HexColor(AppColorsLight.greyColor).withOpacity(0.5)
+                          : HexColor(AppColorsDark.darkGreyColor)
+                              .withOpacity(0.5),
+                      spreadRadius: 0.5,
+                      blurRadius: 10,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(5)),
+              child: Center(
+                child: Text(
+                  (AppStrings.daily).tr(),
+                  style: TextStyle(
+                      color: HexColor(themeController.isLight
+                          ? AppColorsLight.darkBlueColor
+                          : AppColorsDark.whiteColor),
+                      fontSize: 12),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: width * 0.010,
-          ),
-          Container(
-            height: height * 0.030,
-            width: width * 0.120,
-            decoration: BoxDecoration(
-                color: HexColor(AppColorsLight.orangeColor),
-                borderRadius: BorderRadius.circular(5)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Add",
-                  style: TextStyle(
-                      color: HexColor(AppColorsDark.whiteColor), fontSize: 12),
-                ),
-                Icon(
-                  Icons.add,
-                  color: HexColor(AppColorsDark.whiteColor),
-                  size: 15,
-                )
-              ],
+            SizedBox(
+              width: width * 0.010,
             ),
-          ),
-        ],
-      ),
+            Container(
+              height: height * 0.030,
+              width: width * 0.120,
+              decoration: BoxDecoration(
+                  color: HexColor(AppColorsLight.orangeColor),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    (AppStrings.add).tr(),
+                    style: TextStyle(
+                        color: HexColor(AppColorsDark.whiteColor),
+                        fontSize: 12),
+                  ),
+                  Icon(
+                    Icons.add,
+                    color: HexColor(AppColorsDark.whiteColor),
+                    size: 15,
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 
@@ -1085,21 +1097,23 @@ class _ProductPageState extends State<ProductPage> {
       decoration: BoxDecoration(
           color: HexColor(AppColorsLight.orangeColor),
           borderRadius: BorderRadius.circular(5)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Add",
-            style: TextStyle(
-                color: HexColor(AppColorsDark.whiteColor), fontSize: 12),
-          ),
-          Icon(
-            Icons.add,
-            color: HexColor(AppColorsDark.whiteColor),
-            size: 15,
-          )
-        ],
-      ),
+      child: Builder(builder: (context) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              (AppStrings.add).tr(),
+              style: TextStyle(
+                  color: HexColor(AppColorsDark.whiteColor), fontSize: 12),
+            ),
+            Icon(
+              Icons.add,
+              color: HexColor(AppColorsDark.whiteColor),
+              size: 15,
+            )
+          ],
+        );
+      }),
     );
   }
 }

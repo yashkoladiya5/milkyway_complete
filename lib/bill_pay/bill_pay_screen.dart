@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/bill_pay/electricity/ui/electricity_bill_screen.dart';
@@ -89,15 +90,17 @@ class _BillPayScreenState extends State<BillPayScreen> {
           SizedBox(
             width: width * 0.30,
           ),
-          Text(
-            AppStrings.billPay,
-            style: TextStyle(
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor),
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
-          )
+          Builder(builder: (context) {
+            return Text(
+              (AppStrings.billPay).tr(),
+              style: TextStyle(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.darkBlueColor
+                      : AppColorsDark.whiteColor),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            );
+          })
         ],
       ),
     );
@@ -106,15 +109,17 @@ class _BillPayScreenState extends State<BillPayScreen> {
   Widget _buildHeadingText() {
     return Padding(
       padding: EdgeInsets.only(left: width * 0.030, top: height * 0.020),
-      child: Text(
-        AppStrings.rechargeAndBill,
-        style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: HexColor(themeController.isLight
-                ? AppColorsLight.darkBlueColor
-                : AppColorsDark.whiteColor)),
-      ),
+      child: Builder(builder: (context) {
+        return Text(
+          (AppStrings.rechargeAndBill).tr(),
+          style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.darkBlueColor
+                  : AppColorsDark.whiteColor)),
+        );
+      }),
     );
   }
 

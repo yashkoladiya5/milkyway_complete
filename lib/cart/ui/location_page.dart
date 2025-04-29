@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
@@ -59,16 +60,18 @@ class _LocationPageState extends State<LocationPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Edit ${AppStrings.location}",
-                          style: TextStyle(
-                              color: HexColor(themeController.isLight
-                                  ? AppColorsLight.darkBlueColor
-                                  : AppColorsDark.whiteColor),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "poppins",
-                              fontSize: 25),
-                        ),
+                        Builder(builder: (context) {
+                          return Text(
+                            "Edit ${(AppStrings.location).tr()}",
+                            style: TextStyle(
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.darkBlueColor
+                                    : AppColorsDark.whiteColor),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "poppins",
+                                fontSize: 25),
+                          );
+                        }),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
@@ -257,16 +260,17 @@ class _LocationPageState extends State<LocationPage> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.location,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.location).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -426,11 +430,15 @@ class _LocationPageState extends State<LocationPage> {
             color: HexColor(AppColorsLight.orangeColor),
             borderRadius: BorderRadius.circular(10)),
         child: Center(
-          child: Text(
-            "Continue",
-            style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          child: Builder(builder: (context) {
+            return Text(
+              (AppStrings.continueText).tr(),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            );
+          }),
         ),
       ),
     );

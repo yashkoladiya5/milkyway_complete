@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -322,61 +323,40 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     height: height * 0.040,
                   ),
-                  _buildTextField(
+                  Builder(builder: (context) {
+                    return _buildTextField(
+                        onChanged: (value) {
+                          signUpController.setNameField();
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
+                          }
+                        },
+                        validator: (value) {
+                          if (signUpController.isNameFieldTouched) {
+                            return validateName(value!);
+                          } else {
+                            return null;
+                          }
+                        },
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.080,
+                            vertical: height * 0.015),
+                        contentPadding: EdgeInsets.only(left: width * 0.030),
+                        hintText: (AppStrings.signUpName).tr(),
+                        controller: _nameController);
+                  }),
+                  Builder(builder: (context) {
+                    return _buildTextField(
                       onChanged: (value) {
-                        signUpController.setNameField();
+                        signUpController.setStateField();
                         if (_formKey.currentState != null) {
                           _formKey.currentState!.validate();
                         }
                       },
                       validator: (value) {
-                        if (signUpController.isNameFieldTouched) {
-                          return validateName(value!);
-                        } else {
-                          return null;
-                        }
-                      },
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.080, vertical: height * 0.015),
-                      contentPadding: EdgeInsets.only(left: width * 0.030),
-                      hintText: AppStrings.signUpName,
-                      controller: _nameController),
-                  _buildTextField(
-                    onChanged: (value) {
-                      signUpController.setStateField();
-                      if (_formKey.currentState != null) {
-                        _formKey.currentState!.validate();
-                      }
-                    },
-                    validator: (value) {
-                      if (signUpController.isStateFieldTouched) {
-                        return validateState(signUpController.stateValue ?? "");
-                      } else {
-                        return null;
-                      }
-                    },
-                    padding: EdgeInsets.only(
-                        left: width * 0.080,
-                        right: width * 0.080,
-                        top: height * 0.005,
-                        bottom: height * 0.010),
-                    suffixIcon: CustomDropdownButton(
-                      formKey: _formKey,
-                    ),
-                    hintText: AppStrings.signUpState,
-                    contentPadding: EdgeInsets.only(left: width * 0.030),
-                    controller: signUpController.stateController,
-                  ),
-                  _buildTextField(
-                      onChanged: (value) {
-                        signUpController.setAddressField();
-                        if (_formKey.currentState != null) {
-                          _formKey.currentState!.validate();
-                        }
-                      },
-                      validator: (value) {
-                        if (signUpController.isAddressFieldTouched) {
-                          return validateAddress(value!);
+                        if (signUpController.isStateFieldTouched) {
+                          return validateState(
+                              signUpController.stateValue ?? "");
                         } else {
                           return null;
                         }
@@ -384,141 +364,184 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: EdgeInsets.only(
                           left: width * 0.080,
                           right: width * 0.080,
-                          top: height * 0.010,
+                          top: height * 0.005,
                           bottom: height * 0.010),
-                      controller: _addressController,
+                      suffixIcon: CustomDropdownButton(
+                        formKey: _formKey,
+                      ),
+                      hintText: (AppStrings.signUpState).tr(),
                       contentPadding: EdgeInsets.only(left: width * 0.030),
-                      hintText: AppStrings.signUpAddress),
+                      controller: signUpController.stateController,
+                    );
+                  }),
+                  Builder(builder: (context) {
+                    return _buildTextField(
+                        onChanged: (value) {
+                          signUpController.setAddressField();
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
+                          }
+                        },
+                        validator: (value) {
+                          if (signUpController.isAddressFieldTouched) {
+                            return validateAddress(value!);
+                          } else {
+                            return null;
+                          }
+                        },
+                        padding: EdgeInsets.only(
+                            left: width * 0.080,
+                            right: width * 0.080,
+                            top: height * 0.010,
+                            bottom: height * 0.010),
+                        controller: _addressController,
+                        contentPadding: EdgeInsets.only(left: width * 0.030),
+                        hintText: (AppStrings.signUpAddress).tr());
+                  }),
                   Row(
                     children: [
                       Expanded(
-                        child: _buildTextField(
-                          onChanged: (value) {
-                            signUpController.setPincodeField();
-                            if (_formKey.currentState != null) {
-                              _formKey.currentState!.validate();
-                            }
-                          },
-                          validator: (value) {
-                            if (signUpController.isPincodeFieldTouched) {
-                              return validatePincode(value!);
-                            } else {
-                              return null;
-                            }
-                          },
-                          padding: EdgeInsets.only(
-                              left: width * 0.080, top: height * 0.010),
-                          hintText: AppStrings.signUpPincode,
-                          keyboardType: TextInputType.number,
-                          controller: _pincodeController,
-                          contentPadding: EdgeInsets.only(left: width * 0.030),
-                        ),
+                        child: Builder(builder: (context) {
+                          return _buildTextField(
+                            onChanged: (value) {
+                              signUpController.setPincodeField();
+                              if (_formKey.currentState != null) {
+                                _formKey.currentState!.validate();
+                              }
+                            },
+                            validator: (value) {
+                              if (signUpController.isPincodeFieldTouched) {
+                                return validatePincode(value!);
+                              } else {
+                                return null;
+                              }
+                            },
+                            padding: EdgeInsets.only(
+                                left: width * 0.080, top: height * 0.010),
+                            hintText: (AppStrings.signUpPincode).tr(),
+                            keyboardType: TextInputType.number,
+                            controller: _pincodeController,
+                            contentPadding:
+                                EdgeInsets.only(left: width * 0.030),
+                          );
+                        }),
                       ),
                       _buildCurrentLocationButton()
                     ],
                   ),
-                  _buildTextField(
+                  Builder(builder: (context) {
+                    return _buildTextField(
+                        onChanged: (value) {
+                          signUpController.setNumberField();
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
+                          }
+                        },
+                        validator: (value) {
+                          if (signUpController.isNumberFieldTouched) {
+                            return numberValidate(value!);
+                          } else {
+                            return null;
+                          }
+                        },
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.080,
+                            vertical: height * 0.010),
+                        contentPadding: EdgeInsets.only(left: width * 0.030),
+                        controller: _mobileController,
+                        hintText: (AppStrings.signUpMobileNo).tr(),
+                        keyboardType: TextInputType.number);
+                  }),
+                  Builder(builder: (context) {
+                    return _buildTextField(
                       onChanged: (value) {
-                        signUpController.setNumberField();
+                        signUpController.setEmailField();
                         if (_formKey.currentState != null) {
                           _formKey.currentState!.validate();
                         }
                       },
                       validator: (value) {
-                        if (signUpController.isNumberFieldTouched) {
-                          return numberValidate(value!);
+                        if (signUpController.isEmailFieldTouched) {
+                          return emailValidate(value!);
                         } else {
                           return null;
                         }
                       },
                       padding: EdgeInsets.symmetric(
                           horizontal: width * 0.080, vertical: height * 0.010),
+                      controller: _emailController,
                       contentPadding: EdgeInsets.only(left: width * 0.030),
-                      controller: _mobileController,
-                      hintText: AppStrings.signUpMobileNo,
-                      keyboardType: TextInputType.number),
-                  _buildTextField(
-                    onChanged: (value) {
-                      signUpController.setEmailField();
-                      if (_formKey.currentState != null) {
-                        _formKey.currentState!.validate();
-                      }
-                    },
-                    validator: (value) {
-                      if (signUpController.isEmailFieldTouched) {
-                        return emailValidate(value!);
-                      } else {
-                        return null;
-                      }
-                    },
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width * 0.080, vertical: height * 0.010),
-                    controller: _emailController,
-                    contentPadding: EdgeInsets.only(left: width * 0.030),
-                    hintText: AppStrings.signUpEmail,
-                  ),
-                  _buildTextField(
-                      onChanged: (value) {
-                        signUpController.setPasswordField();
-                        if (_formKey.currentState != null) {
-                          _formKey.currentState!.validate();
-                        }
-                      },
-                      validator: (value) {
-                        if (signUpController.isPasswordFieldTouched) {
-                          return validatePassword(value!);
-                        } else {
-                          return null;
-                        }
-                      },
-                      obscureText: obscureTextController.isVisible,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.080, vertical: height * 0.015),
-                      contentPadding: EdgeInsets.only(
-                          top: height * 0.010, left: width * 0.030),
-                      controller: _passwordController,
-                      hintText: AppStrings.signUpPassword,
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            obscureTextController.setPasswordIcon();
-                          },
-                          icon: Icon(
-                            obscureTextController.isVisible == false
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: HexColor(AppColorsLight.darkBlueColor),
-                          ))),
-                  _buildTextField(
-                      onChanged: (value) {
-                        signUpController.setConfirmPasswordField();
-                        if (_formKey.currentState != null) {
-                          _formKey.currentState!.validate();
-                        }
-                      },
-                      validator: (value) {
-                        if (signUpController.isConfirmPasswordFieldTouched) {
-                          return validateConfirmPassword(value!);
-                        } else {
-                          return null;
-                        }
-                      },
-                      controller: _confirmPasswordController,
-                      obscureText: obscureTextController.isVisible,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.080, vertical: height * 0.010),
-                      contentPadding: EdgeInsets.only(
-                          top: height * 0.010, left: width * 0.030),
-                      hintText: AppStrings.signUpConfirmPassword,
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            obscureTextController.setPasswordIcon();
-                          },
-                          icon: Icon(
-                            obscureTextController.isVisible == false
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: HexColor(AppColorsLight.darkBlueColor),
-                          ))),
+                      hintText: (AppStrings.signUpEmail).tr(),
+                    );
+                  }),
+                  Builder(builder: (context) {
+                    return _buildTextField(
+                        onChanged: (value) {
+                          signUpController.setPasswordField();
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
+                          }
+                        },
+                        validator: (value) {
+                          if (signUpController.isPasswordFieldTouched) {
+                            return validatePassword(value!);
+                          } else {
+                            return null;
+                          }
+                        },
+                        obscureText: obscureTextController.isVisible,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.080,
+                            vertical: height * 0.015),
+                        contentPadding: EdgeInsets.only(
+                            top: height * 0.010, left: width * 0.030),
+                        controller: _passwordController,
+                        hintText: (AppStrings.signUpPassword).tr(),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              obscureTextController.setPasswordIcon();
+                            },
+                            icon: Icon(
+                              obscureTextController.isVisible == false
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: HexColor(AppColorsLight.darkBlueColor),
+                            )));
+                  }),
+                  Builder(builder: (context) {
+                    return _buildTextField(
+                        onChanged: (value) {
+                          signUpController.setConfirmPasswordField();
+                          if (_formKey.currentState != null) {
+                            _formKey.currentState!.validate();
+                          }
+                        },
+                        validator: (value) {
+                          if (signUpController.isConfirmPasswordFieldTouched) {
+                            return validateConfirmPassword(value!);
+                          } else {
+                            return null;
+                          }
+                        },
+                        controller: _confirmPasswordController,
+                        obscureText: obscureTextController.isVisible,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.080,
+                            vertical: height * 0.010),
+                        contentPadding: EdgeInsets.only(
+                            top: height * 0.010, left: width * 0.030),
+                        hintText: (AppStrings.signUpConfirmPassword).tr(),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              obscureTextController.setPasswordIcon();
+                            },
+                            icon: Icon(
+                              obscureTextController.isVisible == false
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: HexColor(AppColorsLight.darkBlueColor),
+                            )));
+                  }),
                   SizedBox(
                     height: height * 0.040,
                   ),
@@ -601,13 +624,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     ? AppColorsLight.darkBlueColor
                     : AppColorsDark.whiteColor),
               ),
-              Text(
-                AppStrings.signUpCurrentLocation,
-                style: TextStyle(
-                    color: themeController.isLight
-                        ? Colors.black
-                        : HexColor(AppColorsDark.whiteColor)),
-              )
+              Builder(builder: (context) {
+                return Text(
+                  (AppStrings.signUpCurrentLocation).tr(),
+                  style: TextStyle(
+                      color: themeController.isLight
+                          ? Colors.black
+                          : HexColor(AppColorsDark.whiteColor)),
+                );
+              })
             ],
           ),
         ),
@@ -637,15 +662,17 @@ class _SignUpPageState extends State<SignUpPage> {
           SizedBox(
             width: width * 0.160,
           ),
-          Text(
-            AppStrings.signUpHeading,
-            style: TextStyle(
-                color: themeController.isLight
-                    ? Colors.black
-                    : HexColor(AppColorsDark.whiteColor),
-                fontSize: 30,
-                fontWeight: FontWeight.bold),
-          ),
+          Builder(builder: (context) {
+            return Text(
+              (AppStrings.signUpHeading).tr(),
+              style: TextStyle(
+                  color: themeController.isLight
+                      ? Colors.black
+                      : HexColor(AppColorsDark.whiteColor),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
+            );
+          }),
         ],
       ),
     );
@@ -678,13 +705,15 @@ class _SignUpPageState extends State<SignUpPage> {
             borderRadius: BorderRadius.circular(15)),
         child: Center(
           child: loadingController.isLoading == false
-              ? Text(
-                  AppStrings.signUpButton,
-                  style: TextStyle(
-                      color: HexColor(AppColorsLight.backgroundColor),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                )
+              ? Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.signUpButton).tr(),
+                    style: TextStyle(
+                        color: HexColor(AppColorsLight.backgroundColor),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  );
+                })
               : CircularProgressIndicator(
                   color: Colors.white,
                 ),
@@ -710,28 +739,32 @@ class _SignUpPageState extends State<SignUpPage> {
             },
           ),
         ),
-        Text(
-          "I Agree to the",
-          style: TextStyle(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.darkBlueColor
-                  : AppColorsDark.whiteColor)),
-        ),
+        Builder(builder: (context) {
+          return Text(
+            (AppStrings.agreeToThe).tr(),
+            style: TextStyle(
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.darkBlueColor
+                    : AppColorsDark.whiteColor)),
+          );
+        }),
         SizedBox(
           width: width * 0.010,
         ),
-        Text(
-          AppStrings.signUpTermsAndConditions,
-          style: TextStyle(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.darkBlueColor
-                  : AppColorsDark.whiteColor),
-              decoration: TextDecoration.underline,
-              decorationColor: themeController.isLight
-                  ? Colors.black
-                  : HexColor(AppColorsDark.whiteColor),
-              fontWeight: FontWeight.bold),
-        )
+        Builder(builder: (context) {
+          return Text(
+            (AppStrings.signUpTermsAndConditions).tr(),
+            style: TextStyle(
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.darkBlueColor
+                    : AppColorsDark.whiteColor),
+                decoration: TextDecoration.underline,
+                decorationColor: themeController.isLight
+                    ? Colors.black
+                    : HexColor(AppColorsDark.whiteColor),
+                fontWeight: FontWeight.bold),
+          );
+        })
       ],
     );
   }

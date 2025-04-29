@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -94,16 +95,17 @@ class _FavouritePageState extends State<FavouritePage> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.favourite,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.favourite).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -454,15 +456,17 @@ class _FavouritePageState extends State<FavouritePage> {
   Widget _buildTextHeading() {
     return Padding(
       padding: EdgeInsets.only(left: width * 0.040, top: height * 0.015),
-      child: Text(
-        AppStrings.ourRecommendation,
-        style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
-            color: HexColor(themeController.isLight
-                ? AppColorsLight.darkBlueColor
-                : AppColorsDark.whiteColor)),
-      ),
+      child: Builder(builder: (context) {
+        return Text(
+          (AppStrings.ourRecommendation).tr(),
+          style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.darkBlueColor
+                  : AppColorsDark.whiteColor)),
+        );
+      }),
     );
   }
 

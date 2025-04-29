@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/bill_pay/recharge/ui/recharge_payment_screen.dart';
@@ -253,10 +254,16 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderContainer(),
-              _buildTextFieldHeading(text: AppStrings.enterMobileNumber),
+              Builder(builder: (context) {
+                return _buildTextFieldHeading(
+                    text: (AppStrings.enterMobileNumber).tr());
+              }),
               _buildTextField(),
               _buildOperatorAndStateRow(),
-              _buildTextFieldHeading(text: AppStrings.enterPlanAmount),
+              Builder(builder: (context) {
+                return _buildTextFieldHeading(
+                    text: (AppStrings.enterPlanAmount).tr());
+              }),
               _buildPlanAmountTextField(),
               SizedBox(
                 height: height * 0.300,
@@ -306,15 +313,17 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
           SizedBox(
             width: width * 0.200,
           ),
-          Text(
-            AppStrings.mobileRecharge,
-            style: TextStyle(
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.darkBlueColor
-                    : AppColorsDark.whiteColor),
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
-          )
+          Builder(builder: (context) {
+            return Text(
+              (AppStrings.mobileRecharge).tr(),
+              style: TextStyle(
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.darkBlueColor
+                      : AppColorsDark.whiteColor),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            );
+          })
         ],
       ),
     );
@@ -422,7 +431,9 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTextFieldHeading(text: AppStrings.operator),
+            Builder(builder: (context) {
+              return _buildTextFieldHeading(text: (AppStrings.operator).tr());
+            }),
             Padding(
               padding:
                   EdgeInsets.only(left: width * 0.050, right: width * 0.025),
@@ -440,7 +451,9 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTextFieldHeading(text: AppStrings.state),
+            Builder(builder: (context) {
+              return _buildTextFieldHeading(text: (AppStrings.state).tr());
+            }),
             Padding(
               padding:
                   EdgeInsets.only(left: width * 0.025, right: width * 0.050),
@@ -567,13 +580,15 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
                   color: HexColor(AppColorsLight.orangeColor),
                   borderRadius: BorderRadius.circular(15)),
               child: Center(
-                child: Text(
-                  AppStrings.continueText,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: HexColor(AppColorsDark.whiteColor)),
-                ),
+                child: Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.continueText).tr(),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: HexColor(AppColorsDark.whiteColor)),
+                  );
+                }),
               ),
             ),
           );

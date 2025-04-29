@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
@@ -233,6 +234,15 @@ class _LogInPageState extends State<LogInPage> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
+    if (context.locale.languageCode == 'gu') {
+      print("Gujarati");
+    } else if (context.locale.languageCode == 'en') {
+      print("English");
+    } else if (context.locale.languageCode == 'mr') {
+      print("Marathi");
+    } else {
+      print("English");
+    }
     return NetworkChecker(
       child: Container(
         height: height,
@@ -258,120 +268,132 @@ class _LogInPageState extends State<LogInPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        AppStrings.logIn,
-                        style: TextStyle(
-                            fontSize: 35,
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.darkBlueColor
-                                : AppColorsDark.whiteColor)),
-                      ),
+                      Builder(builder: (context) {
+                        return Text(
+                          (AppStrings.logIn).tr(),
+                          style: TextStyle(
+                              fontSize: 35,
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.darkBlueColor
+                                  : AppColorsDark.whiteColor)),
+                        );
+                      }),
                       SizedBox(
                         height: height * 0.030,
                       ),
-                      _buildTextField(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: width * 0.050,
-                              vertical: height * 0.030),
-                          controller: _contactController,
-                          hintText: AppStrings.contactNo,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            logInPageController.setIsContactFieldTouched();
-                            if (_formKey.currentState != null) {
-                              _formKey.currentState!.validate();
-                            }
-                          },
+                      Builder(builder: (context) {
+                        return _buildTextField(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.050,
+                                vertical: height * 0.030),
+                            controller: _contactController,
+                            hintText: (AppStrings.contactNo).tr(),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              logInPageController.setIsContactFieldTouched();
+                              if (_formKey.currentState != null) {
+                                _formKey.currentState!.validate();
+                              }
+                            },
+                            validator: (value) {
+                              if (logInPageController.isContactFieldTouched) {
+                                return _validateMobileNumber(value!);
+                              } else {
+                                return null;
+                              }
+                            },
+                            contentPadding: const EdgeInsets.only(left: 10));
+                      }),
+                      Builder(builder: (context) {
+                        return _buildTextField(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.050),
+                          contentPadding:
+                              const EdgeInsets.only(left: 10, top: 12),
                           validator: (value) {
-                            if (logInPageController.isContactFieldTouched) {
-                              return _validateMobileNumber(value!);
+                            if (logInPageController.isPasswordFieldTouched) {
+                              return _validatePassword(value!);
                             } else {
                               return null;
                             }
                           },
-                          contentPadding: const EdgeInsets.only(left: 10)),
-                      _buildTextField(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: width * 0.050),
-                        contentPadding:
-                            const EdgeInsets.only(left: 10, top: 12),
-                        validator: (value) {
-                          if (logInPageController.isPasswordFieldTouched) {
-                            return _validatePassword(value!);
-                          } else {
-                            return null;
-                          }
-                        },
-                        onChanged: (value) {
-                          logInPageController.setIsPasswordFieldTouched();
-                          if (_formKey.currentState != null) {
-                            _formKey.currentState!.validate();
-                          }
-                        },
-                        keyboardType: TextInputType.text,
-                        hintText: AppStrings.password,
-                        controller: _passwordController,
-                        obscureText: logInPageController.isVisible,
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              logInPageController.setPasswordIcon();
-                            },
-                            child: Icon(logInPageController.isVisible == false
-                                ? Icons.visibility
-                                : Icons.visibility_off)),
-                      ),
+                          onChanged: (value) {
+                            logInPageController.setIsPasswordFieldTouched();
+                            if (_formKey.currentState != null) {
+                              _formKey.currentState!.validate();
+                            }
+                          },
+                          keyboardType: TextInputType.text,
+                          hintText: (AppStrings.password).tr(),
+                          controller: _passwordController,
+                          obscureText: logInPageController.isVisible,
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                logInPageController.setPasswordIcon();
+                              },
+                              child: Icon(logInPageController.isVisible == false
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                        );
+                      }),
                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             _buildCheckBox(),
-                            InkWell(
-                                onTap: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  var userData = prefs.getString(
-                                      SharedPreferenceKeys.userDataKey);
+                            InkWell(onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              var userData = prefs
+                                  .getString(SharedPreferenceKeys.userDataKey);
 
-                                  if (userData != null) {
-                                    userDataSnackBar();
-                                    print("There is some data");
-                                  } else {
-                                    userDataNotFoundSnackBar();
-                                  }
-                                },
-                                child: Text(
-                                  AppStrings.rememberMe,
-                                  style: TextStyle(
-                                      color: themeController.isLight
-                                          ? Colors.black
-                                          : HexColor(AppColorsDark.whiteColor)),
-                                )),
+                              if (userData != null) {
+                                userDataSnackBar();
+                                print("There is some data");
+                              } else {
+                                userDataNotFoundSnackBar();
+                              }
+                            }, child: Builder(builder: (context) {
+                              return Text(
+                                (AppStrings.rememberMe).tr(),
+                                style: TextStyle(
+                                    color: themeController.isLight
+                                        ? Colors.black
+                                        : HexColor(AppColorsDark.whiteColor)),
+                              );
+                            })),
                             SizedBox(
-                              width: width * 0.200,
+                              width: context.locale.languageCode == 'gu'
+                                  ? width * 0.400
+                                  : context.locale.languageCode == 'hi'
+                                      ? width * 0.350
+                                      : context.locale.languageCode == 'mr'
+                                          ? width * 0.300
+                                          : width * 0.200,
                             ),
-                            InkWell(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
+                            InkWell(onTap: () {
+                              FocusScope.of(context).unfocus();
 
-                                  setDefault();
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return const ForgotPasswordPage();
-                                    },
-                                  )).then(
-                                    (value) {
-                                      setDefault();
-                                    },
-                                  );
+                              setDefault();
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const ForgotPasswordPage();
                                 },
-                                child: Text(
-                                  AppStrings.forgotPassword,
-                                  style: TextStyle(
-                                      color: themeController.isLight
-                                          ? Colors.black
-                                          : HexColor(AppColorsDark.whiteColor)),
-                                ))
+                              )).then(
+                                (value) {
+                                  setDefault();
+                                },
+                              );
+                            }, child: Builder(builder: (context) {
+                              return Text(
+                                (AppStrings.forgotPassword).tr(),
+                                style: TextStyle(
+                                    color: themeController.isLight
+                                        ? Colors.black
+                                        : HexColor(AppColorsDark.whiteColor)),
+                              );
+                            }))
                           ],
                         ),
                       ),
@@ -385,13 +407,15 @@ class _LogInPageState extends State<LogInPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            AppStrings.createNewAccount,
-                            style: TextStyle(
-                                color: themeController.isLight
-                                    ? HexColor("#5E5E5E")
-                                    : HexColor(AppColorsDark.greyColor)),
-                          ),
+                          Builder(builder: (context) {
+                            return Text(
+                              (AppStrings.createNewAccount).tr(),
+                              style: TextStyle(
+                                  color: themeController.isLight
+                                      ? HexColor("#5E5E5E")
+                                      : HexColor(AppColorsDark.greyColor)),
+                            );
+                          }),
                           SizedBox(
                             width: width * 0.010,
                           ),
@@ -407,7 +431,7 @@ class _LogInPageState extends State<LogInPage> {
                               );
                             },
                             child: Text(
-                              AppStrings.clickHere,
+                              (AppStrings.clickHere).tr(),
                               style: TextStyle(
                                 color: themeController.isLight
                                     ? HexColor("#5E5E5E")
@@ -517,13 +541,15 @@ class _LogInPageState extends State<LogInPage> {
               borderRadius: BorderRadius.circular(15)),
           child: Center(
             child: loadingController.isLoading == false
-                ? Text(
-                    AppStrings.logInButton,
-                    style: TextStyle(
-                        color: HexColor(AppColorsLight.backgroundColor),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  )
+                ? Builder(builder: (context) {
+                    return Text(
+                      (AppStrings.logInButton).tr(),
+                      style: TextStyle(
+                          color: HexColor(AppColorsLight.backgroundColor),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    );
+                  })
                 : CircularProgressIndicator(
                     color: Colors.white,
                   ),

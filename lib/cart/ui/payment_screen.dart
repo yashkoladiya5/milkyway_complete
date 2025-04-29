@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -75,11 +76,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
               SizedBox(
                 height: height * 0.010,
               ),
-              _buildSelectModeHeading(title: AppStrings.selectModeForPayment),
+              Builder(builder: (context) {
+                return _buildSelectModeHeading(
+                    title: (AppStrings.selectModeForPayment).tr());
+              }),
               _buildPaymentModeContainer(),
-              _buildSelectModeHeading(title: AppStrings.deliveryAddress),
+              Builder(builder: (context) {
+                return _buildSelectModeHeading(
+                    title: (AppStrings.deliveryAddress).tr());
+              }),
               _buildLocationContainer(widget.userData),
-              _buildSelectModeHeading(title: AppStrings.paymentDetails),
+              Builder(builder: (context) {
+                return _buildSelectModeHeading(
+                    title: (AppStrings.paymentDetails).tr());
+              }),
               _buildBagTotalContainer(),
               _buildProcessToBuyButton(),
             ],
@@ -132,16 +142,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.payment,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.payment).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -298,25 +309,29 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  AppStrings.fullName,
-                  style: TextStyle(
-                      color: HexColor(themeController.isLight
-                          ? AppColorsLight.darkBlueColor
-                          : AppColorsDark.whiteColor),
-                      fontSize: 12),
-                ),
-                _buildPaymentTextField(keyboardtype: TextInputType.text),
-                Padding(
-                  padding: EdgeInsets.only(top: height * 0.010),
-                  child: Text(
-                    AppStrings.cardNumber,
+                Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.fullName).tr(),
                     style: TextStyle(
                         color: HexColor(themeController.isLight
                             ? AppColorsLight.darkBlueColor
                             : AppColorsDark.whiteColor),
                         fontSize: 12),
-                  ),
+                  );
+                }),
+                _buildPaymentTextField(keyboardtype: TextInputType.text),
+                Padding(
+                  padding: EdgeInsets.only(top: height * 0.010),
+                  child: Builder(builder: (context) {
+                    return Text(
+                      (AppStrings.cardNumber).tr(),
+                      style: TextStyle(
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor),
+                          fontSize: 12),
+                    );
+                  }),
                 ),
                 _buildPaymentTextField(keyboardtype: TextInputType.number),
                 Padding(
@@ -329,14 +344,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(left: width * 0.020),
-                              child: Text(
-                                AppStrings.validUntil,
-                                style: TextStyle(
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.whiteColor),
-                                    fontSize: 12),
-                              ),
+                              child: Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.validUntil).tr(),
+                                  style: TextStyle(
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.whiteColor),
+                                      fontSize: 12),
+                                );
+                              }),
                             ),
                             _buildPaymentTextField(
                                 keyboardtype: TextInputType.datetime)
@@ -352,14 +369,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(left: width * 0.020),
-                              child: Text(
-                                AppStrings.cvv,
-                                style: TextStyle(
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.whiteColor),
-                                    fontSize: 12),
-                              ),
+                              child: Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.cvv).tr(),
+                                  style: TextStyle(
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.whiteColor),
+                                      fontSize: 12),
+                                );
+                              }),
                             ),
                             _buildPaymentTextField(
                                 keyboardtype: TextInputType.text)
@@ -373,13 +392,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   padding: EdgeInsets.only(top: height * 0.020),
                   child: Row(
                     children: [
-                      Text(
-                        AppStrings.saveCardData,
-                        style: TextStyle(
-                          color: HexColor(AppColorsLight.darkBlueColor),
-                          fontSize: 14,
-                        ),
-                      ),
+                      Builder(builder: (context) {
+                        return Text(
+                          (AppStrings.saveCardData).tr(),
+                          style: TextStyle(
+                            color: HexColor(AppColorsLight.darkBlueColor),
+                            fontSize: 14,
+                          ),
+                        );
+                      }),
                       SizedBox(
                         width: width * 0.060,
                       ),
@@ -403,7 +424,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildSelectedCheckBox() {
     return Container(
-      width: width * 0.045, // Circle size
+      width: width * 0.050, // Circle size
       height: height * 0.022,
       decoration: BoxDecoration(
           color: themeController.isLight ? Colors.grey : HexColor("#464646"),
@@ -411,7 +432,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Center(
         child: Container(
           margin: EdgeInsets.all(3),
-          height: height * 0.0154,
+          height: height * 0.015,
           width: width * 0.040,
           decoration: BoxDecoration(
               color: Colors.orange,
@@ -629,20 +650,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
             children: [
               Row(
                 children: [
-                  Text(
-                    AppStrings.bagTotal,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: HexColor(themeController.isLight
-                          ? AppColorsLight.darkBlueColor
-                          : AppColorsDark.whiteColor),
-                    ),
-                  ),
+                  Builder(builder: (context) {
+                    return Text(
+                      (AppStrings.bagTotal).tr(),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                      ),
+                    );
+                  }),
                   SizedBox(
                     width: width * 0.430,
                   ),
                   Container(
-                    width: width * 0.300,
+                    width: context.locale.languageCode == 'hi'
+                        ? width * 0.385
+                        : context.locale.languageCode == 'gu'
+                            ? width * 0.400
+                            : context.locale.languageCode == 'mr'
+                                ? width * 0.365
+                                : width * 0.300,
                     // color: Colors.red,
                     child: Text(
                       overflow: TextOverflow.ellipsis,
@@ -684,17 +713,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 Text("You have already added discount...")));
                       }
                     },
-                    child: Text(
-                      AppStrings.discount,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor),
-                      ),
-                    ),
+                    child: Builder(builder: (context) {
+                      return Text(
+                        (AppStrings.discount).tr(),
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor),
+                        ),
+                      );
+                    }),
                   ),
-                  SizedBox(width: width * 0.450),
+                  SizedBox(
+                      width: context.locale.languageCode == 'gu'
+                          ? width * 0.510
+                          : context.locale.languageCode == 'hi'
+                              ? width * 0.590
+                              : context.locale.languageCode == 'mr'
+                                  ? width * 0.595
+                                  : width * 0.450),
                   Container(
                     width: width * 0.300,
                     // color: Colors.red,
@@ -727,18 +765,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               Row(
                 children: [
-                  Text(
-                    AppStrings.totalAmount,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: HexColor(themeController.isLight
-                          ? AppColorsLight.darkBlueColor
-                          : AppColorsDark.whiteColor),
-                    ),
-                  ),
+                  Builder(builder: (context) {
+                    return Text(
+                      (AppStrings.totalAmount).tr(),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor),
+                      ),
+                    );
+                  }),
                   SizedBox(
-                    width: width * 0.395,
+                    width: context.locale.languageCode == 'gu'
+                        ? width * 0.565
+                        : context.locale.languageCode == 'hi'
+                            ? width * 0.535
+                            : context.locale.languageCode == 'mr'
+                                ? width * 0.480
+                                : width * 0.395,
                   ),
                   Container(
                     width: width * 0.260,
@@ -795,14 +841,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 color: HexColor(AppColorsLight.orangeColor),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Center(
-                  child: Text(
-                AppStrings.processToBuy,
-                style: TextStyle(
-                    color: HexColor(AppColorsDark.whiteColor),
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold),
-              )),
+              child: Center(child: Builder(builder: (context) {
+                return Text(
+                  (AppStrings.processToBuy).tr(),
+                  style: TextStyle(
+                      color: HexColor(AppColorsDark.whiteColor),
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold),
+                );
+              })),
             ),
           );
         },

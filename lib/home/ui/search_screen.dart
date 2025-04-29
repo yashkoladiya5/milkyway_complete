@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -136,29 +137,31 @@ class _SearchScreenState extends State<SearchScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: TextField(
-                        controller: searchController,
-                        onChanged: (text) {
-                          // Update search results in the controller
-                          searchResultController.updateSearchResults(text);
-                        },
-                        style: TextStyle(
-                            fontFamily: "poppins",
-                            fontSize: 18,
-                            color: themeController.isLight
-                                ? HexColor(AppColorsLight.darkBlueColor)
-                                : HexColor(AppColorsDark.whiteColor)),
-                        decoration: InputDecoration(
-                          hintText: AppStrings.search,
-                          hintStyle: TextStyle(
-                            fontSize: 15,
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.darkBlueColor
-                                : AppColorsDark.whiteColor),
+                      child: Builder(builder: (context) {
+                        return TextField(
+                          controller: searchController,
+                          onChanged: (text) {
+                            // Update search results in the controller
+                            searchResultController.updateSearchResults(text);
+                          },
+                          style: TextStyle(
+                              fontFamily: "poppins",
+                              fontSize: 18,
+                              color: themeController.isLight
+                                  ? HexColor(AppColorsLight.darkBlueColor)
+                                  : HexColor(AppColorsDark.whiteColor)),
+                          decoration: InputDecoration(
+                            hintText: (AppStrings.search).tr(),
+                            hintStyle: TextStyle(
+                              fontSize: 15,
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.darkBlueColor
+                                  : AppColorsDark.whiteColor),
+                            ),
+                            border: InputBorder.none,
                           ),
-                          border: InputBorder.none,
-                        ),
-                      ),
+                        );
+                      }),
                     ),
                   ),
                   Padding(
@@ -184,16 +187,18 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _buildPopularSearchHeading() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-      child: Text(
-        AppStrings.popularSearch,
-        style: TextStyle(
-          fontSize: 17,
-          color: HexColor(themeController.isLight
-              ? AppColorsLight.darkBlueColor
-              : AppColorsDark.whiteColor),
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child: Builder(builder: (context) {
+        return Text(
+          (AppStrings.popularSearch).tr(),
+          style: TextStyle(
+            fontSize: 17,
+            color: HexColor(themeController.isLight
+                ? AppColorsLight.darkBlueColor
+                : AppColorsDark.whiteColor),
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      }),
     );
   }
 

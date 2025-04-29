@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -38,6 +39,8 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Stripe.publishableKey = publishable_key;
   await Stripe.instance.applySettings();
@@ -47,7 +50,20 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96d2J6aXVkZXZncmdxY2JtYmJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTcyMjksImV4cCI6MjA2MTEzMzIyOX0.DiJJrYAeHljAotcIgUCBWdtLsHaebWhdUjKJfDpvFo0', // Your Supabase Anon Key
   );
-  runApp(const MyApp());
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: [
+        Locale('en'), // English
+        Locale('hi'), // Hindi
+        Locale('gu'), // Gujarati
+        Locale('mr'), // Marathi
+      ],
+      path: 'assets/lang',
+      fallbackLocale: const Locale('gu'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -155,6 +171,9 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        locale: context.locale,
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: "poppins"),
         home: const SplashScreen(),

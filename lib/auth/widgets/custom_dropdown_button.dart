@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/provider/sign_up_page_controller.dart';
@@ -45,14 +46,16 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               : HexColor(AppColorsDark.whiteColor)),
       isExpanded: true,
       underline: const SizedBox(),
-      hint: Text(
-        AppStrings.signUpState,
-        style: TextStyle(
-            fontFamily: "poppins",
-            color: themeController.isLight
-                ? Colors.black
-                : HexColor(AppColorsDark.whiteColor)),
-      ),
+      hint: Builder(builder: (context) {
+        return Text(
+          (AppStrings.signUpState).tr(),
+          style: TextStyle(
+              fontFamily: "poppins",
+              color: themeController.isLight
+                  ? Colors.black
+                  : HexColor(AppColorsDark.whiteColor)),
+        );
+      }),
       items: states.map(
         (e) {
           return DropdownMenuItem(value: e, child: Text(e));

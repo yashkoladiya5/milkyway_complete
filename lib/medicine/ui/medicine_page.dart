@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
@@ -113,27 +114,29 @@ class _MedicinePageState extends State<MedicinePage> {
                           spreadRadius: 0.5)
                     ],
                     borderRadius: BorderRadius.circular(20)),
-                child: Text.rich(
-                    textAlign: TextAlign.center,
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                            text: AppStrings.dearCustomer,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? AppColorsLight.darkBlueColor
-                                    : AppColorsDark.whiteColor),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15)),
-                        TextSpan(
-                            text: AppStrings.medicinePageDescription,
-                            style: TextStyle(
-                                color: HexColor(themeController.isLight
-                                    ? AppColorsLight.darkBlueColor
-                                    : AppColorsDark.whiteColor),
-                                fontSize: 15)),
-                      ],
-                    )),
+                child: Builder(builder: (context) {
+                  return Text.rich(
+                      textAlign: TextAlign.center,
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                              text: (AppStrings.dearCustomer).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? AppColorsLight.darkBlueColor
+                                      : AppColorsDark.whiteColor),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15)),
+                          TextSpan(
+                              text: (AppStrings.medicinePageDescription).tr(),
+                              style: TextStyle(
+                                  color: HexColor(themeController.isLight
+                                      ? AppColorsLight.darkBlueColor
+                                      : AppColorsDark.whiteColor),
+                                  fontSize: 15)),
+                        ],
+                      ));
+                }),
               ),
               SizedBox(
                 height: height * 0.20,
@@ -176,14 +179,16 @@ class _MedicinePageState extends State<MedicinePage> {
                 alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: height * 0.010),
-                  child: Text(
-                    AppStrings.medicine,
-                    style: TextStyle(
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor),
-                        fontSize: 12),
-                  ),
+                  child: Builder(builder: (context) {
+                    return Text(
+                      (AppStrings.medicine).tr(),
+                      style: TextStyle(
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor),
+                          fontSize: 12),
+                    );
+                  }),
                 ),
               )
             ],

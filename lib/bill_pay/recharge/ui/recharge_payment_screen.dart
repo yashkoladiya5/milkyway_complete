@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/bill_pay/bill_pay_screen.dart';
@@ -39,22 +40,25 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
     themeController = Provider.of<ThemeController>(context);
     return NetworkChecker(
       child: Scaffold(
-              backgroundColor: HexColor(themeController.isLight
-        ? AppColorsLight.backgroundColor
-        : AppColorsDark.backgroundColor),
-              body: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeaderContainer(),
-          _buildSelectModeHeading(title: AppStrings.selectModeForPayment),
-          _buildPaymentModeContainer(),
-          _buildDynamicSizedBox(),
-          _buildProcessToBuyButton(),
-        ],
+        backgroundColor: HexColor(themeController.isLight
+            ? AppColorsLight.backgroundColor
+            : AppColorsDark.backgroundColor),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderContainer(),
+              Builder(builder: (context) {
+                return _buildSelectModeHeading(
+                    title: (AppStrings.selectModeForPayment).tr());
+              }),
+              _buildPaymentModeContainer(),
+              _buildDynamicSizedBox(),
+              _buildProcessToBuyButton(),
+            ],
+          ),
+        ),
       ),
-              ),
-            ),
     );
   }
 
@@ -93,16 +97,17 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.payment,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.payment).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -258,25 +263,29 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  AppStrings.fullName,
-                  style: TextStyle(
-                      color: HexColor(themeController.isLight
-                          ? AppColorsLight.darkBlueColor
-                          : AppColorsDark.whiteColor),
-                      fontSize: 12),
-                ),
-                _buildPaymentTextField(keyboardtype: TextInputType.text),
-                Padding(
-                  padding: EdgeInsets.only(top: height * 0.010),
-                  child: Text(
-                    AppStrings.cardNumber,
+                Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.fullName).tr(),
                     style: TextStyle(
                         color: HexColor(themeController.isLight
                             ? AppColorsLight.darkBlueColor
                             : AppColorsDark.whiteColor),
                         fontSize: 12),
-                  ),
+                  );
+                }),
+                _buildPaymentTextField(keyboardtype: TextInputType.text),
+                Padding(
+                  padding: EdgeInsets.only(top: height * 0.010),
+                  child: Builder(builder: (context) {
+                    return Text(
+                      (AppStrings.cardNumber).tr(),
+                      style: TextStyle(
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor),
+                          fontSize: 12),
+                    );
+                  }),
                 ),
                 _buildPaymentTextField(keyboardtype: TextInputType.number),
                 Padding(
@@ -289,14 +298,16 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(left: width * 0.020),
-                              child: Text(
-                                AppStrings.validUntil,
-                                style: TextStyle(
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.whiteColor),
-                                    fontSize: 12),
-                              ),
+                              child: Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.validUntil).tr(),
+                                  style: TextStyle(
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.whiteColor),
+                                      fontSize: 12),
+                                );
+                              }),
                             ),
                             _buildPaymentTextField(
                                 keyboardtype: TextInputType.datetime)
@@ -312,14 +323,16 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(left: width * 0.020),
-                              child: Text(
-                                AppStrings.cvv,
-                                style: TextStyle(
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.whiteColor),
-                                    fontSize: 12),
-                              ),
+                              child: Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.cvv).tr(),
+                                  style: TextStyle(
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.whiteColor),
+                                      fontSize: 12),
+                                );
+                              }),
                             ),
                             _buildPaymentTextField(
                                 keyboardtype: TextInputType.text)
@@ -333,15 +346,17 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
                   padding: EdgeInsets.only(top: height * 0.010),
                   child: Row(
                     children: [
-                      Text(
-                        AppStrings.saveCardData,
-                        style: TextStyle(
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor),
-                          fontSize: 14,
-                        ),
-                      ),
+                      Builder(builder: (context) {
+                        return Text(
+                          (AppStrings.saveCardData).tr(),
+                          style: TextStyle(
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor),
+                            fontSize: 14,
+                          ),
+                        );
+                      }),
                       SizedBox(
                         width: width * 0.065,
                       ),
@@ -497,14 +512,15 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
                 color: HexColor(AppColorsLight.orangeColor),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Center(
-                  child: Text(
-                AppStrings.processToBuy,
-                style: TextStyle(
-                    color: HexColor(AppColorsDark.whiteColor),
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold),
-              )),
+              child: Center(child: Builder(builder: (context) {
+                return Text(
+                  (AppStrings.processToBuy).tr(),
+                  style: TextStyle(
+                      color: HexColor(AppColorsDark.whiteColor),
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold),
+                );
+              })),
             ),
           );
         },

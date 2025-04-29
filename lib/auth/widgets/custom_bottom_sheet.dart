@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/provider/log_in_page_controller.dart';
@@ -84,15 +85,17 @@ class BottomSheetLogInPage {
                           children: [
                             Row(
                               children: [
-                                Text(
-                                  AppStrings.contactNo,
-                                  style: TextStyle(
-                                    color:
-                                        HexColor(AppColorsLight.darkBlueColor),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                Builder(builder: (context) {
+                                  return Text(
+                                    (AppStrings.contactNo).tr(),
+                                    style: TextStyle(
+                                      color: HexColor(
+                                          AppColorsLight.darkBlueColor),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(
                                   width: width * 0.020,
                                 ),
@@ -104,15 +107,17 @@ class BottomSheetLogInPage {
                             ),
                             Row(
                               children: [
-                                Text(
-                                  AppStrings.password,
-                                  style: TextStyle(
-                                    color:
-                                        HexColor(AppColorsLight.darkBlueColor),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                Builder(builder: (context) {
+                                  return Text(
+                                    (AppStrings.password).tr(),
+                                    style: TextStyle(
+                                      color: HexColor(
+                                          AppColorsLight.darkBlueColor),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(
                                   width: width * 0.070,
                                 ),

@@ -126,6 +126,9 @@ class AppStrings {
   static const String favourite = "Favourite";
   static const String ourRecommendation = "Our Recommendations";
   static const String language = "Language";
+  static const String agreeToThe = "I Agree to the";
+  static const String daily = "Daily";
+  static const String bag = "Bag";
 }
 
 class SharedPreferenceKeys {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
@@ -212,88 +213,99 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Center(
-                            child: Text(
-                              AppStrings.createNewPasswordHeading,
-                              style: TextStyle(
-                                  color: HexColor(themeController.isLight
-                                      ? AppColorsLight.darkBlueColor
-                                      : AppColorsDark.whiteColor),
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w500),
-                            ),
+                            child: Builder(builder: (context) {
+                              return Text(
+                                (AppStrings.createNewPasswordHeading).tr(),
+                                style: TextStyle(
+                                    color: HexColor(themeController.isLight
+                                        ? AppColorsLight.darkBlueColor
+                                        : AppColorsDark.whiteColor),
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500),
+                              );
+                            }),
                           ),
                           SizedBox(
                             height: height * 0.070,
                           ),
-                          _buildTextField(
-                              onTap: () {
-                                newPasswordPageController
-                                    .setPasswordFieldTouched();
-                              },
-                              onChanged: (value) {
-                                if (_formKey.currentState != null) {
-                                  _formKey.currentState!.validate();
-                                }
-                              },
-                              validator: (value) {
-                                if (newPasswordPageController
-                                    .isPasswordFieldTouched) {
-                                  return passwordValidation(value!);
-                                } else {
-                                  return null;
-                                }
-                              },
-                              controller: _passwordController,
-                              obscureText: obscureTextController.isVisible,
-                              hintText: AppStrings.createNewPasswordTextField,
-                              contentPadding: EdgeInsets.only(left: 15)),
-                          _buildTextField(
-                              onTap: () {
-                                newPasswordPageController
-                                    .setConfirmPasswordFieldTouched();
-                              },
-                              onChanged: (value) {
-                                newPasswordPageController
-                                    .setConfirmPasswordFieldTouched();
-                                if (_formKey.currentState != null) {
-                                  _formKey.currentState!.validate();
-                                }
-                              },
-                              validator: (value) {
-                                if (newPasswordPageController
-                                    .isConfirmPasswordFieldTouched) {
-                                  return confirmPasswordValidation(value!);
-                                } else {
-                                  return null;
-                                }
-                              },
-                              controller: _confirmPasswordController,
-                              hintText:
-                                  AppStrings.createConfirmNewPasswordTextField,
-                              contentPadding:
-                                  EdgeInsets.only(left: 15, top: 12),
-                              obscureText: obscureTextController.isVisible,
-                              suffixIcon: IconButton(
-                                  onPressed: () {
-                                    obscureTextController.setPasswordIcon();
-                                  },
-                                  icon: Icon(obscureTextController.isVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off))),
+                          Builder(builder: (context) {
+                            return _buildTextField(
+                                onTap: () {
+                                  newPasswordPageController
+                                      .setPasswordFieldTouched();
+                                },
+                                onChanged: (value) {
+                                  if (_formKey.currentState != null) {
+                                    _formKey.currentState!.validate();
+                                  }
+                                },
+                                validator: (value) {
+                                  if (newPasswordPageController
+                                      .isPasswordFieldTouched) {
+                                    return passwordValidation(value!);
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: _passwordController,
+                                obscureText: obscureTextController.isVisible,
+                                hintText:
+                                    (AppStrings.createNewPasswordTextField)
+                                        .tr(),
+                                contentPadding: EdgeInsets.only(left: 15));
+                          }),
+                          Builder(builder: (context) {
+                            return _buildTextField(
+                                onTap: () {
+                                  newPasswordPageController
+                                      .setConfirmPasswordFieldTouched();
+                                },
+                                onChanged: (value) {
+                                  newPasswordPageController
+                                      .setConfirmPasswordFieldTouched();
+                                  if (_formKey.currentState != null) {
+                                    _formKey.currentState!.validate();
+                                  }
+                                },
+                                validator: (value) {
+                                  if (newPasswordPageController
+                                      .isConfirmPasswordFieldTouched) {
+                                    return confirmPasswordValidation(value!);
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: _confirmPasswordController,
+                                hintText: (AppStrings
+                                        .createConfirmNewPasswordTextField)
+                                    .tr(),
+                                contentPadding:
+                                    EdgeInsets.only(left: 15, top: 12),
+                                obscureText: obscureTextController.isVisible,
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      obscureTextController.setPasswordIcon();
+                                    },
+                                    icon: Icon(obscureTextController.isVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off)));
+                          }),
                           Row(
                             children: [
                               SizedBox(
                                 width: width * 0.030,
                               ),
                               _buildCheckBox(),
-                              Text(
-                                AppStrings.rememberMe,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.greyColor)),
-                              )
+                              Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.rememberMe).tr(),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.greyColor)),
+                                );
+                              })
                             ],
                           ),
                           SizedBox(
@@ -345,13 +357,15 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
             borderRadius: BorderRadius.circular(15)),
         child: Center(
           child: loadingController.isLoading == false
-              ? Text(
-                  AppStrings.updateButton,
-                  style: TextStyle(
-                      color: HexColor(AppColorsLight.backgroundColor),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                )
+              ? Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.updateButton).tr(),
+                    style: TextStyle(
+                        color: HexColor(AppColorsLight.backgroundColor),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  );
+                })
               : CircularProgressIndicator(
                   color: Colors.white,
                 ),

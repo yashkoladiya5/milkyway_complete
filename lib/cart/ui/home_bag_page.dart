@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
@@ -159,9 +160,14 @@ class _HomeBagPageState extends State<HomeBagPage> {
               children: [
                 _buildHeaderContainer(),
                 _buildCartItemsList(),
-                _buildHeading(text: AppStrings.productYouMightLike),
+                Builder(builder: (context) {
+                  return _buildHeading(
+                      text: (AppStrings.productYouMightLike).tr());
+                }),
                 _buildRelatedProductsList(),
-                _buildHeading(text: AppStrings.paymentDetails),
+                Builder(builder: (context) {
+                  return _buildHeading(text: (AppStrings.paymentDetails).tr());
+                }),
                 _buildBagTotalContainer(),
                 _buildPlaceOrderButton(),
                 SizedBox(
@@ -220,16 +226,17 @@ class _HomeBagPageState extends State<HomeBagPage> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              "Bag",
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.bag).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -386,22 +393,65 @@ class _HomeBagPageState extends State<HomeBagPage> {
                                 height: height * 0.010,
                               ),
                               isDaily
-                                  ? Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            await dailyProductListController
-                                                .updateDailyProductList(
-                                                    id: cartItemListController
-                                                        .cartItemList[index]
-                                                        .id!,
-                                                    context: context);
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                right: width * 0.020),
+                                  ? Builder(builder: (context) {
+                                      return Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () async {
+                                              await dailyProductListController
+                                                  .updateDailyProductList(
+                                                      id: cartItemListController
+                                                          .cartItemList[index]
+                                                          .id!,
+                                                      context: context);
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                  right: width * 0.020),
+                                              height: height * 0.030,
+                                              width: width * 0.150,
+                                              decoration: BoxDecoration(
+                                                  color: HexColor(
+                                                      themeController.isLight
+                                                          ? AppColorsLight
+                                                              .lightGreyColor
+                                                          : AppColorsDark
+                                                              .darkGreyColor),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: themeController
+                                                                .isLight
+                                                            ? Colors.grey
+                                                            : Colors.black
+                                                                .withOpacity(
+                                                                    0.5),
+                                                        blurRadius: 8,
+                                                        offset: Offset(0, 2),
+                                                        spreadRadius: 0.5)
+                                                  ],
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Center(
+                                                child: Text(
+                                                  (AppStrings.daily).tr(),
+                                                  style: TextStyle(
+                                                    color: HexColor(
+                                                        themeController.isLight
+                                                            ? AppColorsLight
+                                                                .darkBlueColor
+                                                            : AppColorsDark
+                                                                .whiteColor),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width * 0.020,
+                                          ),
+                                          Container(
                                             height: height * 0.030,
-                                            width: width * 0.150,
+                                            width: width * 0.060,
                                             decoration: BoxDecoration(
                                                 color: HexColor(
                                                     themeController.isLight
@@ -409,129 +459,90 @@ class _HomeBagPageState extends State<HomeBagPage> {
                                                             .lightGreyColor
                                                         : AppColorsDark
                                                             .darkGreyColor),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      color: themeController
-                                                              .isLight
-                                                          ? Colors.grey
-                                                          : Colors.black
-                                                              .withOpacity(0.5),
-                                                      blurRadius: 8,
-                                                      offset: Offset(0, 2),
-                                                      spreadRadius: 0.5)
-                                                ],
                                                 borderRadius:
                                                     BorderRadius.circular(5)),
                                             child: Center(
-                                              child: Text(
-                                                "Daily",
-                                                style: TextStyle(
-                                                  color: HexColor(
-                                                      themeController.isLight
-                                                          ? AppColorsLight
-                                                              .darkBlueColor
-                                                          : AppColorsDark
-                                                              .whiteColor),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: width * 0.020,
-                                        ),
-                                        Container(
-                                          height: height * 0.030,
-                                          width: width * 0.060,
-                                          decoration: BoxDecoration(
-                                              color: HexColor(
-                                                  themeController.isLight
-                                                      ? AppColorsLight
-                                                          .lightGreyColor
-                                                      : AppColorsDark
-                                                          .darkGreyColor),
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Center(
-                                            child: InkWell(
-                                              onTap: () async {
-                                                await updateQuantity(
-                                                    index: index,
-                                                    isIncrement: false);
-                                              },
-                                              child: Text(
-                                                "-",
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: HexColor(
-                                                      themeController.isLight
-                                                          ? AppColorsLight
-                                                              .darkBlueColor
-                                                          : AppColorsDark
-                                                              .whiteColor),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: width * 0.015),
-                                          child:
-                                              Consumer<QuantityListController>(
-                                            builder: (context, value, child) {
-                                              return Text(
-                                                value.quantityList[index],
-                                                style: TextStyle(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  await updateQuantity(
+                                                      index: index,
+                                                      isIncrement: false);
+                                                },
+                                                child: Text(
+                                                  "-",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
                                                     color: HexColor(
                                                         themeController.isLight
                                                             ? AppColorsLight
                                                                 .darkBlueColor
                                                             : AppColorsDark
                                                                 .whiteColor),
-                                                    fontSize: 15),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: width * 0.010),
-                                          height: height * 0.030,
-                                          width: width * 0.060,
-                                          decoration: BoxDecoration(
-                                              color: HexColor(
-                                                  themeController.isLight
-                                                      ? AppColorsLight
-                                                          .lightGreyColor
-                                                      : AppColorsDark
-                                                          .darkGreyColor),
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Center(
-                                            child: InkWell(
-                                              onTap: () async {
-                                                await updateQuantity(
-                                                    index: index,
-                                                    isIncrement: true);
-                                              },
-                                              child: Text(
-                                                "+",
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: HexColor(
-                                                      themeController.isLight
-                                                          ? AppColorsLight
-                                                              .darkBlueColor
-                                                          : AppColorsDark
-                                                              .whiteColor),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    )
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: width * 0.015),
+                                            child: Consumer<
+                                                QuantityListController>(
+                                              builder: (context, value, child) {
+                                                return Text(
+                                                  value.quantityList[index],
+                                                  style: TextStyle(
+                                                      color: HexColor(
+                                                          themeController
+                                                                  .isLight
+                                                              ? AppColorsLight
+                                                                  .darkBlueColor
+                                                              : AppColorsDark
+                                                                  .whiteColor),
+                                                      fontSize: 15),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: width * 0.010),
+                                            height: height * 0.030,
+                                            width: width * 0.060,
+                                            decoration: BoxDecoration(
+                                                color: HexColor(
+                                                    themeController.isLight
+                                                        ? AppColorsLight
+                                                            .lightGreyColor
+                                                        : AppColorsDark
+                                                            .darkGreyColor),
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Center(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  await updateQuantity(
+                                                      index: index,
+                                                      isIncrement: true);
+                                                },
+                                                child: Text(
+                                                  "+",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: HexColor(
+                                                        themeController.isLight
+                                                            ? AppColorsLight
+                                                                .darkBlueColor
+                                                            : AppColorsDark
+                                                                .whiteColor),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    })
                                   : Row(
                                       children: [
                                         SizedBox(
@@ -734,14 +745,16 @@ class _HomeBagPageState extends State<HomeBagPage> {
                       spreadRadius: 0.2)
                 ]),
             child: Center(
-              child: Text(
-                "Daily",
-                style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                ),
-              ),
+              child: Builder(builder: (context) {
+                return Text(
+                  (AppStrings.daily).tr(),
+                  style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                  ),
+                );
+              }),
             ),
           ),
         ),
@@ -771,10 +784,12 @@ class _HomeBagPageState extends State<HomeBagPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Add",
-                  style: TextStyle(color: Colors.white),
-                ),
+                Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.add).tr(),
+                    style: TextStyle(color: Colors.white),
+                  );
+                }),
                 Icon(
                   Icons.add,
                   color: Colors.white,
@@ -1022,7 +1037,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Add",
+                                              (AppStrings.add).tr(),
                                               style: TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -1105,15 +1120,19 @@ class _HomeBagPageState extends State<HomeBagPage> {
                       width: width * 0.003,
                       color: Colors.white,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: width * 0.030),
-                      child: Text(
-                        AppStrings.placeOrder,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
+                    Container(
+                      width: width * 0.350,
+                      // color: Colors.red,
+                      alignment: Alignment.center,
+                      child: Builder(builder: (context) {
+                        return Text(
+                          (AppStrings.placeOrder).tr(),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        );
+                      }),
                     )
                   ],
                 ),
@@ -1147,17 +1166,24 @@ class _HomeBagPageState extends State<HomeBagPage> {
         children: [
           Row(
             children: [
-              Text(
-                AppStrings.bagTotal,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                ),
-              ),
+              Builder(builder: (context) {
+                return Text(
+                  (AppStrings.bagTotal).tr(),
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                  ),
+                );
+              }),
               SizedBox(
-                width: width * 0.450,
+                width: context.locale.languageCode == 'hi' ||
+                        context.locale.languageCode == 'gu'
+                    ? width * 0.520
+                    : context.locale.languageCode == 'mr'
+                        ? width * 0.500
+                        : width * 0.450,
               ),
               Container(
                 width: width * 0.300,
@@ -1180,16 +1206,25 @@ class _HomeBagPageState extends State<HomeBagPage> {
           ),
           Row(
             children: [
-              Text(
-                AppStrings.discount,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                ),
-              ),
-              SizedBox(width: width * 0.470),
+              Builder(builder: (context) {
+                return Text(
+                  (AppStrings.discount).tr(),
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                  ),
+                );
+              }),
+              SizedBox(
+                  width: context.locale.languageCode == 'gu'
+                      ? width * 0.500
+                      : context.locale.languageCode == 'hi'
+                          ? width * 0.595
+                          : context.locale.languageCode == 'mr'
+                              ? width * 0.595
+                              : width * 0.470),
               Container(
                 width: width * 0.300,
                 // color: Colors.red,
@@ -1221,18 +1256,26 @@ class _HomeBagPageState extends State<HomeBagPage> {
           ),
           Row(
             children: [
-              Text(
-                AppStrings.totalAmount,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                ),
-              ),
+              Builder(builder: (context) {
+                return Text(
+                  (AppStrings.totalAmount).tr(),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                  ),
+                );
+              }),
               SizedBox(
-                width: width * 0.365,
+                width: context.locale.languageCode == 'gu'
+                    ? width * 0.510
+                    : context.locale.languageCode == 'hi'
+                        ? width * 0.490
+                        : context.locale.languageCode == 'mr'
+                            ? width * 0.440
+                            : width * 0.365,
               ),
               Container(
                 width: width * 0.300,

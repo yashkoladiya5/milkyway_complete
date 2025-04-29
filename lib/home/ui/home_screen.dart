@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
@@ -306,11 +308,14 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  AppStrings.balanceHomePage,
-                  style: TextStyle(
-                      fontSize: 15, color: HexColor(AppColorsDark.whiteColor)),
-                ),
+                Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.balanceHomePage).tr(),
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: HexColor(AppColorsDark.whiteColor)),
+                  );
+                }),
                 Text("${homePageController.totalAmount}0",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -344,41 +349,44 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                     child: Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: TextFormField(
-                    showCursor: false,
-                    keyboardType: TextInputType.none,
-                    onTap: () async {
-                      Provider.of<HomePageController>(context, listen: false)
-                          .setDefault();
-                      refresh = await Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const SearchScreen();
-                        },
-                      ));
+                  child: Builder(builder: (context) {
+                    return TextFormField(
+                      showCursor: false,
+                      keyboardType: TextInputType.none,
+                      onTap: () async {
+                        Provider.of<HomePageController>(context, listen: false)
+                            .setDefault();
+                        refresh =
+                            await Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const SearchScreen();
+                          },
+                        ));
 
-                      if (refresh == "searchScreen") {
-                        loadingController.changeLoad();
-                        await homePageController.fetchFavouriteProductList();
-                        await homePageController.fetchTotalBalance();
-                        loadingController.changeLoad();
-                        setState(() {});
-                      }
-                    },
-                    style: TextStyle(
-                        fontFamily: "poppins",
-                        fontSize: 18,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor)),
-                    decoration: InputDecoration(
-                        hintText: "Search",
-                        hintStyle: TextStyle(
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.darkBlueColor
-                                : AppColorsDark.whiteColor)),
-                        border: const UnderlineInputBorder(
-                            borderSide: BorderSide.none)),
-                  ),
+                        if (refresh == "searchScreen") {
+                          loadingController.changeLoad();
+                          await homePageController.fetchFavouriteProductList();
+                          await homePageController.fetchTotalBalance();
+                          loadingController.changeLoad();
+                          setState(() {});
+                        }
+                      },
+                      style: TextStyle(
+                          fontFamily: "poppins",
+                          fontSize: 18,
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor)),
+                      decoration: InputDecoration(
+                          hintText: (AppStrings.search).tr(),
+                          hintStyle: TextStyle(
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.darkBlueColor
+                                  : AppColorsDark.whiteColor)),
+                          border: const UnderlineInputBorder(
+                              borderSide: BorderSide.none)),
+                    );
+                  }),
                 )),
                 Container(
                   height: height * 0.100,
@@ -474,6 +482,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     // color: Colors.red,
                     child: Center(
                       child: Text(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         name!,
                         style: TextStyle(
                             fontSize: 15,
@@ -493,62 +503,66 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPaymentOptionRow() {
-    return Row(
-      children: <Widget>[
-        SizedBox(
-          width: width * 0.030,
-        ),
-        _buildBillOptionsContainer(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return BillPayScreen();
-                },
-              ));
-            },
-            name: "Bill Pay",
-            image: themeController.isLight
-                ? "assets/images/Home/home_light_theme/Group.jpg"
-                : "assets/images/Home/home_dark_theme/Layer_2.png"),
-        SizedBox(
-          width: width * 0.030,
-        ),
-        _buildBillOptionsContainer(
-            onTap: () {
-              Provider.of<HomePageController>(context, listen: false)
-                  .setDefault();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OffersPage(
-                      amount: "",
-                    ),
-                  ));
-            },
-            image: themeController.isLight
-                ? "assets/images/Home/home_light_theme/Glyph.png"
-                : "assets/images/Home/home_dark_theme/Glyph.png",
-            name: "Offers"),
-        SizedBox(
-          width: width * 0.030,
-        ),
-        _buildBillOptionsContainer(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PayNowPage(),
-                  ));
-            },
-            name: "Pay Now",
-            image: themeController.isLight
-                ? "assets/images/Home/home_light_theme/4308251_charity_currency_dollar_hand_money_icon 1.png"
-                : "assets/images/Home/home_dark_theme/4308251_charity_currency_dollar_hand_money_icon 1.png"),
-        SizedBox(
-          width: width * 0.050,
-        ),
-      ],
-    );
+    return Builder(builder: (context) {
+      return Row(
+        children: <Widget>[
+          SizedBox(
+            width: width * 0.030,
+          ),
+          _buildBillOptionsContainer(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return BillPayScreen();
+                  },
+                ));
+              },
+              name: (AppStrings.billPay).tr(),
+              image: themeController.isLight
+                  ? "assets/images/Home/home_light_theme/Group.jpg"
+                  : "assets/images/Home/home_dark_theme/Layer_2.png"),
+          SizedBox(
+            width: width * 0.030,
+          ),
+          _buildBillOptionsContainer(
+              onTap: () {
+                Provider.of<HomePageController>(context, listen: false)
+                    .setDefault();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OffersPage(
+                        amount: "",
+                      ),
+                    ));
+              },
+              image: themeController.isLight
+                  ? "assets/images/Home/home_light_theme/Glyph.png"
+                  : "assets/images/Home/home_dark_theme/Glyph.png",
+              name: (AppStrings.offers).tr()),
+          SizedBox(
+            width: width * 0.030,
+          ),
+          _buildBillOptionsContainer(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PayNowPage(),
+                    ));
+              },
+              name: (AppStrings.payNow).tr(),
+              image: themeController.isLight
+                  ? "assets/images/Home/home_light_theme/4308251_charity_currency_dollar_hand_money_icon 1.png"
+                  : "assets/images/Home/home_dark_theme/4308251_charity_currency_dollar_hand_money_icon 1.png"),
+          SizedBox(
+            width: context.locale.languageCode == 'mr'
+                ? width * 0.010
+                : width * 0.050,
+          ),
+        ],
+      );
+    });
   }
 
   Widget _buildDateSelectRow() {
@@ -584,55 +598,57 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? AppColorsLight.lightGreyColor
                           : AppColorsDark.darkGreyColor),
                       borderRadius: BorderRadius.circular(18)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        month,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.darkBlueColor
-                                : AppColorsDark.whiteColor)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3.0),
-                        child: Text(
-                          day,
+                  child: Builder(builder: (context) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          (month).tr(),
                           style: TextStyle(
                               fontSize: 15,
                               color: HexColor(themeController.isLight
                                   ? AppColorsLight.darkBlueColor
                                   : AppColorsDark.whiteColor)),
                         ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        height: height * 0.035,
-                        width: width * 0.070,
-                        decoration: BoxDecoration(
-                            color: index == value.selectedIndex
-                                ? HexColor(AppColorsLight.orangeColor)
-                                : themeController.isLight
-                                    ? Colors.white
-                                    : HexColor(AppColorsDark.darkGreyColor),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Center(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3.0),
                           child: Text(
-                            date!,
+                            (day).tr(),
                             style: TextStyle(
-                                color: index == value.selectedIndex
-                                    ? Colors.white
-                                    : themeController.isLight
-                                        ? Colors.black
-                                        : HexColor(AppColorsDark.whiteColor),
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 15,
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.darkBlueColor
+                                    : AppColorsDark.whiteColor)),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 8),
+                          height: height * 0.035,
+                          width: width * 0.070,
+                          decoration: BoxDecoration(
+                              color: index == value.selectedIndex
+                                  ? HexColor(AppColorsLight.orangeColor)
+                                  : themeController.isLight
+                                      ? Colors.white
+                                      : HexColor(AppColorsDark.darkGreyColor),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Center(
+                            child: Text(
+                              (date!).tr(),
+                              style: TextStyle(
+                                  color: index == value.selectedIndex
+                                      ? Colors.white
+                                      : themeController.isLight
+                                          ? Colors.black
+                                          : HexColor(AppColorsDark.whiteColor),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  }),
                 ),
               );
             },
@@ -648,140 +664,66 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           width: width * 0.050,
         ),
-        Text(
-          AppStrings.serialNo,
-          style: TextStyle(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightDarkColor
-                  : AppColorsDark.whiteColor)),
-        ),
-        SizedBox(
-          width: width * 0.070,
-        ),
-        Text(
-          AppStrings.productName,
-          style: TextStyle(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightDarkColor
-                  : AppColorsDark.whiteColor)),
-        ),
-        SizedBox(
-          width: width * 0.200,
-        ),
-        Text(
-          AppStrings.liter,
-          style: TextStyle(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightDarkColor
-                  : AppColorsDark.whiteColor)),
-        ),
-        SizedBox(
-          width: width * 0.060,
-        ),
-        Text(
-          AppStrings.kg,
-          style: TextStyle(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightDarkColor
-                  : AppColorsDark.whiteColor)),
-        ),
-        SizedBox(
-          width: width * 0.060,
-        ),
-        Text(
-          AppStrings.gm,
-          style: TextStyle(
-              color: HexColor(themeController.isLight
-                  ? AppColorsLight.lightDarkColor
-                  : AppColorsDark.whiteColor)),
-        )
-      ],
-    );
-  }
-
-  Widget _buildTableRow(
-      {required String srNo,
-      required String productName,
-      String? liter,
-      String? kg,
-      String? gm}) {
-    return Row(
-      children: [
-        SizedBox(
-          height: height * 0.030,
-          width: width * 0.180,
-          // color: Colors.black,
-          child: Center(
-            child: Text(
-              srNo,
-              style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.lightDarkColor
-                      : AppColorsDark.whiteColor)),
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: width * 0.035),
-          height: height * 0.030,
-          width: width * 0.450,
-          // color: Colors.blue,
-          child: Text(
-            productName,
+        Builder(builder: (context) {
+          return Text(
+            (AppStrings.serialNo).tr(),
             style: TextStyle(
-                fontSize: 15,
                 color: HexColor(themeController.isLight
                     ? AppColorsLight.lightDarkColor
                     : AppColorsDark.whiteColor)),
-          ),
-        ),
+          );
+        }),
         SizedBox(
-          height: height * 0.030,
-          width: width * 0.120,
-          // color: Colors.black,
-          child: Center(
-            child: Text(
-              liter ?? "",
-              style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.lightDarkColor
-                      : AppColorsDark.whiteColor)),
-            ),
-          ),
+          width: width * 0.070,
         ),
+        Builder(builder: (context) {
+          return Text(
+            (AppStrings.productName).tr(),
+            style: TextStyle(
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.lightDarkColor
+                    : AppColorsDark.whiteColor)),
+          );
+        }),
         SizedBox(
-          height: height * 0.030,
-          width: width * 0.120,
-          child: Center(
-            child: Text(
-              kg ?? "",
-              style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.lightDarkColor
-                      : AppColorsDark.whiteColor)),
-            ),
-          ),
-          // color: Colors.red,
+          width: context.locale.languageCode == 'hi' ||
+                  context.locale.languageCode == 'mr'
+              ? width * 0.070
+              : width * 0.200,
         ),
+        Builder(builder: (context) {
+          return Text(
+            (AppStrings.liter).tr(),
+            style: TextStyle(
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.lightDarkColor
+                    : AppColorsDark.whiteColor)),
+          );
+        }),
         SizedBox(
-          height: height * 0.030,
-          width: width * 0.120,
-          // color: Colors.black,
-          child: Center(
-            child: Text(
-              gm ?? "",
-              style: TextStyle(
-                  fontSize: 15,
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.lightDarkColor
-                      : AppColorsDark.whiteColor)),
-            ),
-          ),
+          width: width * 0.060,
         ),
+        Builder(builder: (context) {
+          return Text(
+            (AppStrings.kg).tr(),
+            style: TextStyle(
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.lightDarkColor
+                    : AppColorsDark.whiteColor)),
+          );
+        }),
+        SizedBox(
+          width: width * 0.060,
+        ),
+        Builder(builder: (context) {
+          return Text(
+            (AppStrings.gm).tr(),
+            style: TextStyle(
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.lightDarkColor
+                    : AppColorsDark.whiteColor)),
+          );
+        })
       ],
     );
   }
@@ -905,21 +847,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                       padding:
                                           EdgeInsets.only(right: width * 0.020),
                                       height: height * 0.025,
-                                      width: width * 0.220,
+                                      width: context.locale.languageCode == 'hi'
+                                          ? width * 0.270
+                                          : context.locale.languageCode == 'mr'
+                                              ? width * 0.280
+                                              : width * 0.220,
                                       // color: Colors.green,
                                       child: Center(
                                           child: Text((index + 1).toString())),
                                     ),
                                     Container(
                                       height: height * 0.025,
-                                      width: width * 0.420,
+                                      width: context.locale.languageCode == 'gu'
+                                          ? width * 0.330
+                                          : context.locale.languageCode == 'hi'
+                                              ? width * 0.250
+                                              : context.locale.languageCode ==
+                                                      'mr'
+                                                  ? width * 0.250
+                                                  : width * 0.420,
                                       // color: Colors.black,
                                       child: Text(value
                                           .dateWiseProductList[index].name),
                                     ),
                                     Container(
                                       height: height * 0.025,
-                                      width: width * 0.115,
+                                      width: context.locale.languageCode == 'gu'
+                                          ? width * 0.135
+                                          : context.locale.languageCode == 'hi'
+                                              ? width * 0.165
+                                              : context.locale.languageCode ==
+                                                      'mr'
+                                                  ? width * 0.145
+                                                  : width * 0.115,
                                       // color: Colors.red,
                                       child: Center(
                                         child: Text(value
@@ -933,7 +893,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     Container(
                                       height: height * 0.025,
-                                      width: width * 0.115,
+                                      width: context.locale.languageCode == 'gu'
+                                          ? width * 0.150
+                                          : context.locale.languageCode == 'hi'
+                                              ? width * 0.190
+                                              : context.locale.languageCode ==
+                                                      'mr'
+                                                  ? width * 0.140
+                                                  : width * 0.115,
                                       // color: Colors.green,
                                       child: Center(
                                         child: Text(value
@@ -1064,30 +1031,34 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCategoriesTitle() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-      child: Text(
-        AppStrings.categories,
-        style: TextStyle(
-            color: HexColor(themeController.isLight
-                ? AppColorsLight.darkBlueColor
-                : AppColorsDark.whiteColor),
-            fontSize: 20,
-            fontWeight: FontWeight.bold),
-      ),
+      child: Builder(builder: (context) {
+        return Text(
+          (AppStrings.categories).tr(),
+          style: TextStyle(
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.darkBlueColor
+                  : AppColorsDark.whiteColor),
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        );
+      }),
     );
   }
 
   Widget _buildFavouriteProductsTitle() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.5),
-      child: Text(
-        AppStrings.favouriteProducts,
-        style: TextStyle(
-            color: HexColor(themeController.isLight
-                ? AppColorsLight.darkBlueColor
-                : AppColorsDark.whiteColor),
-            fontSize: 20,
-            fontWeight: FontWeight.bold),
-      ),
+      child: Builder(builder: (context) {
+        return Text(
+          (AppStrings.favouriteProducts).tr(),
+          style: TextStyle(
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.darkBlueColor
+                  : AppColorsDark.whiteColor),
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        );
+      }),
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:milkyway/cart/model/cart_wallet_model.dart';
@@ -104,16 +105,17 @@ class _WalletPageState extends State<WalletPage> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.wallet,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.wallet).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -206,16 +208,18 @@ class _WalletPageState extends State<WalletPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  AppStrings.add,
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: HexColor(
-                        themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor,
-                      )),
-                ),
+                Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.add).tr(),
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: HexColor(
+                          themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor,
+                        )),
+                  );
+                }),
                 Icon(
                   Icons.add,
                   size: 15,
@@ -277,14 +281,16 @@ class _WalletPageState extends State<WalletPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                AppStrings.income,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.whiteColor)),
-                              ),
+                              Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.income).tr(),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.whiteColor)),
+                                );
+                              }),
                               Text(
                                 "₹ ${value.totalIncome}",
                                 style: TextStyle(
@@ -309,14 +315,16 @@ class _WalletPageState extends State<WalletPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                AppStrings.expense,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: HexColor(themeController.isLight
-                                        ? AppColorsLight.darkBlueColor
-                                        : AppColorsDark.whiteColor)),
-                              ),
+                              Builder(builder: (context) {
+                                return Text(
+                                  (AppStrings.expense).tr(),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: HexColor(themeController.isLight
+                                          ? AppColorsLight.darkBlueColor
+                                          : AppColorsDark.whiteColor)),
+                                );
+                              }),
                               Text(
                                 "₹ ${value.totalExpense}",
                                 style: TextStyle(
@@ -343,14 +351,16 @@ class _WalletPageState extends State<WalletPage> {
   Widget _buildHeadingText() {
     return Padding(
       padding: EdgeInsets.only(top: height * 0.020, left: width * 0.030),
-      child: Text(
-        AppStrings.transactionDetail,
-        style: TextStyle(
-            fontSize: 17,
-            color: HexColor(themeController.isLight
-                ? AppColorsLight.darkBlueColor
-                : AppColorsDark.whiteColor)),
-      ),
+      child: Builder(builder: (context) {
+        return Text(
+          (AppStrings.transactionDetail).tr(),
+          style: TextStyle(
+              fontSize: 17,
+              color: HexColor(themeController.isLight
+                  ? AppColorsLight.darkBlueColor
+                  : AppColorsDark.whiteColor)),
+        );
+      }),
     );
   }
 
@@ -473,13 +483,15 @@ class _WalletPageState extends State<WalletPage> {
           color: HexColor(AppColorsLight.orangeColor),
         ),
         child: Center(
-          child: Text(
-            AppStrings.invoice,
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: HexColor(AppColorsDark.whiteColor)),
-          ),
+          child: Builder(builder: (context) {
+            return Text(
+              (AppStrings.invoice).tr(),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: HexColor(AppColorsDark.whiteColor)),
+            );
+          }),
         ),
       ),
     );

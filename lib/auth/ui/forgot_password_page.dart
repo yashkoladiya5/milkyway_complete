@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +32,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final auth = FirebaseAuth.instance;
   String? emailOTP;
   final TwilioFlutter twilioFlutter = TwilioFlutter(
-      accountSid: 'AC8aaeb2334418b140b5f29b51293bea9d',
-      authToken: 'fd9e853aa9594aed0fb86cd3f24eeb1f',
-      twilioNumber: '+16185075460');
+      accountSid: 'AC9d722174f6bb5cb1365b1614c1d2091b',
+      authToken: '1950530ec72f0f0cc679745e513ba878',
+      twilioNumber: '+17753699713');
   List<SignUpModel> usersList = [];
   int flag = 0;
 
@@ -212,28 +213,32 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          AppStrings.forgotPasswordHeading,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 25,
-                              color: HexColor(themeController.isLight
-                                  ? AppColorsLight.darkBlueColor
-                                  : AppColorsDark.whiteColor)),
-                        ),
+                        Builder(builder: (context) {
+                          return Text(
+                            (AppStrings.forgotPasswordHeading).tr(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 25,
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.darkBlueColor
+                                    : AppColorsDark.whiteColor)),
+                          );
+                        }),
                         SizedBox(
                           height: height * 0.04,
                         ),
-                        Text(
-                          AppStrings.forgotPasswordDescription,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.silverColor
-                                : AppColorsDark.greyColor),
-                          ),
-                        ),
+                        Builder(builder: (context) {
+                          return Text(
+                            (AppStrings.forgotPasswordDescription).tr(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.silverColor
+                                  : AppColorsDark.greyColor),
+                            ),
+                          );
+                        }),
                         SizedBox(
                           height: height * 0.07,
                         ),
@@ -280,13 +285,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             borderRadius: BorderRadius.circular(15)),
         child: Center(
           child: loadingController.isLoading == false
-              ? Text(
-                  AppStrings.sendButton,
-                  style: TextStyle(
-                      color: HexColor(AppColorsLight.backgroundColor),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                )
+              ? Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.sendButton).tr(),
+                    style: TextStyle(
+                        color: HexColor(AppColorsLight.backgroundColor),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  );
+                })
               : CircularProgressIndicator(
                   color: Colors.white,
                 ),
@@ -302,37 +309,39 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.120),
-            child: TextFormField(
-              controller: textFieldController,
-              onChanged: (value) {
-                if (_formKey.currentState != null) {
-                  _formKey.currentState!.validate();
-                }
-              },
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "This Field is Required";
-                } else if (!isValidEmail(value) && !isValidMobile(value)) {
-                  return 'Please enter valid email or mobile No.';
-                }
-                return null;
-              },
-              style: TextStyle(
-                  color: themeController.isLight
-                      ? Colors.black
-                      : HexColor(AppColorsDark.whiteColor)),
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: HexColor(AppColorsLight.silverColor))),
-                  hintText: AppStrings.forgotPasswordTextFieldHintText,
-                  hintStyle: TextStyle(
-                      color: HexColor(themeController.isLight
-                          ? AppColorsLight.silverColor
-                          : AppColorsDark.greyColor),
-                      fontSize: 14),
-                  contentPadding: EdgeInsets.only(left: width * 0.035)),
-            ),
+            child: Builder(builder: (context) {
+              return TextFormField(
+                controller: textFieldController,
+                onChanged: (value) {
+                  if (_formKey.currentState != null) {
+                    _formKey.currentState!.validate();
+                  }
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "This Field is Required";
+                  } else if (!isValidEmail(value) && !isValidMobile(value)) {
+                    return 'Please enter valid email or mobile No.';
+                  }
+                  return null;
+                },
+                style: TextStyle(
+                    color: themeController.isLight
+                        ? Colors.black
+                        : HexColor(AppColorsDark.whiteColor)),
+                decoration: InputDecoration(
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: HexColor(AppColorsLight.silverColor))),
+                    hintText: (AppStrings.forgotPasswordTextFieldHintText).tr(),
+                    hintStyle: TextStyle(
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.silverColor
+                            : AppColorsDark.greyColor),
+                        fontSize: 14),
+                    contentPadding: EdgeInsets.only(left: width * 0.035)),
+              );
+            }),
           ),
           SizedBox(
             height: height * 0.1,

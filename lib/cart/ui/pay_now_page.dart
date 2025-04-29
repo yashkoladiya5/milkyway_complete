@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -46,9 +47,14 @@ class _PayNowPageState extends State<PayNowPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderContainer(),
-              _buildHeading(text: AppStrings.uploadBalanceWithUPIId),
+              Builder(builder: (context) {
+                return _buildHeading(
+                    text: (AppStrings.uploadBalanceWithUPIId).tr());
+              }),
               _buildGridViewOfUPI(),
-              _buildHeading(text: AppStrings.setAutoPayment),
+              Builder(builder: (context) {
+                return _buildHeading(text: (AppStrings.setAutoPayment).tr());
+              }),
               _buildPaymentContainer(),
               _buildPayNowButton(),
             ],
@@ -93,16 +99,17 @@ class _PayNowPageState extends State<PayNowPage> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.payNow,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.payNow).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -260,13 +267,15 @@ class _PayNowPageState extends State<PayNowPage> {
                   color: HexColor(AppColorsLight.orangeColor),
                   borderRadius: BorderRadius.circular(15)),
               child: Center(
-                child: Text(
-                  AppStrings.payNow,
-                  style: TextStyle(
-                      color: HexColor(AppColorsDark.whiteColor),
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold),
-                ),
+                child: Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.payNow).tr(),
+                    style: TextStyle(
+                        color: HexColor(AppColorsDark.whiteColor),
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold),
+                  );
+                }),
               ),
             ),
           );
@@ -302,12 +311,14 @@ class _PayNowPageState extends State<PayNowPage> {
           height: height * 0.030,
           width: width * 0.420,
           // color: Colors.blue,
-          child: Text(
-            textAlign: TextAlign.end,
-            AppStrings.autoPayment,
-            style: TextStyle(
-                color: HexColor(AppColorsLight.silverColor), fontSize: 15),
-          ),
+          child: Builder(builder: (context) {
+            return Text(
+              textAlign: TextAlign.end,
+              (AppStrings.autoPayment).tr(),
+              style: TextStyle(
+                  color: HexColor(AppColorsLight.silverColor), fontSize: 15),
+            );
+          }),
         ),
         SizedBox(
           width: width * 0.080,
@@ -316,12 +327,14 @@ class _PayNowPageState extends State<PayNowPage> {
           height: height * 0.030,
           width: width * 0.500,
           // color: Colors.deepPurple,
-          child: Text(
-            textAlign: TextAlign.center,
-            AppStrings.comingSoon,
-            style: TextStyle(
-                color: HexColor(AppColorsLight.silverColor), fontSize: 15),
-          ),
+          child: Builder(builder: (context) {
+            return Text(
+              textAlign: TextAlign.center,
+              (AppStrings.comingSoon).tr(),
+              style: TextStyle(
+                  color: HexColor(AppColorsLight.silverColor), fontSize: 15),
+            );
+          }),
         ),
       ],
     );
@@ -356,15 +369,17 @@ class _PayNowPageState extends State<PayNowPage> {
                   // color: Colors.red,
                   child: Column(
                     children: [
-                      Text(
-                        AppStrings.balanceUnder,
-                        style: TextStyle(
-                            color: HexColor(themeController.isLight
-                                ? AppColorsLight.darkBlueColor
-                                : AppColorsDark.whiteColor),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16),
-                      ),
+                      Builder(builder: (context) {
+                        return Text(
+                          (AppStrings.balanceUnder).tr(),
+                          style: TextStyle(
+                              color: HexColor(themeController.isLight
+                                  ? AppColorsLight.darkBlueColor
+                                  : AppColorsDark.whiteColor),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16),
+                        );
+                      }),
                       SizedBox(
                         height: height * 0.025,
                         width: width * 0.290,

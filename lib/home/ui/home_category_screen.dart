@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
+import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:milkyway/home/model/product_model.dart';
 import 'package:milkyway/home/provider/home_page_controller.dart';
@@ -610,90 +612,96 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                               )
                             ],
                           ),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  await addToCart(index: index);
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: width * 0.030, top: height * 0.015),
-                                  height: height * 0.040,
-                                  width: width * 0.200,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          HexColor(AppColorsLight.orangeColor),
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: HexColor(
-                                                AppColorsLight.orangeColor),
-                                            blurRadius: 5,
-                                            spreadRadius: 0.5)
-                                      ]),
-                                  child: const Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Add",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 17),
-                                      ),
-                                      Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  addToCart(index: index);
-                                  Provider.of<DailyProductListController>(
-                                          context,
-                                          listen: false)
-                                      .updateDailyProductList(
-                                          id: sortedList[index].id!,
-                                          context: context);
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: width * 0.030, top: height * 0.015),
-                                  height: height * 0.040,
-                                  width: width * 0.200,
-                                  decoration: BoxDecoration(
-                                      color: HexColor(themeController.isLight
-                                          ? AppColorsLight.lightGreyColor
-                                          : AppColorsDark.backgroundColor),
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: themeController.isLight
-                                                ? HexColor(AppColorsLight
-                                                        .greyColor)
-                                                    .withOpacity(0.5)
-                                                : Colors.black,
-                                            blurRadius: 5,
-                                            offset: const Offset(0, 4),
-                                            spreadRadius: 0.2)
-                                      ]),
-                                  child: Center(
-                                    child: Text(
-                                      "Daily",
-                                      style: TextStyle(
-                                          color: HexColor(
-                                              themeController.isLight
-                                                  ? AppColorsLight.darkBlueColor
-                                                  : AppColorsDark.whiteColor),
-                                          fontSize: 17),
+                          Builder(builder: (context) {
+                            return Row(
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    await addToCart(index: index);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: width * 0.030,
+                                        top: height * 0.015),
+                                    height: height * 0.040,
+                                    width: width * 0.200,
+                                    decoration: BoxDecoration(
+                                        color: HexColor(
+                                            AppColorsLight.orangeColor),
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: HexColor(
+                                                  AppColorsLight.orangeColor),
+                                              blurRadius: 5,
+                                              spreadRadius: 0.5)
+                                        ]),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          (AppStrings.add).tr(),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 17),
+                                        ),
+                                        Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
+                                InkWell(
+                                  onTap: () {
+                                    addToCart(index: index);
+                                    Provider.of<DailyProductListController>(
+                                            context,
+                                            listen: false)
+                                        .updateDailyProductList(
+                                            id: sortedList[index].id!,
+                                            context: context);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: width * 0.030,
+                                        top: height * 0.015),
+                                    height: height * 0.040,
+                                    width: width * 0.200,
+                                    decoration: BoxDecoration(
+                                        color: HexColor(themeController.isLight
+                                            ? AppColorsLight.lightGreyColor
+                                            : AppColorsDark.backgroundColor),
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: themeController.isLight
+                                                  ? HexColor(AppColorsLight
+                                                          .greyColor)
+                                                      .withOpacity(0.5)
+                                                  : Colors.black,
+                                              blurRadius: 5,
+                                              offset: const Offset(0, 4),
+                                              spreadRadius: 0.2)
+                                        ]),
+                                    child: Center(
+                                      child: Text(
+                                        (AppStrings.daily).tr(),
+                                        style: TextStyle(
+                                            color: HexColor(themeController
+                                                    .isLight
+                                                ? AppColorsLight.darkBlueColor
+                                                : AppColorsDark.whiteColor),
+                                            fontSize: 17),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          })
                         ],
                       )
                     ],
@@ -881,20 +889,22 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                                         blurRadius: 5,
                                         spreadRadius: 0.5)
                                   ]),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Add",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 17),
-                                  ),
-                                  Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  )
-                                ],
-                              ),
+                              child: Builder(builder: (context) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      (AppStrings.add).tr(),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17),
+                                    ),
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                );
+                              }),
                             ),
                           )
                         ],

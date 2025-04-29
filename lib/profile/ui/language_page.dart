@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/profile/provider/language_page_controller.dart';
+import 'package:milkyway/profile/provider/location_page_controller.dart';
 import 'package:milkyway/provider/language_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +84,9 @@ class _LanguagePageState extends State<LanguagePage> {
                               activeTrackColor:
                                   HexColor(AppColorsLight.orangeColor),
                               value: value.languageList[index],
-                              onChanged: (v) {
+                              onChanged: (v) async {
+                                // await context.setLocale(Locale('hi'));
+                                // setState(() {}); // Trigger UI rebuild
                                 value.updateLanguageIndex(
                                     index: index, context: context);
                               },
@@ -137,23 +141,26 @@ class _LanguagePageState extends State<LanguagePage> {
                     ? AppColorsLight.darkBlueColor
                     : AppColorsDark.whiteColor),
               )),
-          SizedBox(
-            height: height * 0.050,
-            width: width * 0.700,
-            // color: Colors.red,
-            child: Center(child: Consumer<LanguageProvider>(
-              builder: (context, language, child) {
-                return Text(
-                  language.getTranslatedString(AppStrings.language),
-                  style: TextStyle(
+          Builder(
+            builder: (context) {
+              return SizedBox(
+                height: height * 0.050,
+                width: width * 0.700,
+                child: Center(
+                  child: Text(
+                    (AppStrings.language)
+                        .tr(), // This will auto-update on language change
+                    style: TextStyle(
                       color: HexColor(themeController.isLight
                           ? AppColorsLight.darkBlueColor
                           : AppColorsDark.whiteColor),
                       fontSize: 20,
-                      fontWeight: FontWeight.w700),
-                );
-              },
-            )),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
           IconButton(
               onPressed: () {},

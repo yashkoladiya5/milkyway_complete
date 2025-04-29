@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -104,16 +105,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             height: height * 0.050,
             width: width * 0.700,
             // color: Colors.red,
-            child: Center(
-                child: Text(
-              AppStrings.profile,
-              style: TextStyle(
-                  color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-            )),
+            child: Center(child: Builder(builder: (context) {
+              return Text(
+                (AppStrings.profile).tr(),
+                style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              );
+            })),
           ),
           IconButton(
               onPressed: () {},
@@ -339,10 +341,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: height * 0.040,
                           width: width * 0.500,
                           // color: Colors.red,
-                          child: Text(
-                            AppLists().profileOptionLightList[index]["name"],
-                            style: TextStyle(fontSize: 17),
-                          ),
+                          child: Builder(builder: (context) {
+                            return Text(
+                              (AppLists()
+                                      .profileOptionLightList[index]["name"]
+                                      .toString())
+                                  .tr(),
+                              style: TextStyle(fontSize: 17),
+                            );
+                          }),
                         ),
                         index == 0
                             ? Padding(

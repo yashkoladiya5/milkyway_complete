@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/provider/language_controller.dart';
@@ -14,18 +15,33 @@ class LanguagePageController extends ChangeNotifier {
       _languageList[i] = i == index;
     }
     print(_languageList);
-    if (_languageList[0] == true) {
-      Provider.of<LanguageProvider>(context, listen: false).selectedLanguage =
-          "en";
-    } else if (_languageList[1] == true) {
-      Provider.of<LanguageProvider>(context, listen: false).selectedLanguage =
-          "hi";
-    } else if (_languageList[2] == true) {
-      Provider.of<LanguageProvider>(context, listen: false).selectedLanguage =
-          "gu";
-    } else if (_languageList[3] == true) {
-      Provider.of<LanguageProvider>(context, listen: false).selectedLanguage =
-          "mr";
+
+    // final languageProvider =
+    //     Provider.of<LanguageProvider>(context, listen: false);
+    //
+    switch (index) {
+      case 0:
+        context.setLocale(Locale('en'));
+        print(context.locale);
+
+        break;
+      case 1:
+        context.setLocale(Locale('hi'));
+        print(context.locale);
+
+        break;
+      case 2:
+        context.setLocale(Locale('gu'));
+        print(context.locale);
+
+        break;
+      case 3:
+        context.setLocale(Locale('mr'));
+        print(context.locale);
+
+        break;
+      default:
+        context.setLocale(Locale('en'));
     }
 
     notifyListeners();
