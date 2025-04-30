@@ -142,6 +142,9 @@ class _BillPayScreenState extends State<BillPayScreen> {
 
   Widget _buildGridViewItem({required int index}) {
     return InkWell(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       onTap: () {
         if (index == 0) {
           Navigator.push(context, MaterialPageRoute(
@@ -197,14 +200,16 @@ class _BillPayScreenState extends State<BillPayScreen> {
               height: height * 0.055,
               width: width * 0.290,
               // color: Colors.red,
-              child: Text(
-                AppLists().billPayOptionsNameList[index],
-                style: TextStyle(
-                    color: HexColor(themeController.isLight
-                        ? AppColorsLight.darkBlueColor
-                        : AppColorsDark.whiteColor),
-                    fontSize: 15),
-              ),
+              child: Builder(builder: (context) {
+                return Text(
+                  (AppLists().billPayOptionsNameList[index]).tr(),
+                  style: TextStyle(
+                      color: HexColor(themeController.isLight
+                          ? AppColorsLight.darkBlueColor
+                          : AppColorsDark.whiteColor),
+                      fontSize: 15),
+                );
+              }),
             )
           ],
         ),

@@ -39,7 +39,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
           });
           _pageController.animateToPage(
             0,
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 100),
             curve: Curves.easeInOut,
           );
         });
@@ -50,7 +50,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
       });
       _pageController.animateToPage(
         index,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOut,
       );
     }
@@ -63,7 +63,16 @@ class _PageViewScreenState extends State<PageViewScreen> {
       );
 
       if (refresh == "MedicineScreen") {
-        refreshNotifier.value = true;
+        Future.delayed(Duration.zero, () {
+          setState(() {
+            _selectedIndex = 0;
+          });
+          _pageController.animateToPage(
+            0,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.easeInOut,
+          );
+        });
       }
     } else {
       setState(() {
@@ -71,17 +80,10 @@ class _PageViewScreenState extends State<PageViewScreen> {
       });
       _pageController.animateToPage(
         index,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOut,
       );
     }
-
-    // if (index == 3) {
-    //   final refresh = await Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const WalletPage()),
-    //   );
-    // }
   }
 
   @override

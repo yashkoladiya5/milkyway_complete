@@ -9,6 +9,20 @@ class LanguagePageController extends ChangeNotifier {
 
   List<bool> get languageList => _languageList;
 
+  defaultLanguageIndex({required BuildContext context}) {
+    context.locale.languageCode == 'en'
+        ? _languageList[0] = true
+        : context.locale.languageCode == 'hi'
+            ? _languageList[1] = true
+            : context.locale.languageCode == 'gu'
+                ? _languageList[2] = true
+                : context.locale.languageCode == 'mr'
+                    ? _languageList[3] = true
+                    : _languageList[2] = false;
+    print("LANGUAGE PAGE CODE ::${context.locale.languageCode}");
+    notifyListeners();
+  }
+
   Future<void> updateLanguageIndex(
       {required int index, required BuildContext context}) async {
     for (int i = 0; i < _languageList.length; i++) {

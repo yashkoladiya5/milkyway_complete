@@ -23,6 +23,17 @@ class _LanguagePageState extends State<LanguagePage> {
   late double height;
   late double width;
   late ThemeController themeController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<LanguagePageController>(context, listen: false)
+          .defaultLanguageIndex(context: context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;

@@ -12,6 +12,7 @@ class ProfileScreenController extends ChangeNotifier {
 
   void updateSelected() {
     _isSelected = !_isSelected;
+
     notifyListeners();
   }
 

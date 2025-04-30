@@ -77,8 +77,8 @@ class HomePageController extends ChangeNotifier {
 
       DbHelper dbHelper = DbHelper();
 
-      final data =
-          await dbHelper.fetchWalletData(start: firstDate, end: endDate);
+      final data = await dbHelper.fetchHomeScreenTableData(
+          firstDate: firstDate, lastDate: endDate);
 
       _dateWiseProductList = [];
       for (int i = 0; i < data.length; i++) {
@@ -89,7 +89,7 @@ class HomePageController extends ChangeNotifier {
       print("DATE WISE LIST ::: ${_dateWiseProductList.length}");
       notifyListeners();
     } catch (e) {
-      print("ERROR");
+      print("ERROR :: $e");
     }
   }
 }

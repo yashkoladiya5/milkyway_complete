@@ -25,6 +25,8 @@ import 'package:milkyway/wallet/ui/wallet_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../bill_pay/bill_pay_screen.dart';
+import '../../profile/provider/language_page_controller.dart';
+import '../../profile/provider/profile_screen_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   final ValueNotifier<bool> refreshNotifier;
@@ -181,6 +183,10 @@ class _HomeScreenState extends State<HomeScreen> {
         await dbHelper.fetchTotalBalanceData();
         Provider.of<HomePageController>(context, listen: false)
             .convertUiDateToYyyyMmDd(allDatesFromToday[0]);
+        Provider.of<ProfileScreenController>(context, listen: false)
+            .fetchData();
+        Provider.of<LanguagePageController>(context, listen: false)
+            .defaultLanguageIndex(context: context);
         loadingController.changeLoad();
       },
     );
@@ -227,6 +233,9 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return NetworkChecker(
         child: Scaffold(
+          backgroundColor: HexColor(themeController.isLight
+              ? AppColorsLight.backgroundColor
+              : AppColorsDark.backgroundColor),
           // bottomNavigationBar: CustomNavigationBar(),
           resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
@@ -854,7 +863,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               : width * 0.220,
                                       // color: Colors.green,
                                       child: Center(
-                                          child: Text((index + 1).toString())),
+                                          child: Text(
+                                        (index + 1).toString(),
+                                        style: TextStyle(
+                                            color: HexColor(themeController
+                                                    .isLight
+                                                ? AppColorsLight.darkBlueColor
+                                                : AppColorsDark.whiteColor)),
+                                      )),
                                     ),
                                     Container(
                                       height: height * 0.025,
@@ -867,8 +883,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ? width * 0.250
                                                   : width * 0.420,
                                       // color: Colors.black,
-                                      child: Text(value
-                                          .dateWiseProductList[index].name),
+                                      child: Text(
+                                        value.dateWiseProductList[index].name,
+                                        style: TextStyle(
+                                            color: HexColor(themeController
+                                                    .isLight
+                                                ? AppColorsLight.darkBlueColor
+                                                : AppColorsDark.whiteColor)),
+                                      ),
                                     ),
                                     Container(
                                       height: height * 0.025,
@@ -882,13 +904,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   : width * 0.115,
                                       // color: Colors.red,
                                       child: Center(
-                                        child: Text(value
-                                                    .dateWiseProductList[index]
-                                                    .weightUnit ==
-                                                "litre"
-                                            ? value.dateWiseProductList[index]
-                                                .weightUnit
-                                            : ""),
+                                        child: Text(
+                                          value.dateWiseProductList[index]
+                                                      .weightUnit ==
+                                                  "litre"
+                                              ? value.dateWiseProductList[index]
+                                                  .weightValue
+                                              : "",
+                                          style: TextStyle(
+                                              color: HexColor(themeController
+                                                      .isLight
+                                                  ? AppColorsLight.darkBlueColor
+                                                  : AppColorsDark.whiteColor)),
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -903,13 +931,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   : width * 0.115,
                                       // color: Colors.green,
                                       child: Center(
-                                        child: Text(value
-                                                    .dateWiseProductList[index]
-                                                    .weightUnit ==
-                                                "kg"
-                                            ? value.dateWiseProductList[index]
-                                                .weightUnit
-                                            : ""),
+                                        child: Text(
+                                          value.dateWiseProductList[index]
+                                                      .weightUnit ==
+                                                  "kg"
+                                              ? value.dateWiseProductList[index]
+                                                  .weightValue
+                                              : "",
+                                          style: TextStyle(
+                                              color: HexColor(themeController
+                                                      .isLight
+                                                  ? AppColorsLight.darkBlueColor
+                                                  : AppColorsDark.whiteColor)),
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -917,13 +951,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width: width * 0.120,
                                       // color: Colors.pink,
                                       child: Center(
-                                        child: Text(value
-                                                    .dateWiseProductList[index]
-                                                    .weightUnit ==
-                                                "gm"
-                                            ? value.dateWiseProductList[index]
-                                                .weightUnit
-                                            : ""),
+                                        child: Text(
+                                          value.dateWiseProductList[index]
+                                                      .weightUnit ==
+                                                  "gm"
+                                              ? value.dateWiseProductList[index]
+                                                  .weightValue
+                                              : "",
+                                          style: TextStyle(
+                                              color: HexColor(themeController
+                                                      .isLight
+                                                  ? AppColorsLight.darkBlueColor
+                                                  : AppColorsDark.whiteColor)),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -1067,11 +1107,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return SizedBox(
           height: height * 0.050,
           width: double.infinity,
-          child: const Center(
-              child: Text(
-            "NO PRODUCTS ARE IN FAVOURITE LIST...",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
-          )));
+          child: Center(child: Builder(builder: (context) {
+            return Text(
+              "NO PRODUCTS ARE IN FAVOURITE LIST...".tr(),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+            );
+          })));
     } else {
       return SizedBox(
         // color: Colors.red,

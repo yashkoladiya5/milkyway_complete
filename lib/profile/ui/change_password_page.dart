@@ -146,88 +146,94 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       ),
       Consumer<ChangePasswordController>(
         builder: (context, value, child) {
-          return _buildTextField(
-              controller: value.passwordController,
+          return Builder(builder: (context) {
+            return _buildTextField(
+                controller: value.passwordController,
+                onChanged: (p0) {
+                  value.setPasswordFieldTouched();
+                  if (_formKey.currentState != null) {
+                    _formKey.currentState!.validate();
+                  }
+                },
+                validator: (p0) {
+                  if (value.isPasswordFieldTouched) {
+                    return value.validateOldPassword(p0!);
+                  } else {
+                    return null;
+                  }
+                },
+                hintText: (AppStrings.password).tr(),
+                suffixIcon: SizedBox());
+          });
+        },
+      ),
+      Consumer<ChangePasswordController>(
+        builder: (context, value, child) {
+          return Builder(builder: (context) {
+            return _buildTextField(
+              controller: value.newPasswordController,
               onChanged: (p0) {
-                value.setPasswordFieldTouched();
+                value.setNewPasswordFieldTouched();
+
                 if (_formKey.currentState != null) {
                   _formKey.currentState!.validate();
                 }
               },
               validator: (p0) {
-                if (value.isPasswordFieldTouched) {
-                  return value.validateOldPassword(p0!);
+                if (value.isNewPasswordFieldTouched) {
+                  return value.validateNewPassword(p0!);
                 } else {
                   return null;
                 }
               },
-              hintText: "Password",
-              suffixIcon: SizedBox());
+              obscureText: value.isVisible,
+              hintText: "New Password".tr(),
+              suffixIcon: InkWell(
+                onTap: () {
+                  value.changeVisibility();
+                },
+                child: Icon(
+                  value.isVisible ? Icons.visibility : Icons.visibility_off,
+                  color: themeController.isLight ? Colors.black : Colors.white,
+                ),
+              ),
+            );
+          });
         },
       ),
       Consumer<ChangePasswordController>(
         builder: (context, value, child) {
-          return _buildTextField(
-            controller: value.newPasswordController,
-            onChanged: (p0) {
-              value.setNewPasswordFieldTouched();
-
-              if (_formKey.currentState != null) {
-                _formKey.currentState!.validate();
-              }
-            },
-            validator: (p0) {
-              if (value.isNewPasswordFieldTouched) {
-                return value.validateNewPassword(p0!);
-              } else {
-                return null;
-              }
-            },
-            obscureText: value.isVisible,
-            hintText: "New Password",
-            suffixIcon: InkWell(
-              onTap: () {
-                value.changeVisibility();
+          return Builder(builder: (context) {
+            return _buildTextField(
+              onTap: () {},
+              validator: (p0) {
+                if (value.isConfirmPasswordFieldTouched) {
+                  return value.validateConfirmPassword(p0!);
+                } else {
+                  return null;
+                }
               },
-              child: Icon(
-                value.isVisible ? Icons.visibility : Icons.visibility_off,
-                color: themeController.isLight ? Colors.black : Colors.white,
-              ),
-            ),
-          );
-        },
-      ),
-      Consumer<ChangePasswordController>(
-        builder: (context, value, child) {
-          return _buildTextField(
-            onTap: () {},
-            validator: (p0) {
-              if (value.isConfirmPasswordFieldTouched) {
-                return value.validateConfirmPassword(p0!);
-              } else {
-                return null;
-              }
-            },
-            onChanged: (p0) {
-              value.setConfirmPasswordFieldTouched();
+              onChanged: (p0) {
+                value.setConfirmPasswordFieldTouched();
 
-              if (_formKey.currentState != null) {
-                _formKey.currentState!.validate();
-              }
-            },
-            controller: value.confirmPasswordController,
-            obscureText: value.isVisible,
-            hintText: "Confirm Password",
-            suffixIcon: InkWell(
-              onTap: () {
-                value.changeVisibility();
+                if (_formKey.currentState != null) {
+                  _formKey.currentState!.validate();
+                }
               },
-              child: Icon(
-                value.isVisible ? Icons.visibility : Icons.visibility_off,
-                color: themeController.isLight ? Colors.black : Colors.white,
+              controller: value.confirmPasswordController,
+              obscureText: value.isVisible,
+              hintText: "Confirm Password".tr(),
+              suffixIcon: InkWell(
+                onTap: () {
+                  value.changeVisibility();
+                },
+                child: Icon(
+                  value.isVisible ? Icons.visibility : Icons.visibility_off,
+                  color: themeController.isLight ? Colors.black : Colors.white,
+                ),
               ),
-            ),
-          );
+            );
+          });
         },
       ),
       Padding(

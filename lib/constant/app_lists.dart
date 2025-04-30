@@ -1,6 +1,8 @@
 import 'package:milkyway/home/model/categories_model.dart';
 import 'package:milkyway/home/model/product_model.dart';
 
+import 'app_strings.dart';
+
 class AppLists {
   static List<String> states = [
     "Alabama",
@@ -202,7 +204,7 @@ class AppLists {
           "assets/images/profile/light/3209355_document_edit_note_review_writing_icon 1.png"
     },
     {
-      "name": "Privacy policy",
+      "name": "Privacy Policy",
       "image":
           "assets/images/profile/light/4280489_outlined_shield_secure_security_icon 1.png"
     },
@@ -231,7 +233,7 @@ class AppLists {
     {
       "name": "Theme",
       "image":
-          "assets/images/profile/dark/8674513_ic_fluent_color_regular_icon 1.png"
+          "assets/images/profile/dark/8674513_ic_fluent_color_regular_icon 1 (1).png"
     },
     {
       "name": "Edit Profile",
@@ -295,6 +297,22 @@ class AppLists {
       "image":
           "assets/images/profile/dark/3403739_log out_off_out_power_shutdown_icon 1.png"
     },
+  ];
+
+  List<String> faqTitleList = [
+    AppStrings.faq1Title,
+    AppStrings.faq2Title,
+    AppStrings.faq3Title,
+    AppStrings.faq4Title,
+    AppStrings.faq5Title,
+  ];
+
+  List<String> faqDescriptionList = [
+    AppStrings.faq1Answer,
+    AppStrings.faq2Answer,
+    AppStrings.faq3Answer,
+    AppStrings.faq4Answer,
+    AppStrings.faq5Answer,
   ];
 
   static List<String> balanceList = [
@@ -395,7 +413,7 @@ class AppLists {
   ];
 
   List<String> billPayOptionsNameList = [
-    "Mobile\nRecharge",
+    "Mobile Recharge",
     "Gas Bill",
     "Electricity Bill"
   ];

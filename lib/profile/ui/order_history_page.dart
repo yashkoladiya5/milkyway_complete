@@ -54,10 +54,12 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                         return Center(
                             child: Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "No Order",
-                            style: TextStyle(color: Colors.red, fontSize: 25),
-                          ),
+                          child: Builder(builder: (context) {
+                            return Text(
+                              "No Order".tr(),
+                              style: TextStyle(color: Colors.red, fontSize: 25),
+                            );
+                          }),
                         ));
                       }
 
@@ -287,7 +289,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
               decoration: BoxDecoration(
                   color: HexColor(themeController.isLight
                       ? AppColorsLight.lightGreyColor
-                      : AppColorsDark.greyColor),
+                      : AppColorsDark.darkGreyColor),
                   borderRadius: BorderRadius.circular(15)),
               child: Row(
                 children: [
@@ -316,6 +318,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                   ),
                   Icon(
                     Icons.keyboard_arrow_down,
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
                     size: 25,
                   )
                 ],
@@ -339,7 +344,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                 height: height * 0.025,
                 width: width * 0.055,
                 decoration: BoxDecoration(
-                    color: HexColor(AppColorsLight.greyColor),
+                    color: HexColor(AppColorsLight.darkGreyColor),
                     borderRadius: BorderRadius.circular(50)),
                 child: value.selectedIndex == 0
                     ? Container(
@@ -378,7 +383,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                 height: height * 0.025,
                 width: width * 0.055,
                 decoration: BoxDecoration(
-                    color: HexColor(AppColorsLight.greyColor),
+                    color: HexColor(AppColorsLight.darkGreyColor),
                     borderRadius: BorderRadius.circular(50)),
                 child: value.selectedIndex == 1
                     ? Container(

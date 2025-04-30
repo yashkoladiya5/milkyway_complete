@@ -140,10 +140,12 @@ class _FavouritePageState extends State<FavouritePage> {
                 return Center(
                     child: Padding(
                   padding: EdgeInsets.only(top: height * 0.050),
-                  child: const Text(
-                    "No Data In Favourite Product List",
-                    style: TextStyle(color: Colors.red, fontSize: 20),
-                  ),
+                  child: Builder(builder: (context) {
+                    return Text(
+                      "No Data In Favourite Product List".tr(),
+                      style: TextStyle(color: Colors.red, fontSize: 20),
+                    );
+                  }),
                 ));
               }
 
@@ -173,11 +175,16 @@ class _FavouritePageState extends State<FavouritePage> {
                         // color: Colors.blue,
                         color: HexColor(themeController.isLight
                             ? AppColorsLight.backgroundColor
-                            : "#000000"),
+                            : "#0D0D0D"),
                         boxShadow: [
                           if (themeController.isLight)
                             const BoxShadow(
                                 color: Colors.grey,
+                                blurRadius: 10,
+                                spreadRadius: 0.5)
+                          else
+                            BoxShadow(
+                                color: HexColor(" #000000"),
                                 blurRadius: 10,
                                 spreadRadius: 0.5)
                         ]),
@@ -296,108 +303,112 @@ class _FavouritePageState extends State<FavouritePage> {
                               ],
                             ),
                             isDaily
-                                ? Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          await value.addToCart(
-                                              index: index, context: context);
-                                        },
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: width * 0.030,
-                                              top: height * 0.015),
-                                          height: height * 0.040,
-                                          width: width * 0.200,
-                                          decoration: BoxDecoration(
-                                              color: HexColor(
-                                                  AppColorsLight.orangeColor),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: HexColor(
-                                                        AppColorsLight
-                                                            .orangeColor),
-                                                    blurRadius: 5,
-                                                    spreadRadius: 0.5)
-                                              ]),
-                                          child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Add",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 17),
-                                              ),
-                                              Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () async {
-                                          Provider.of<DailyProductListController>(
-                                                  context,
-                                                  listen: false)
-                                              .updateDailyProductList(
-                                                  id: value
-                                                      .favouriteList[index].id!,
-                                                  context: context);
-
-                                          await value.addToCart(
-                                              index: index, context: context);
-                                        },
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: width * 0.030,
-                                              top: height * 0.015),
-                                          height: height * 0.040,
-                                          width: width * 0.200,
-                                          decoration: BoxDecoration(
-                                              color: HexColor(
-                                                  themeController.isLight
-                                                      ? AppColorsLight
-                                                          .lightGreyColor
-                                                      : AppColorsDark
-                                                          .backgroundColor),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: themeController
-                                                            .isLight
-                                                        ? HexColor(
-                                                                AppColorsLight
-                                                                    .greyColor)
-                                                            .withOpacity(0.5)
-                                                        : Colors.black,
-                                                    blurRadius: 5,
-                                                    offset: const Offset(0, 4),
-                                                    spreadRadius: 0.2)
-                                              ]),
-                                          child: Center(
-                                            child: Text(
-                                              "Daily",
-                                              style: TextStyle(
-                                                  color: HexColor(
-                                                      themeController.isLight
-                                                          ? AppColorsLight
-                                                              .darkBlueColor
-                                                          : AppColorsDark
-                                                              .whiteColor),
-                                                  fontSize: 17),
+                                ? Builder(builder: (context) {
+                                    return Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            await value.addToCart(
+                                                index: index, context: context);
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: width * 0.030,
+                                                top: height * 0.015),
+                                            height: height * 0.040,
+                                            width: width * 0.200,
+                                            decoration: BoxDecoration(
+                                                color: HexColor(
+                                                    AppColorsLight.orangeColor),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: HexColor(
+                                                          AppColorsLight
+                                                              .orangeColor),
+                                                      blurRadius: 5,
+                                                      spreadRadius: 0.5)
+                                                ]),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  (AppStrings.add).tr(),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17),
+                                                ),
+                                                Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                )
+                                              ],
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )
+                                        InkWell(
+                                          onTap: () async {
+                                            Provider.of<DailyProductListController>(
+                                                    context,
+                                                    listen: false)
+                                                .updateDailyProductList(
+                                                    id: value
+                                                        .favouriteList[index]
+                                                        .id!,
+                                                    context: context);
+
+                                            await value.addToCart(
+                                                index: index, context: context);
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: width * 0.030,
+                                                top: height * 0.015),
+                                            height: height * 0.040,
+                                            width: width * 0.200,
+                                            decoration: BoxDecoration(
+                                                color: HexColor(
+                                                    themeController.isLight
+                                                        ? AppColorsLight
+                                                            .lightGreyColor
+                                                        : AppColorsDark
+                                                            .backgroundColor),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: themeController
+                                                              .isLight
+                                                          ? HexColor(
+                                                                  AppColorsLight
+                                                                      .greyColor)
+                                                              .withOpacity(0.5)
+                                                          : Colors.black,
+                                                      blurRadius: 5,
+                                                      offset:
+                                                          const Offset(0, 4),
+                                                      spreadRadius: 0.2)
+                                                ]),
+                                            child: Center(
+                                              child: Text(
+                                                (AppStrings.daily).tr(),
+                                                style: TextStyle(
+                                                    color: HexColor(
+                                                        themeController.isLight
+                                                            ? AppColorsLight
+                                                                .darkBlueColor
+                                                            : AppColorsDark
+                                                                .whiteColor),
+                                                    fontSize: 17),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  })
                                 : InkWell(
                                     onTap: () async {
                                       await value.addToCart(
@@ -421,12 +432,12 @@ class _FavouritePageState extends State<FavouritePage> {
                                                 blurRadius: 5,
                                                 spreadRadius: 0.5)
                                           ]),
-                                      child: const Row(
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Add",
+                                            (AppStrings.add).tr(),
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 17),
@@ -564,11 +575,17 @@ class _FavouritePageState extends State<FavouritePage> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
-                                    const BoxShadow(
-                                        color: Colors.grey,
-                                        blurRadius: 10,
-                                        offset: Offset(3, 3),
-                                        spreadRadius: 0.5)
+                                    themeController.isLight
+                                        ? const BoxShadow(
+                                            color: Colors.grey,
+                                            blurRadius: 10,
+                                            offset: Offset(3, 3),
+                                            spreadRadius: 0.5)
+                                        : BoxShadow(
+                                            color: HexColor("#000000"),
+                                            blurRadius: 8,
+                                            offset: Offset(3, 3),
+                                            spreadRadius: 0.5)
                                   ],
                                   borderRadius: BorderRadius.circular(50)),
                               child: InkWell(
@@ -678,12 +695,12 @@ class _FavouritePageState extends State<FavouritePage> {
                                                   blurRadius: 2,
                                                   spreadRadius: 0.2)
                                             ]),
-                                        child: const Row(
+                                        child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "Add",
+                                              (AppStrings.add).tr(),
                                               style: TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -713,86 +730,88 @@ class _FavouritePageState extends State<FavouritePage> {
 
   Widget _buildDailyButtonView(
       int index, RelatedProductListController relatedProductListController) {
-    return Row(
-      children: <Widget>[
-        InkWell(
-          onTap: () async {
-            relatedProductListController.updateQuantity(
-                index: index, context: context);
+    return Builder(builder: (context) {
+      return Row(
+        children: <Widget>[
+          InkWell(
+            onTap: () async {
+              relatedProductListController.updateQuantity(
+                  index: index, context: context);
 
-            Provider.of<DailyProductListController>(context, listen: false)
-                .updateDailyProductList(
-                    id: relatedProductListController
-                        .relatedProductList[index].id!,
-                    context: context);
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-              top: height * 0.010,
-            ),
-            height: height * 0.030,
-            width: width * 0.140,
-            decoration: BoxDecoration(
-                color: HexColor(themeController.isLight
-                    ? AppColorsLight.lightGreyColor
-                    : AppColorsDark.darkGreyColor),
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                      color: HexColor(themeController.isLight
-                              ? AppColorsLight.greyColor
-                              : AppColorsDark.backgroundColor)
-                          .withOpacity(0.5),
-                      blurRadius: 2,
-                      spreadRadius: 0.2)
-                ]),
-            child: Center(
-              child: Text(
-                "Daily",
-                style: TextStyle(
+              Provider.of<DailyProductListController>(context, listen: false)
+                  .updateDailyProductList(
+                      id: relatedProductListController
+                          .relatedProductList[index].id!,
+                      context: context);
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                top: height * 0.010,
+              ),
+              height: height * 0.030,
+              width: width * 0.140,
+              decoration: BoxDecoration(
                   color: HexColor(themeController.isLight
-                      ? AppColorsLight.darkBlueColor
-                      : AppColorsDark.whiteColor),
+                      ? AppColorsLight.lightGreyColor
+                      : AppColorsDark.darkGreyColor),
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                        color: HexColor(themeController.isLight
+                                ? AppColorsLight.greyColor
+                                : "#0D0D0D")
+                            .withOpacity(0.5),
+                        blurRadius: 2,
+                        spreadRadius: 0.2)
+                  ]),
+              child: Center(
+                child: Text(
+                  (AppStrings.daily).tr(),
+                  style: TextStyle(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.darkBlueColor
+                        : AppColorsDark.whiteColor),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        InkWell(
-          onTap: () async {
-            relatedProductListController.updateQuantity(
-                index: index, context: context);
-          },
-          child: Container(
-            margin: EdgeInsets.only(top: height * 0.010, left: width * 0.015),
-            height: height * 0.030,
-            width: width * 0.140,
-            decoration: BoxDecoration(
-                color: HexColor(AppColorsLight.orangeColor),
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                      color: HexColor(AppColorsLight.orangeColor),
-                      blurRadius: 2,
-                      spreadRadius: 0.2)
-                ]),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Add",
-                  style: TextStyle(color: Colors.white),
-                ),
-                Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 15,
-                )
-              ],
+          InkWell(
+            onTap: () async {
+              relatedProductListController.updateQuantity(
+                  index: index, context: context);
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: height * 0.010, left: width * 0.015),
+              height: height * 0.030,
+              width: width * 0.140,
+              decoration: BoxDecoration(
+                  color: HexColor(AppColorsLight.orangeColor),
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                        color: HexColor(AppColorsLight.orangeColor),
+                        blurRadius: 2,
+                        spreadRadius: 0.2)
+                  ]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    (AppStrings.add).tr(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 15,
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

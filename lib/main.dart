@@ -17,6 +17,7 @@ import 'package:milkyway/home/provider/product_page_controller.dart';
 
 import 'package:milkyway/home/provider/search_controller.dart';
 import 'package:milkyway/profile/provider/change_password_controller.dart';
+import 'package:milkyway/profile/provider/faq_page_controller.dart';
 import 'package:milkyway/profile/provider/favourite_page_controller.dart';
 import 'package:milkyway/profile/provider/language_page_controller.dart';
 import 'package:milkyway/profile/provider/location_page_controller.dart';
@@ -168,6 +169,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => LanguageProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FaqPageController(),
         )
       ],
       child: MaterialApp(

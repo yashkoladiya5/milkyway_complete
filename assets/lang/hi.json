@@ -121,15 +121,63 @@
   "Daily" : "रोज",
   "Bag" : "बॅग",
 
+  "NO PRODUCTS ARE IN FAVOURITE LIST...": "कोई उत्पाद पसंदीदा सूची में नहीं हैं...",
+  "No Order": "कोई ऑर्डर नहीं मिला",
+  "No Data In Favourite Product List": "पसंदीदा उत्पाद सूची में कोई डेटा नहीं है",
 
   "Theme": "थीम",
 
+  "Welcome to our application. By using this app, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully.": "हमारे एप्लिकेशन में आपका स्वागत है। इस ऐप का उपयोग करके, आप इन नियमों और शर्तों का पालन करने और उनसे बंधे रहने के लिए सहमत होते हैं। कृपया इन्हें ध्यान से पढ़ें।",
+  "This app is intended for lawful use only. Any misuse, unauthorized access, or attempt to alter the app is strictly prohibited. We reserve the right to terminate access if any misuse is detected.": "यह ऐप केवल कानूनी उपयोग के लिए है। किसी भी प्रकार का दुरुपयोग, अनधिकृत पहुँच या ऐप को बदलने का प्रयास सख्त वर्जित है। किसी भी दुरुपयोग की स्थिति में हम उपयोगकर्ता की पहुँच समाप्त करने का अधिकार सुरक्षित रखते हैं।",
+  "Your privacy is important to us. We collect and use your data in accordance with our privacy policy.": "आपकी गोपनीयता हमारे लिए महत्वपूर्ण है। हम आपकी जानकारी को अपनी गोपनीयता नीति के अनुसार एकत्रित और उपयोग करते हैं।",
+  "We may update these Terms periodically. Continued use of the app after changes means you accept the updated terms.": "ये नियम समय-समय पर बदले जा सकते हैं। ऐप का लगातार उपयोग करना इन परिवर्तनों की स्वीकृति मानी जाएगी।",
+  "We strive to provide accurate information, but we do not guarantee that the content is error-free.": "हम सटीक जानकारी प्रदान करने का प्रयास करते हैं, लेकिन हम त्रुटिहीनता की गारंटी नहीं देते।",
+  "We are not responsible for any losses or damages resulting from your use of the app. You are responsible for maintaining the confidentiality of your account information.": "इस ऐप के उपयोग से होने वाले किसी भी नुकसान के लिए हम जिम्मेदार नहीं हैं। आप अपनी खाता जानकारी की गोपनीयता बनाए रखने के लिए जिम्मेदार हैं।",
+
+
+
+  "We value your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information.": "हम आपकी गोपनीयता का सम्मान करते हैं। यह गोपनीयता नीति यह बताती है कि हम आपकी व्यक्तिगत जानकारी कैसे एकत्रित, उपयोग और सुरक्षित करते हैं।",
+  "By using our app, you agree to the practices described herein.": "हमारे ऐप का उपयोग करके, आप यहां बताए गए प्रथाओं से सहमत होते हैं।",
+  "We collect data such as name, email, location, and usage statistics to improve your experience.": "हम आपका नाम, ईमेल, स्थान और उपयोग के आंकड़े जैसे डेटा एकत्र करते हैं ताकि हम आपकी सेवा में सुधार कर सकें।",
+  "Your information is never sold or shared with third parties without your consent, unless required by law.": "आपकी जानकारी कभी भी आपकी अनुमति के बिना किसी तीसरे पक्ष को बेची या साझा नहीं की जाती है, जब तक कि कानून द्वारा आवश्यक न हो।",
+  "We implement security measures to safeguard your data but cannot guarantee absolute security.": "हम आपके डेटा की सुरक्षा के लिए उपाय करते हैं, लेकिन पूर्ण सुरक्षा की गारंटी नहीं दे सकते।",
+  "You have the right to access, update, or delete your information by contacting our support.": "आपको हमारी सहायता टीम से संपर्क करके अपनी जानकारी तक पहुँचने, उसे अपडेट करने या हटाने का अधिकार है।",
+  "Continued use of the app indicates acceptance of this policy.": "ऐप का लगातार उपयोग इस नीति की स्वीकृति को दर्शाता है।"
+,
+
+
+  "Our goal is to provide a transparent and fair cancellation process.": "हमारा उद्देश्य एक पारदर्शी और निष्पक्ष रद्दीकरण प्रक्रिया प्रदान करना है।",
+  "Cancellations must be requested within 24 hours of placing the order.": "ऑर्डर देने के 24 घंटे के भीतर रद्दीकरण का अनुरोध किया जाना चाहिए।",
+  "Once a cancellation request is received, we will confirm via email or app notification.": "रद्दीकरण अनुरोध प्राप्त होते ही हम ईमेल या ऐप अधिसूचना के माध्यम से पुष्टि करेंगे।",
+  "If payment was already made, the refund will be processed within 7 business days.": "यदि भुगतान पहले ही किया जा चुका है, तो रिफंड 7 कार्य दिवसों के भीतर किया जाएगा।",
+  "No cancellations or refunds will be accepted after the product has been shipped.": "उत्पाद के भेजे जाने के बाद कोई रद्दीकरण या रिफंड स्वीकार नहीं किया जाएगा।",
+  "We reserve the right to modify this policy at any time without prior notice.": "हम बिना पूर्व सूचना के कभी भी इस नीति में संशोधन करने का अधिकार सुरक्षित रखते हैं।",
+
+
+
+
+  "How can I reset my password?": "मैं अपना पासवर्ड कैसे रीसेट कर सकता हूँ?",
+  "To reset your password, go to the login screen and tap on \"Forgot Password\". Follow the instructions sent to your registered email to create a new password.": "पासवर्ड रीसेट करने के लिए, लॉगिन स्क्रीन पर जाएं और \"पासवर्ड भूल गए\" पर टैप करें। फिर अपने पंजीकृत ईमेल पर भेजे गए निर्देशों का पालन करें।",
+
+  "How do I track my order?": "मैं अपने ऑर्डर को कैसे ट्रैक कर सकता हूँ?",
+  "Once your order is placed, you’ll receive a tracking ID via SMS or email. You can use it in the \"My Orders\" section to view live updates on your delivery.": "ऑर्डर करने के बाद, आपको एक ट्रैकिंग आईडी एसएमएस या ईमेल के माध्यम से प्राप्त होगी। आप इसे \"मेरे ऑर्डर\" अनुभाग में उपयोग करके अपनी डिलीवरी की जानकारी देख सकते हैं।",
+
+  "Can I cancel or modify my order?": "क्या मैं अपना ऑर्डर रद्द या संशोधित कर सकता हूँ?",
+  "Yes, orders can be canceled or changed within 24 hours of placement. Visit the \"My Orders\" section and select the order to see modification options.": "हाँ, ऑर्डर करने के 24 घंटे के भीतर उसे रद्द या संशोधित किया जा सकता है। \"मेरे ऑर्डर\" अनुभाग में जाकर संबंधित ऑर्डर चुनें।",
+
+  "What payment methods do you accept?": "आप कौन-कौन से भुगतान विकल्प स्वीकार करते हैं?",
+  "We accept credit/debit cards, net banking, UPI, and major mobile wallets. All transactions are secured and encrypted for your safety.": "हम क्रेडिट/डेबिट कार्ड, नेट बैंकिंग, यूपीआई और प्रमुख मोबाइल वॉलेट स्वीकार करते हैं। सभी लेन-देन सुरक्षित और एन्क्रिप्टेड होते हैं।",
+
+  "How do I contact customer support?": "मैं ग्राहक सहायता से कैसे संपर्क करूं?",
+  "You can reach us through the \"Help & Support\" section in the app. We’re available 24/7 via chat or email to assist you with any queries.": "आप ऐप के \"सहायता और समर्थन\" अनुभाग से हमसे संपर्क कर सकते हैं। हम चैट या ईमेल के माध्यम से 24/7 उपलब्ध हैं।",
+
+  "FAQ's": "अक्सर पूछे जाने वाले प्रश्न",
   "Order History": "ऑर्डर इतिहास",
   "Favorite": "पसंदीदा",
 
   "Connect with us": "हमसे जुड़ें",
   "Terms & Condition": "नियम और शर्तें",
-  "Privacy policy": "गोपनीयता नीति",
+  "Privacy Policy": "गोपनीयता नीति",
   "Cancellation policy": "रद्द करने की नीति",
   "Share us": "हमसे साझा करें",
   "FAQ’s": "अक्सर पूछे जाने वाले प्रश्न",

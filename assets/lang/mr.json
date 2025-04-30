@@ -121,20 +121,64 @@
   "I Agree to the": "मी यास सहमत आहे",
   "Daily" : "दररोज",
   "Bag" : "बॅग",
-
-
+  "NO PRODUCTS ARE IN FAVOURITE LIST...": "आवडती यादीत कोणतेही उत्पादने नाहीत...",
+  "No Order": "कोणताही ऑर्डर सापडला नाही",
   "Theme": "थीम",
-
+  "No Data In Favourite Product List": "आवडत्या उत्पादन यादीत कोणताही डेटा नाही",
   "Order History": "ऑर्डर इतिहास",
   "Favorite": "आवडते",
 
   "Connect with us": "आमच्याशी संपर्क साधा",
   "Terms & Condition": "नियम आणि अटी",
-  "Privacy policy": "गोपनीयता धोरण",
+  "Privacy Policy": "गोपनीयता धोरण",
   "Cancellation policy": "रद्द करण्याची धोरण",
   "Share us": "आम्हाला शेअर करा",
   "FAQ’s": "वारंवार विचारले जाणारे प्रश्न",
   "Log Out": "बाहेर पडा",
+  "FAQ's": "नेहमी विचारले जाणारे प्रश्न",
+
+  "Welcome to our application. By using this app, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully.": "आमच्या अ‍ॅप्लिकेशनमध्ये आपले स्वागत आहे. या अ‍ॅपचा वापर करून, आपण पुढील अटी आणि शर्ती मान्य करता आणि त्यांचे पालन कराल असे मानले जाते. कृपया त्यांचे बारकाईने वाचन करा.",
+  "This app is intended for lawful use only. Any misuse, unauthorized access, or attempt to alter the app is strictly prohibited. We reserve the right to terminate access if any misuse is detected.": "हा अ‍ॅप केवळ कायदेशीर वापरासाठी आहे. कोणताही गैरवापर, अनधिकृत प्रवेश किंवा अ‍ॅपमध्ये बदल करण्याचा प्रयत्न पूर्णपणे निषिद्ध आहे. अशा वापराची नोंद झाल्यास आम्ही प्रवेश बंद करण्याचा अधिकार राखून ठेवतो.",
+  "Your privacy is important to us. We collect and use your data in accordance with our privacy policy.": "आम्ही तुमच्या गोपनीयतेचा आदर करतो आणि तुमच्या वैयक्तिक माहितीचे संकलन व उपयोग आमच्या गोपनीयता धोरणानुसार करतो.",
+  "We may update these Terms periodically. Continued use of the app after changes means you accept the updated terms.": "अटी वेळोवेळी बदलल्या जाऊ शकतात. अ‍ॅपचा पुढील वापर बदल स्वीकारल्याचे दर्शवतो.",
+  "We strive to provide accurate information, but we do not guarantee that the content is error-free.": "आम्ही अचूक माहिती देण्याचा प्रयत्न करतो परंतु शंभर टक्के अचूकतेची हमी देत नाही.",
+  "We are not responsible for any losses or damages resulting from your use of the app. You are responsible for maintaining the confidentiality of your account information.": "या अ‍ॅपच्या वापरातून कोणतेही नुकसान झाले तर आम्ही जबाबदार असणार नाही. खात्याची माहिती सुरक्षित ठेवण्याची जबाबदारी तुमची आहे.",
+
+
+
+
+  "We value your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information.": "आम्ही तुमच्या गोपनीयतेचा आदर करतो. ही गोपनीयता धोरण आम्ही तुमची वैयक्तिक माहिती कशी गोळा करतो, वापरतो आणि सुरक्षित ठेवतो हे स्पष्ट करते.",
+  "By using our app, you agree to the practices described herein.": "आमच्या अ‍ॅपचा वापर करून, तुम्ही येथे नमूद केलेल्या पद्धती स्वीकारता.",
+  "We collect data such as name, email, location, and usage statistics to improve your experience.": "आम्ही तुमचे नाव, ईमेल, स्थान आणि वापर आकडेवारी गोळा करतो जेणेकरून आम्ही तुमचा अनुभव सुधारू शकू.",
+  "Your information is never sold or shared with third parties without your consent, unless required by law.": "तुमची माहिती तुमच्या संमतीशिवाय तृतीय पक्षाशी विकली किंवा शेअर केली जाणार नाही, जोपर्यंत कायद्यानुसार आवश्यक नसेल.",
+  "We implement security measures to safeguard your data but cannot guarantee absolute security.": "आम्ही तुमचा डेटा सुरक्षित ठेवण्यासाठी सुरक्षा उपाय लागू करतो पण पूर्णपणे सुरक्षिततेची हमी देऊ शकत नाही.",
+  "You have the right to access, update, or delete your information by contacting our support.": "तुम्हाला तुमची माहिती पाहण्याचे, अद्यतनित करण्याचे किंवा हटवण्याचे अधिकार आहे.",
+  "Continued use of the app indicates acceptance of this policy.": "आमचा अ‍ॅप वापरत राहणे हे या धोरणाच्या स्वीकाराचे लक्षण आहे.",
+
+
+  "Our goal is to provide a transparent and fair cancellation process.": "आमचे उद्दिष्ट पारदर्शक आणि न्याय्य रद्द प्रक्रिया प्रदान करणे आहे.",
+  "Cancellations must be requested within 24 hours of placing the order.": "ऑर्डर दिल्यानंतर २४ तासांच्या आत रद्दीकरणाची विनंती करणे आवश्यक आहे.",
+  "Once a cancellation request is received, we will confirm via email or app notification.": "रद्दीकरणाची विनंती मिळाल्यानंतर आम्ही ईमेल किंवा अ‍ॅप सूचनेद्वारे त्याची पुष्टी करू.",
+  "If payment was already made, the refund will be processed within 7 business days.": "जर पेमेंट आधीच झाले असेल, तर रिफंड ७ कामकाजाच्या दिवसांत पूर्ण केला जाईल.",
+  "No cancellations or refunds will be accepted after the product has been shipped.": "उत्पादन पाठवल्यानंतर कोणतेही रद्दीकरण किंवा परतावा स्वीकारला जाणार नाही.",
+  "We reserve the right to modify this policy at any time without prior notice.": "आम्ही कोणतीही पूर्वसूचना न देता या धोरणात बदल करण्याचा हक्क राखून ठेवतो.",
+
+
+  "How can I reset my password?": "मी माझा पासवर्ड कसा रीसेट करू शकतो?",
+  "To reset your password, go to the login screen and tap on \"Forgot Password\". Follow the instructions sent to your registered email to create a new password.": "पासवर्ड रीसेट करण्यासाठी, लॉगिन स्क्रीनवर जा आणि \"पासवर्ड विसरलात\" यावर टॅप करा. नोंदणीकृत ईमेलवर पाठवलेल्या सूचनांचे पालन करा.",
+
+  "How do I track my order?": "मी माझा ऑर्डर कसा ट्रॅक करू शकतो?",
+  "Once your order is placed, you’ll receive a tracking ID via SMS or email. You can use it in the \"My Orders\" section to view live updates on your delivery.": "ऑर्डर झाल्यानंतर, तुम्हाला SMS किंवा ईमेलद्वारे ट्रॅकिंग आयडी मिळेल. तुम्ही \"माझे ऑर्डर्स\" विभागात त्याचा वापर करू शकता.",
+
+  "Can I cancel or modify my order?": "मी माझा ऑर्डर रद्द किंवा बदलू शकतो का?",
+  "Yes, orders can be canceled or changed within 24 hours of placement. Visit the \"My Orders\" section and select the order to see modification options.": "होय, ऑर्डर दिल्यानंतर 24 तासांच्या आत तुम्ही ऑर्डर रद्द किंवा बदलू शकता. \"माझे ऑर्डर्स\" विभागात जाऊन ऑर्डर निवडा.",
+
+  "What payment methods do you accept?": "तुम्ही कोणते पेमेंट पर्याय स्वीकारता?",
+  "We accept credit/debit cards, net banking, UPI, and major mobile wallets. All transactions are secured and encrypted for your safety.": "आम्ही क्रेडिट/डेबिट कार्ड्स, नेट बँकिंग, UPI आणि मोठ्या मोबाइल वॉलेट्स स्वीकारतो. सर्व व्यवहार सुरक्षित आणि एनक्रिप्टेड आहेत.",
+
+  "How do I contact customer support?": "मी ग्राहक सेवा कशी संपर्क करू?",
+  "You can reach us through the \"Help & Support\" section in the app. We’re available 24/7 via chat or email to assist you with any queries.": "तुम्ही अ‍ॅपमधील \"मदत आणि समर्थन\" विभागातून आमच्याशी संपर्क साधू शकता. आम्ही 24/7 चॅट किंवा ईमेलद्वारे उपलब्ध आहोत.",
+
 
   "JAN": "जानेवारी",
   "FEB": "फेब्रुवारी",

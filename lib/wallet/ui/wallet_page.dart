@@ -143,21 +143,6 @@ class _WalletPageState extends State<WalletPage> {
               return InkWell(
                 onTap: () async {
                   value.updateDateTime(context: context);
-                  // DateTimeRange? picked = await showDateRangePicker(
-                  //   context: context,
-                  //   firstDate: DateTime(2020),
-                  //   lastDate: DateTime(2100),
-                  // );
-                  //
-                  // if (picked != null) {
-                  //   print("Start: ${picked.start}");
-                  //   print("End: ${picked.end}");
-                  //   String startDate = picked.start.toString().substring(0, 10);
-                  //   String endDate = picked.end.toString().substring(0, 10);
-                  //
-                  //   print("START ::: $startDate");
-                  //   print("END ::: $endDate");
-                  // }
                 },
                 child: Container(
                   height: height * 0.050,
@@ -167,9 +152,8 @@ class _WalletPageState extends State<WalletPage> {
                         BoxShadow(
                             blurRadius: 10,
                             spreadRadius: 5,
-                            color: HexColor(themeController.isLight
-                                ? "E5E5E5"
-                                : AppColorsDark.greyColor))
+                            color: HexColor(
+                                themeController.isLight ? "E5E5E5" : "#0D0D0D"))
                       ],
                       color: HexColor(themeController.isLight
                           ? "EEEEEE"
@@ -197,9 +181,8 @@ class _WalletPageState extends State<WalletPage> {
                   BoxShadow(
                       blurRadius: 10,
                       spreadRadius: 2,
-                      color: HexColor(themeController.isLight
-                          ? "#E5E5E5"
-                          : AppColorsDark.greyColor))
+                      color: HexColor(
+                          themeController.isLight ? "#E5E5E5" : "#0D0D0D"))
                 ],
                 color: HexColor(themeController.isLight
                     ? "#EEEEEE"
@@ -222,6 +205,9 @@ class _WalletPageState extends State<WalletPage> {
                 }),
                 Icon(
                   Icons.add,
+                  color: HexColor(themeController.isLight
+                      ? AppColorsLight.darkBlueColor
+                      : AppColorsDark.whiteColor),
                   size: 15,
                 )
               ],
@@ -243,14 +229,11 @@ class _WalletPageState extends State<WalletPage> {
             boxShadow: [
               BoxShadow(
                   blurRadius: 10,
-                  spreadRadius: 10,
-                  color: HexColor(themeController.isLight
-                      ? "#E5E5E5"
-                      : AppColorsDark.darkGreyColor))
+                  spreadRadius: 1,
+                  color:
+                      HexColor(themeController.isLight ? "#E5E5E5" : "#000000"))
             ],
-            color: HexColor(themeController.isLight
-                ? "#EEEEEE"
-                : AppColorsDark.darkGreyColor),
+            color: HexColor(themeController.isLight ? "#EEEEEE" : "#0D0D0D"),
           ),
           child: Column(
             children: [
@@ -403,11 +386,10 @@ class _WalletPageState extends State<WalletPage> {
                             spreadRadius: 1,
                             color: HexColor(themeController.isLight
                                 ? "#4DA9A9A9"
-                                : AppColorsDark.darkGreyColor))
+                                : "#000000"))
                       ],
-                      color: HexColor(themeController.isLight
-                          ? "#EEEEEE"
-                          : AppColorsDark.greyColor)),
+                      color: HexColor(
+                          themeController.isLight ? "#EEEEEE" : "#0D0D0D")),
                   child: Row(
                     children: [
                       Padding(

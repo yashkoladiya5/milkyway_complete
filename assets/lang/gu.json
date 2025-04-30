@@ -81,7 +81,7 @@
   "Your prescription sent successfully": "તમારું પ્રિસ્ક્રિપ્શન સફળતાપૂર્વક મોકલાયું",
 
 
-
+  "FAQ's": "વારંવાર પૂછાતા પ્રશ્નો",
   "Bill Pay": "બિલ ચુકવણી",
   "Recharge & Bill": "રીચાર્જ અને બિલ",
   "Mobile Recharge": "મોબાઇલ રીચાર્જ",
@@ -122,20 +122,62 @@
   "I Agree to the": "હું તે માટે સંમત છું",
   "Daily" : "દરરોજ",
    "Bag" : "બેગ",
-
+  "NO PRODUCTS ARE IN FAVOURITE LIST...": "પસંદીદાર સૂચિમાં કોઈ ઉત્પાદન નથી...",
   "Theme": "થીમ",
-
+  "No Order": "કોઈ ઓર્ડર મળ્યો નથી",
   "Order History": "ઓર્ડર ઇતિહાસ",
   "Favorite": "ગમતું",
-
+  "No Data In Favourite Product List": "પસંદીદા પ્રોડક્ટ સૂચિમાં કોઈ ડેટા નથી",
   "Connect with us": "અમારો સંપર્ક કરો",
   "Terms & Condition": "નિયમો અને શરતો",
-  "Privacy policy": "ગોપનીયતા નીતિ",
+  "Privacy Policy": "ગોપનીયતા નીતિ",
   "Cancellation policy": "રદ કરવાની નીતિ",
   "Share us": "અમને શેર કરો",
   "FAQ’s": "વારંવાર પૂછાતા પ્રશ્નો",
   "Log Out": "લૉગ આઉટ",
 
+
+  "Welcome to our application. By using this app, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully.": "આપણા એપ્લિકેશનમાં આપનું સ્વાગત છે. આ એપનો ઉપયોગ કરીને, તમે નીચેના નિયમો અને શરતોનું પાલન કરવા અને તેને સ્વીકારવા સંમત થાઓ છો. કૃપા કરીને તેને ધ્યાનપૂર્વક વાંચો.",
+  "This app is intended for lawful use only. Any misuse, unauthorized access, or attempt to alter the app is strictly prohibited. We reserve the right to terminate access if any misuse is detected.": "આ એપ ફક્ત કાનૂની ઉપયોગ માટે છે. કોઈપણ પ્રકારના દુરુપયોગ, અનુમતિ વિના પ્રવેશ અથવા એપમાં ફેરફાર કરવાનો પ્રયાસ સખત રીતે પ્રતિબંધિત છે. દુરુપયોગ જણાય તો અમારે ઍક્સેસ બંધ કરવાનો અધિકાર છે.",
+  "Your privacy is important to us. We collect and use your data in accordance with our privacy policy.": "અમે તમારી ગોપનીયતાનો સન્માન કરીએ છીએ. અમે તમારી માહિતી અમારા પ્રાઇવસી પૉલિસી મુજબ જ એકત્રિત અને ઉપયોગ કરીએ છીએ.",
+  "We may update these Terms periodically. Continued use of the app after changes means you accept the updated terms.": "આ નિયમો સમયાંતરે બદલાઈ શકે છે. એપનો સતત ઉપયોગ કરવાનો અર્થ એ છે કે તમે বদલી થયેલી શરતોને સ્વીકારતા હો.",
+  "We strive to provide accurate information, but we do not guarantee that the content is error-free.": "અમે ચોક્કસ માહિતી આપવા પ્રયત્ન કરીએ છીએ, પરંતુ ભૂલોની ખાતરી નથી.",
+  "We are not responsible for any losses or damages resulting from your use of the app. You are responsible for maintaining the confidentiality of your account information.": "અમે એપના ઉપયોગથી થતા નુકસાન માટે જવાબદાર નથી. તમારું ખાતું સુરક્ષિત રાખવાની જવાબદારી તમારી છે.",
+
+
+
+
+  "We value your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information.": "અમે તમારી ગોપનીયતાનું મહત્વ રાખીએ છીએ. આ ગુપ્તતા નીતિમાં અમે કેવી રીતે તમારાં અંગત માહિતી એકત્રિત કરીએ છીએ, તેનો ઉપયોગ કરીએ છીએ અને તેને સુરક્ષિત રાખીએ છીએ તે દર્શાવવામાં આવ્યું છે.",
+  "By using our app, you agree to the practices described herein.": "અમારા એપનો ઉપયોગ કરીને, તમે અહીં વર્ણવેલી રીતોને સ્વીકારો છો.",
+  "We collect data such as name, email, location, and usage statistics to improve your experience.": "અમે તમારું નામ, ઇમેઇલ, સ્થાન અને ઉપયોગની આંકડાકીય માહિતી એકત્ર કરીએ છીએ જેથી અમે તમારો અનુભવ સુધારી શકીએ.",
+  "Your information is never sold or shared with third parties without your consent, unless required by law.": "તમારું માહિતી ક્યારે પણ તમારી મંજૂરી વિના તૃતીય પક્ષ સાથે વહેંચાતી કે વેચાતી નથી, સિવાય કે કાયદાના માપદંડ હેઠળ જરૂરી હોય.",
+  "We implement security measures to safeguard your data but cannot guarantee absolute security.": "અમે તમારાં ડેટાની સુરક્ષા માટે પગલાં લઈએ છીએ પરંતુ સંપૂર્ણ સુરક્ષા ની ખાતરી આપી શકતા નથી.",
+  "You have the right to access, update, or delete your information by contacting our support.": "તમને તમારું માહિતી એક્સેસ, અપડેટ કે ડિલીટ કરવાનું અધિકાર છે.",
+  "Continued use of the app indicates acceptance of this policy.": "એપનો સતત ઉપયોગ આ નીતિને સ્વીકારવાનો સંકેત આપે છે."
+,
+
+
+  "Our goal is to provide a transparent and fair cancellation process.": "અમારું ઉદ્દેશ સાફ અને ન્યાયસંગત રદ્દ કરવાની પ્રક્રિયા પૂરી પાડવાનો છે.",
+  "Cancellations must be requested within 24 hours of placing the order.": "ઓર્ડર મૂક્યા પછી 24 કલાકની અંદર રદ્દ કરવાની વિનંતી કરવી આવશ્યક છે.",
+  "Once a cancellation request is received, we will confirm via email or app notification.": "રદ્દ કરવાની વિનંતી મળ્યા પછી અમે ઇમેઇલ અથવા એપ સૂચન દ્વારા પુષ્ટિ કરીશું.",
+  "If payment was already made, the refund will be processed within 7 business days.": "જો ચુકવણી થઇ ગઈ છે, તો રિફંડ 7 બિઝનેસ દિવસોમાં પ્રક્રિયા કરાશે.",
+  "No cancellations or refunds will be accepted after the product has been shipped.": "પ્રોડક્ટ મોકલ્યા પછી કોઈ રદ્દ કરવું કે રિફંડ મંજૂર નહીં થાય.",
+  "We reserve the right to modify this policy at any time without prior notice.": "અમે કોઈપણ સમયે પૂર્વ સૂચના વિના આ નીતિમાં ફેરફાર કરવાનો અધિકાર રાખીએ છીએ.",
+
+  "How can I reset my password?": "હું મારી પાસવર્ડ કેવી રીતે રીસેટ કરી શકું?",
+  "To reset your password, go to the login screen and tap on \"Forgot Password\". Follow the instructions sent to your registered email to create a new password.": "તમારું પાસવર્ડ રીસેટ કરવા માટે, લોગિન સ્ક્રીન પર જાઓ અને \"પાસવર્ડ ભૂલી ગયા છો\" પર ટેપ કરો. તમારા રજીસ્ટર્ડ ઇમેઇલ પર મોકલાયેલ સૂચનાઓને અનુસરો.",
+
+  "How do I track my order?": "હું મારી ઓર્ડર કેવી રીતે ટ્રેક કરી શકું?",
+  "Once your order is placed, you’ll receive a tracking ID via SMS or email. You can use it in the \"My Orders\" section to view live updates on your delivery.": "તમારો ઓર્ડર આપ્યા પછી, તમે SMS અથવા ઇમેઇલ દ્વારા ટ્રેકિંગ ID પ્રાપ્ત કરશો. તમે તેને \"મારા ઓર્ડર\" વિભાગમાં જોઈ શકો છો.",
+
+  "Can I cancel or modify my order?": "શું હું મારી ઓર્ડર રદ કરી શકું અથવા બદલી શકું?",
+  "Yes, orders can be canceled or changed within 24 hours of placement. Visit the \"My Orders\" section and select the order to see modification options.": "હા, ઓર્ડર આપ્યા પછી 24 કલાકની અંદર તમે તેને રદ કે બદલી શકો છો. \"મારા ઓર્ડર\" વિભાગમાં જઈને ઓર્ડર પસંદ કરો.",
+
+  "What payment methods do you accept?": "તમે કયા પેમેન્ટ વિકલ્પો સ્વીકારો છો?",
+  "We accept credit/debit cards, net banking, UPI, and major mobile wallets. All transactions are secured and encrypted for your safety.": "અમે ક્રેડિટ/ડેબિટ કાર્ડ, નેટ બેંકિંગ, UPI અને મોટાભાગના મોબાઇલ વોલેટ સ્વીકારીએ છીએ. તમામ લેવડદેવડ સુરક્ષિત અને એન્ક્રિપ્ટેડ છે.",
+
+  "How do I contact customer support?": "હું ગ્રાહક સપોર્ટ સાથે કેવી રીતે સંપર્ક કરી શકું?",
+  "You can reach us through the \"Help & Support\" section in the app. We’re available 24/7 via chat or email to assist you with any queries.": "તમે એપમાંના \"મદદ અને સપોર્ટ\" વિભાગ દ્વારા અમારો સંપર્ક કરી શકો છો. અમે ચેટ અથવા ઇમેઇલ દ્વારા 24/7 ઉપલબ્ધ છીએ.",
 
 
   "JAN": "જન્યુઆરી",

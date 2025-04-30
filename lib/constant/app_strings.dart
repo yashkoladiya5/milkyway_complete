@@ -106,6 +106,7 @@ class AppStrings {
   static const String enterCustomerID = "Enter Customer Id";
   static const String electricityBill = "Electricity Bill";
   static const String dueDate = "Due Date";
+  static const String privacyPolicy = "Privacy Policy";
 
   static const String selectElectricityBoardToProceed =
       "Select Electricity Board to Processed";
@@ -129,6 +130,69 @@ class AppStrings {
   static const String agreeToThe = "I Agree to the";
   static const String daily = "Daily";
   static const String bag = "Bag";
+  static const String faqs = "FAQ's";
+
+  static const String faq1Title = "How can I reset my password?";
+  static const String faq1Answer =
+      "To reset your password, go to the login screen and tap on \"Forgot Password\". Follow the instructions sent to your registered email to create a new password.";
+
+  static const String faq2Title = "How do I track my order?";
+  static const String faq2Answer =
+      "Once your order is placed, you’ll receive a tracking ID via SMS or email. You can use it in the \"My Orders\" section to view live updates on your delivery.";
+
+  static const String faq3Title = "Can I cancel or modify my order?";
+  static const String faq3Answer =
+      "Yes, orders can be canceled or changed within 24 hours of placement. Visit the \"My Orders\" section and select the order to see modification options.";
+
+  static const String faq4Title = "What payment methods do you accept?";
+  static const String faq4Answer =
+      "We accept credit/debit cards, net banking, UPI, and major mobile wallets. All transactions are secured and encrypted for your safety.";
+
+  static const String faq5Title = "How do I contact customer support?";
+  static const String faq5Answer =
+      "You can reach us through the \"Help & Support\" section in the app. We’re available 24/7 via chat or email to assist you with any queries.";
+
+  static const String cancellationPolicyIntro =
+      "Our goal is to provide a transparent and fair cancellation process.";
+  static const String cancellationPolicyRequest =
+      "Cancellations must be requested within 24 hours of placing the order.";
+  static const String cancellationPolicyProcess =
+      "Once a cancellation request is received, we will confirm via email or app notification.";
+  static const String cancellationPolicyRefund =
+      "If payment was already made, the refund will be processed within 7 business days.";
+  static const String cancellationPolicyNoRefund =
+      "No cancellations or refunds will be accepted after the product has been shipped.";
+  static const String cancellationPolicyChanges =
+      "We reserve the right to modify this policy at any time without prior notice.";
+
+  static const String cancellationPolicy = "Cancellation policy";
+  static const String termsIntro =
+      "Welcome to our application. By using this app, you agree to comply with and be bound by the following Terms and Conditions. Please read them carefully.";
+  static const String termsUseOfApp =
+      "This app is intended for lawful use only. Any misuse, unauthorized access, or attempt to alter the app is strictly prohibited. We reserve the right to terminate access if any misuse is detected.";
+  static const String termsPrivacyPolicy =
+      "Your privacy is important to us. We collect and use your data in accordance with our privacy policy.";
+  static const String termsChangesToTerms =
+      "We may update these Terms periodically. Continued use of the app after changes means you accept the updated terms.";
+  static const String termsAccuracyOfInformation =
+      "We strive to provide accurate information, but we do not guarantee that the content is error-free.";
+  static const String termsLimitationOfLiability =
+      "We are not responsible for any losses or damages resulting from your use of the app. You are responsible for maintaining the confidentiality of your account information.";
+
+  static const String privacyPolicyIntro =
+      "We value your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information.";
+  static const String privacyPolicyAgreement =
+      "By using our app, you agree to the practices described herein.";
+  static const String privacyPolicyDataCollection =
+      "We collect data such as name, email, location, and usage statistics to improve your experience.";
+  static const String privacyPolicyDataSharing =
+      "Your information is never sold or shared with third parties without your consent, unless required by law.";
+  static const String privacyPolicySecurity =
+      "We implement security measures to safeguard your data but cannot guarantee absolute security.";
+  static const String privacyPolicyUserRights =
+      "You have the right to access, update, or delete your information by contacting our support.";
+  static const String privacyPolicyAcceptance =
+      "Continued use of the app indicates acceptance of this policy.";
 }
 
 class SharedPreferenceKeys {

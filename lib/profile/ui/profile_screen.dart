@@ -8,14 +8,18 @@ import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/profile/provider/profile_screen_controller.dart';
 import 'package:milkyway/profile/ui/change_password_page.dart';
+import 'package:milkyway/profile/ui/faqs_page.dart';
 import 'package:milkyway/profile/ui/favourite_page.dart';
 import 'package:milkyway/profile/ui/location_page.dart';
+import 'package:milkyway/profile/ui/privacy_policy_page.dart';
 import 'package:milkyway/profile/ui/profile_edit_screen.dart';
+import 'package:milkyway/profile/ui/terms_and_condition_page.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constant/app_strings.dart';
+import 'cancellation_policy_page.dart';
 import 'language_page.dart';
 import 'order_history_page.dart';
 
@@ -73,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: HexColor(themeController.isLight
             ? AppColorsLight.backgroundColor
-            : AppColorsLight.darkBlueColor),
+            : AppColorsDark.backgroundColor),
         boxShadow: [
           if (themeController.isLight)
             const BoxShadow(
@@ -143,12 +147,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               BoxShadow(
                   blurRadius: 10,
                   spreadRadius: 10,
-                  color: HexColor(themeController.isLight
-                      ? "#E5E5E5"
-                      : AppColorsDark.darkGreyColor))
+                  color:
+                      HexColor(themeController.isLight ? "#E5E5E5" : "#000000"))
             ],
-            color: HexColor(
-                themeController.isLight ? "#EEEEEE" : AppColorsDark.greyColor),
+            color: HexColor(themeController.isLight
+                ? "#EEEEEE"
+                : AppColorsDark.backgroundColor),
           ),
           child: Row(
             children: [
@@ -254,13 +258,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
-        itemCount: 14,
+        itemCount: AppLists().profileOptionLightList.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(2.0),
             child: Consumer<ProfileScreenController>(
               builder: (context, value, child) {
                 return InkWell(
+                  highlightColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
                   onTap: () async {
                     if (index == 1) {
                       String refresh =
@@ -305,11 +312,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return LanguagePage();
                         },
                       ));
+                    } else if (index == 8) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return TermsAndConditionPage();
+                        },
+                      ));
+                    } else if (index == 9) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return PrivacyPolicyPage();
+                        },
+                      ));
+                    } else if (index == 10) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return CancellationPolicyPage();
+                        },
+                      ));
+                    } else if (index == 12) {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return FaqsPage();
+                        },
+                      ));
                     }
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: width * 0.020),
-                    height: height * 0.070,
+                    height: height * 0.065,
                     width: double.infinity,
                     // color: Colors.blue,
                     decoration: BoxDecoration(
@@ -318,7 +349,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 width: 1,
                                 color: HexColor(themeController.isLight
                                     ? AppColorsLight.greyColor
-                                    : AppColorsDark.greyColor)))),
+                                    : "#484848")))),
                     child: Row(
                       children: [
                         Container(
@@ -347,7 +378,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       .profileOptionLightList[index]["name"]
                                       .toString())
                                   .tr(),
-                              style: TextStyle(fontSize: 17),
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: HexColor(themeController.isLight
+                                      ? AppColorsLight.darkBlueColor
+                                      : AppColorsDark.whiteColor)),
                             );
                           }),
                         ),
@@ -363,6 +398,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       value: value.isSelected,
                                       onChanged: (v) {
                                         value.updateSelected();
+                                        Provider.of<ThemeController>(context,
+                                                listen: false)
+                                            .changeTheme();
                                       },
                                     );
                                   },

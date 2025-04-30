@@ -40,7 +40,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           width: double.infinity,
           color: HexColor(themeController.isLight
               ? AppColorsLight.backgroundColor
-              : AppColorsDark.backgroundColor),
+              : "000000"),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,12 +59,16 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                          spreadRadius: 1, blurRadius: 10, color: Colors.grey)
+                          spreadRadius: 1,
+                          blurRadius: 10,
+                          color: themeController.isLight
+                              ? Colors.grey
+                              : HexColor("#000000"))
                     ],
                     borderRadius: BorderRadius.circular(10),
                     color: HexColor(themeController.isLight
                         ? AppColorsLight.lightGreyColor
-                        : AppColorsDark.greyColor),
+                        : "#0D0D0D"),
                   ),
                   child: Text(
                     "Select From Camera",
@@ -92,12 +96,16 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                            spreadRadius: 1, blurRadius: 10, color: Colors.grey)
+                            spreadRadius: 1,
+                            blurRadius: 10,
+                            color: themeController.isLight
+                                ? Colors.grey
+                                : HexColor("#000000"))
                       ],
                       borderRadius: BorderRadius.circular(10),
                       color: HexColor(themeController.isLight
                           ? AppColorsLight.lightGreyColor
-                          : AppColorsDark.greyColor),
+                          : "#0D0D0D"),
                     ),
                     child: Text(
                       "Select From Gallery",
@@ -277,6 +285,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         controller: controller,
         onChanged: onChanged,
         decoration: InputDecoration(
+            border: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: HexColor(themeController.isLight
+                        ? AppColorsLight.greyColor
+                        : "#484848"))),
             contentPadding:
                 EdgeInsets.only(left: width * 0.030, top: height * 0.010),
             hintText: hintText,
