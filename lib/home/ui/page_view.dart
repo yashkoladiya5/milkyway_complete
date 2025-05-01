@@ -98,6 +98,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
     return NetworkChecker(
       child: Scaffold(
         body: PageView(
+          physics: ClampingScrollPhysics(),
           controller: _pageController,
           onPageChanged: (index) {
             setState(() {

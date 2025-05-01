@@ -33,69 +33,72 @@ class _TermsAndConditionPageState extends State<TermsAndConditionPage> {
           SizedBox(
             height: height * 0.020,
           ),
-          Container(
-            padding: EdgeInsets.all(15),
-            height: height * 0.800,
-            width: double.infinity,
-            // color: Colors.red,
-            child: Builder(builder: (context) {
-              return Column(
-                children: [
-                  Text(
-                    (AppStrings.termsIntro).tr(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor)),
-                  ),
-                  SizedBox(
-                    height: height * 0.020,
-                  ),
-                  Text(
-                    (AppStrings.termsUseOfApp).tr(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor)),
-                  ),
-                  SizedBox(
-                    height: height * 0.020,
-                  ),
-                  Text(
-                    (AppStrings.termsChangesToTerms).tr(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor)),
-                  ),
-                  SizedBox(
-                    height: height * 0.020,
-                  ),
-                  Text(
-                    (AppStrings.termsAccuracyOfInformation).tr(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor)),
-                  ),
-                  SizedBox(
-                    height: height * 0.020,
-                  ),
-                  Text(
-                    (AppStrings.termsLimitationOfLiability).tr(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: HexColor(themeController.isLight
-                            ? AppColorsLight.darkBlueColor
-                            : AppColorsDark.whiteColor)),
-                  )
-                ],
-              );
-            }),
+          SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              // height: height * 0.900,
+              width: double.infinity,
+              // color: Colors.red,
+              child: Builder(builder: (context) {
+                return Column(
+                  children: [
+                    Text(
+                      (AppStrings.termsIntro).tr(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor)),
+                    ),
+                    SizedBox(
+                      height: height * 0.020,
+                    ),
+                    Text(
+                      (AppStrings.termsUseOfApp).tr(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor)),
+                    ),
+                    SizedBox(
+                      height: height * 0.020,
+                    ),
+                    Text(
+                      (AppStrings.termsChangesToTerms).tr(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor)),
+                    ),
+                    SizedBox(
+                      height: height * 0.020,
+                    ),
+                    Text(
+                      (AppStrings.termsAccuracyOfInformation).tr(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor)),
+                    ),
+                    SizedBox(
+                      height: height * 0.020,
+                    ),
+                    Text(
+                      (AppStrings.termsLimitationOfLiability).tr(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: HexColor(themeController.isLight
+                              ? AppColorsLight.darkBlueColor
+                              : AppColorsDark.whiteColor)),
+                    )
+                  ],
+                );
+              }),
+            ),
           )
         ],
       ),

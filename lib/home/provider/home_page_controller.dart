@@ -27,6 +27,7 @@ class HomePageController extends ChangeNotifier {
   void changePage({required int index}) {
     _activePage = index;
     print("ACTIVE PAGE : $activePage");
+
     notifyListeners();
   }
 

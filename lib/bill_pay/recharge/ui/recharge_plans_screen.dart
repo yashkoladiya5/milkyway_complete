@@ -48,17 +48,17 @@ class _RechargePlansScreenState extends State<RechargePlansScreen> {
 
     return NetworkChecker(
       child: Scaffold(
-              backgroundColor: HexColor(themeController.isLight
-        ? AppColorsLight.backgroundColor
-        : AppColorsDark.backgroundColor),
-              body: Column(
-      children: [
-        _buildHeaderContainer(),
-        _buildCategoryList(),
-        _buildPlansListView(),
-      ],
-              ),
-            ),
+        backgroundColor: HexColor(themeController.isLight
+            ? AppColorsLight.backgroundColor
+            : AppColorsDark.backgroundColor),
+        body: Column(
+          children: [
+            _buildHeaderContainer(),
+            _buildCategoryList(),
+            _buildPlansListView(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -183,7 +183,7 @@ class _RechargePlansScreenState extends State<RechargePlansScreen> {
         child: Consumer<RechargePlanController>(
           builder: (context, value, child) {
             return ListView.builder(
-
+              physics: ClampingScrollPhysics(),
               padding: EdgeInsets.zero,
               itemCount: value.plansList.length,
               itemBuilder: (context, index) {
@@ -262,10 +262,8 @@ class _RechargePlansScreenState extends State<RechargePlansScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 RichText(
-
                                     textAlign: TextAlign.start,
                                     text: TextSpan(
-
                                         style: TextStyle(
                                             fontSize: 16,
                                             color: HexColor(themeController

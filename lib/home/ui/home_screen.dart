@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -239,6 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // bottomNavigationBar: CustomNavigationBar(),
           resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
             scrollDirection: Axis.vertical,
             child: Container(
               color: themeController.isLight
@@ -366,19 +368,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         Provider.of<HomePageController>(context, listen: false)
                             .setDefault();
                         refresh =
-                            await Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
+                            await Navigator.push(context, CupertinoPageRoute(
+                          builder: (_) {
                             return const SearchScreen();
                           },
-                        ));
-
-                        if (refresh == "searchScreen") {
-                          loadingController.changeLoad();
-                          await homePageController.fetchFavouriteProductList();
-                          await homePageController.fetchTotalBalance();
-                          loadingController.changeLoad();
-                          setState(() {});
-                        }
+                        )).then(
+                          (value) async {
+                            print("SCREEN BACK TO HOME");
+                            if (refresh == "searchScreen") {
+                              loadingController.changeLoad();
+                              await homePageController
+                                  .fetchFavouriteProductList();
+                              await homePageController.fetchTotalBalance();
+                              loadingController.changeLoad();
+                              setState(() {});
+                            }
+                            return null;
+                          },
+                        );
                       },
                       style: TextStyle(
                           fontFamily: "poppins",
@@ -462,7 +469,9 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: HexColor(AppColorsLight.silverColor)
+                      color: HexColor(themeController.isLight
+                              ? AppColorsLight.silverColor
+                              : "#0000000")
                           .withOpacity(0.25),
                       blurRadius: 5.0,
                       spreadRadius: 1.0)
@@ -683,7 +692,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }),
         SizedBox(
-          width: width * 0.070,
+          width: width * 0.060,
         ),
         Builder(builder: (context) {
           return Text(
@@ -697,7 +706,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           width: context.locale.languageCode == 'hi' ||
                   context.locale.languageCode == 'mr'
-              ? width * 0.070
+              ? width * 0.060
               : width * 0.200,
         ),
         Builder(builder: (context) {
@@ -710,7 +719,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }),
         SizedBox(
-          width: width * 0.060,
+          width: width * 0.050,
         ),
         Builder(builder: (context) {
           return Text(
@@ -722,7 +731,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }),
         SizedBox(
-          width: width * 0.060,
+          width: width * 0.050,
         ),
         Builder(builder: (context) {
           return Text(
@@ -744,10 +753,17 @@ class _HomeScreenState extends State<HomeScreen> {
           height: height * 0.250,
           width: double.infinity,
           child: PageView.builder(
+            padEnds: false,
             controller: _pageController,
             onPageChanged: (value) {
-              Provider.of<HomePageController>(context, listen: false)
-                  .changePage(index: value);
+              if (value != 2) {
+                Provider.of<HomePageController>(context, listen: false)
+                    .changePage(index: value);
+              } else {
+                Provider.of<HomePageController>(context, listen: false)
+                    .changePage(index: value);
+              }
+
               // activePage = value;
               // setState(() {});
             },

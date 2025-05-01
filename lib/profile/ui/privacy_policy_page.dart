@@ -30,91 +30,94 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
       body: Column(
         children: [
           _buildHeaderContainer(),
-          Container(
-              padding: EdgeInsets.all(20),
-              height: height * 0.800,
-              width: double.infinity,
-              // color: Colors.red,
-              child: Builder(builder: (context) {
-                return Column(
-                  children: [
-                    Text(
-                      (AppStrings.privacyPolicyIntro).tr(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor)),
-                    ),
-                    SizedBox(
-                      height: height * 0.025,
-                    ),
-                    Text(
-                      (AppStrings.privacyPolicyAgreement).tr(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor)),
-                    ),
-                    SizedBox(
-                      height: height * 0.025,
-                    ),
-                    Text(
-                      (AppStrings.privacyPolicyDataCollection).tr(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor)),
-                    ),
-                    SizedBox(
-                      height: height * 0.025,
-                    ),
-                    Text(
-                      (AppStrings.privacyPolicyDataSharing).tr(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor)),
-                    ),
-                    SizedBox(
-                      height: height * 0.025,
-                    ),
-                    Text(
-                      (AppStrings.privacyPolicySecurity).tr(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor)),
-                    ),
-                    SizedBox(
-                      height: height * 0.025,
-                    ),
-                    Text(
-                      (AppStrings.privacyPolicyUserRights).tr(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor)),
-                    ),
-                    SizedBox(
-                      height: height * 0.025,
-                    ),
-                    Text(
-                      (AppStrings.privacyPolicyAcceptance).tr(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: HexColor(themeController.isLight
-                              ? AppColorsLight.darkBlueColor
-                              : AppColorsDark.whiteColor)),
-                    )
-                  ],
-                );
-              }))
+          SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Container(
+                padding: EdgeInsets.all(20),
+                // height: height * 0.950,
+                width: double.infinity,
+                // color: Colors.red,
+                child: Builder(builder: (context) {
+                  return Column(
+                    children: [
+                      Text(
+                        (AppStrings.privacyPolicyIntro).tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor)),
+                      ),
+                      SizedBox(
+                        height: height * 0.025,
+                      ),
+                      Text(
+                        (AppStrings.privacyPolicyAgreement).tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor)),
+                      ),
+                      SizedBox(
+                        height: height * 0.025,
+                      ),
+                      Text(
+                        (AppStrings.privacyPolicyDataCollection).tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor)),
+                      ),
+                      SizedBox(
+                        height: height * 0.025,
+                      ),
+                      Text(
+                        (AppStrings.privacyPolicyDataSharing).tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor)),
+                      ),
+                      SizedBox(
+                        height: height * 0.025,
+                      ),
+                      Text(
+                        (AppStrings.privacyPolicySecurity).tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor)),
+                      ),
+                      SizedBox(
+                        height: height * 0.025,
+                      ),
+                      Text(
+                        (AppStrings.privacyPolicyUserRights).tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor)),
+                      ),
+                      SizedBox(
+                        height: height * 0.025,
+                      ),
+                      Text(
+                        (AppStrings.privacyPolicyAcceptance).tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: HexColor(themeController.isLight
+                                ? AppColorsLight.darkBlueColor
+                                : AppColorsDark.whiteColor)),
+                      )
+                    ],
+                  );
+                })),
+          )
         ],
       ),
     );

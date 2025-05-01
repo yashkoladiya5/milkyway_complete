@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ? AppColorsLight.backgroundColor
           : AppColorsDark.backgroundColor),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: ClampingScrollPhysics(),
         child: Column(
           children: [
             _buildHeaderContainer(),
@@ -281,6 +281,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                       if (refresh.isNotEmpty) {
                         value.fetchData();
+                      } else {
+                        print("Refresh is Empty");
                       }
                     } else if (index == 2) {
                       Navigator.push(context, MaterialPageRoute(

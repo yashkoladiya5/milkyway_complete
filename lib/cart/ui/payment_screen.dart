@@ -69,6 +69,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             : AppColorsDark.backgroundColor),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -129,6 +130,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
         children: [
           IconButton(
               onPressed: () {
+                Provider.of<PaymentPageController>(context, listen: false)
+                    .clearData();
+
                 Navigator.pop(context);
               },
               icon: Icon(
@@ -666,7 +670,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                   Container(
                     width: context.locale.languageCode == 'hi'
-                        ? width * 0.385
+                        ? width * 0.365
                         : context.locale.languageCode == 'gu'
                             ? width * 0.400
                             : context.locale.languageCode == 'mr'
@@ -729,7 +733,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       width: context.locale.languageCode == 'gu'
                           ? width * 0.510
                           : context.locale.languageCode == 'hi'
-                              ? width * 0.590
+                              ? width * 0.560
                               : context.locale.languageCode == 'mr'
                                   ? width * 0.595
                                   : width * 0.450),
@@ -781,7 +785,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     width: context.locale.languageCode == 'gu'
                         ? width * 0.565
                         : context.locale.languageCode == 'hi'
-                            ? width * 0.535
+                            ? width * 0.515
                             : context.locale.languageCode == 'mr'
                                 ? width * 0.480
                                 : width * 0.395,
@@ -902,8 +906,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "Payment Failed",
           "Payment failed ❌: ${e.error.localizedMessage}",
         );
+
+        Provider.of<PaymentPageController>(context, listen: false).clearData();
+        Navigator.pop(context);
       } else {
         showPaymentDialog("Payment Failed", "An error occurred ❌");
+
+        Provider.of<PaymentPageController>(context, listen: false).clearData();
+        Navigator.pop(context);
       }
     }
   }

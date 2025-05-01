@@ -55,7 +55,7 @@ class _FaqsPageState extends State<FaqsPage> {
                               curve: Curves.easeInOut,
                               duration: Duration(milliseconds: 200),
                               height: value.expandedList[index]
-                                  ? height * 0.150
+                                  ? height * 0.170
                                   : height * 0.050,
                               decoration: BoxDecoration(
                                   boxShadow: [

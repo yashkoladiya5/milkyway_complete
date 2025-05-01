@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -37,6 +38,7 @@ class _ProductPageState extends State<ProductPage> {
   List<Widget> imageList = [];
   int activePage = 0;
   ProductModel? productModel;
+  String? refresh;
 
   bool? updatedIsFavourite;
   bool? updatedIsDaily;
@@ -311,42 +313,50 @@ class _ProductPageState extends State<ProductPage> {
         );
       }
       return NetworkChecker(
-        child: Scaffold(
-          backgroundColor: HexColor(themeController.isLight
-              ? AppColorsLight.backgroundColor
-              : AppColorsLight.darkBlueColor),
-          body: SingleChildScrollView(
-            child: Container(
-              // color: Colors.red,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildProductImage(),
-                  _buildNameAndFavouriteRow(),
-                  _buildWeightText(),
-                  _buildPriceRow(),
-                  Divider(
-                    color: HexColor(AppColorsLight.greyColor),
-                  ),
-                  if (productPageController.productModel!.isDaily == 1)
-                    _buildDailyButtonView()
-                  else
-                    _buildWithoutDailyButtonView(),
-                  Divider(
-                    color: HexColor(AppColorsLight.greyColor),
-                  ),
-                  _buildProductDescription(),
-                  Divider(
-                    color: HexColor(AppColorsLight.greyColor),
-                  ),
-                  _buildRatingContainer(),
-                  Divider(
-                    color: HexColor(AppColorsLight.greyColor),
-                  ),
-                  _buildAddToCartButton(),
-                  _buildRelatedProductHeading(),
-                  _buildRelatedProductList()
-                ],
+        child: GestureDetector(
+          onHorizontalDragEnd: (details) {
+            if (details.primaryVelocity! > 0) {
+              Navigator.of(context).pop();
+            }
+          },
+          child: Scaffold(
+            backgroundColor: HexColor(themeController.isLight
+                ? AppColorsLight.backgroundColor
+                : AppColorsLight.darkBlueColor),
+            body: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
+              child: Container(
+                // color: Colors.red,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _buildProductImage(),
+                    _buildNameAndFavouriteRow(),
+                    _buildWeightText(),
+                    _buildPriceRow(),
+                    Divider(
+                      color: HexColor(AppColorsLight.greyColor),
+                    ),
+                    if (productPageController.productModel!.isDaily == 1)
+                      _buildDailyButtonView()
+                    else
+                      _buildWithoutDailyButtonView(),
+                    Divider(
+                      color: HexColor(AppColorsLight.greyColor),
+                    ),
+                    _buildProductDescription(),
+                    Divider(
+                      color: HexColor(AppColorsLight.greyColor),
+                    ),
+                    _buildRatingContainer(),
+                    Divider(
+                      color: HexColor(AppColorsLight.greyColor),
+                    ),
+                    _buildAddToCartButton(),
+                    _buildRelatedProductHeading(),
+                    _buildRelatedProductList()
+                  ],
+                ),
               ),
             ),
           ),
@@ -870,37 +880,45 @@ class _ProductPageState extends State<ProductPage> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        String? refresh =
-                            await Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            print(
-                                "ID SENT TO NEXT PAGE : ${productPageController.productModel!.id!}");
-                            return ProductPage(
+                        final result = await Navigator.push(
+                          context,
+                          NoSwipeCupertinoPageRoute(
+                            builder: (context) {
+                              print(
+                                  "ID SENT TO NEXT PAGE : ${productPageController.productModel!.id!}");
+                              return ProductPage(
                                 previousPageId: productPageController
                                     .productModel!.id!
                                     .toString(),
-                                productModel: otherProductsList[index]);
-                          },
-                        ));
+                                productModel: otherProductsList[index],
+                              );
+                            },
+                          ),
+                        );
 
-                        if (refresh != null) {
-                          String id = refresh.substring(12, refresh.length);
+                        if (result != null) {
+                          print("REFRESH RESULT: $result");
+
+                          String id = result.substring(12);
                           print("ID FROM NEXT PAGE : $id");
+
                           await loadingController.changeLoad();
                           await productPageController.fetchData(
                               id: int.parse(id));
+
                           if (productPageController.productModel != null &&
                               productPageController.productModel!.quantity !=
                                   null) {
                             await quantityController.updateQuantity(
-                                newQuantity: productPageController
-                                    .productModel!.quantity!);
+                              newQuantity:
+                                  productPageController.productModel!.quantity!,
+                            );
                             await favouriteController.updateFavourite(
-                                newVal: productPageController
-                                    .productModel!.isFavourite!);
+                              newVal: productPageController
+                                  .productModel!.isFavourite!,
+                            );
                           }
-                          // await quantityController.updateQuantity(
-                          //     newQuantity: productPageController.productModel!.quantity!);
+
                           await fetchOtherProductData();
                           await loadingController.changeLoad();
                           await loadRelatedImageList();
@@ -1129,4 +1147,12 @@ class ImagePlaceHolder extends StatelessWidget {
       fit: BoxFit.cover,
     );
   }
+}
+
+class NoSwipeCupertinoPageRoute<T> extends CupertinoPageRoute<T> {
+  NoSwipeCupertinoPageRoute({required WidgetBuilder builder})
+      : super(builder: builder);
+
+  @override
+  bool get popGestureEnabled => false; // 👈 disables the swipe back
 }

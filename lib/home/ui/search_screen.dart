@@ -113,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           IconButton(
             onPressed: () {
-              Navigator.maybePop(context, "searchScreen");
+              Navigator.of(context).maybePop("searchScreen");
             },
             icon: Icon(
               Icons.arrow_back,

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
@@ -24,6 +25,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
   late double height;
   late double width;
   late ThemeController themeController;
+  String? refresh;
 
   late HomeBagScreenController homeBagScreenController;
   late CartItemListController cartItemListController;
@@ -154,6 +156,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
               ? AppColorsLight.backgroundColor
               : AppColorsDark.backgroundColor),
           body: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,12 +277,11 @@ class _HomeBagPageState extends State<HomeBagPage> {
 
               print("LIST BUILD");
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                padding: EdgeInsets.symmetric(vertical: 5.0),
                 child: InkWell(
                   onTap: () async {
-                    String refresh;
-                    refresh = await Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
+                    refresh = await Navigator.push(context, CupertinoPageRoute(
+                      builder: (_) {
                         return ProductPage(
                             previousPageId: cartItemListController
                                 .cartItemList[index].id
@@ -287,23 +289,24 @@ class _HomeBagPageState extends State<HomeBagPage> {
                             productModel:
                                 cartItemListController.cartItemList[index]);
                       },
-                    ));
-                    print("REFRESH : $refresh");
-                    if (refresh ==
-                        "productPage ${cartItemListController.cartItemList[index].id}") {
-                      await cartItemListController.fetchData();
-                      await quantityListController.defaultQuantityList(
-                          cartItemListController.cartItemList);
-                      await favouriteListController.defaultFavouriteList(
-                          cartItemListController.cartItemList);
-                      await relatedProductListController
-                          .defaultRelatedProductList();
-                    } else {
-                      print("WRONG");
-                    }
+                    )).then(
+                      (value) async {
+                        print("BACK FROM PRODUCT SCREEN TO HOME BAG PAGE");
+
+                        await cartItemListController.fetchData();
+                        await quantityListController.defaultQuantityList(
+                            cartItemListController.cartItemList);
+                        await favouriteListController.defaultFavouriteList(
+                            cartItemListController.cartItemList);
+                        await relatedProductListController
+                            .defaultRelatedProductList();
+
+                        return null;
+                      },
+                    );
                   },
                   child: Container(
-                    height: height * 0.150,
+                    height: height * 0.160,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: HexColor(themeController.isLight
@@ -861,7 +864,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
                             onTap: () async {
                               String refresh;
                               refresh = await Navigator.push(context,
-                                  MaterialPageRoute(
+                                  CupertinoPageRoute(
                                 builder: (context) {
                                   return ProductPage(
                                       previousPageId:
@@ -872,6 +875,10 @@ class _HomeBagPageState extends State<HomeBagPage> {
                                           .relatedProductList[index]);
                                 },
                               ));
+                              if (refresh.isEmpty) {
+                                print("REFRESH IS EMPTY");
+                                return;
+                              }
                               print("REFRESH : $refresh");
                               if (refresh ==
                                   "productPage ${relatedProductListController.relatedProductList[index].id}") {
@@ -1178,12 +1185,13 @@ class _HomeBagPageState extends State<HomeBagPage> {
                 );
               }),
               SizedBox(
-                width: context.locale.languageCode == 'hi' ||
-                        context.locale.languageCode == 'gu'
-                    ? width * 0.520
-                    : context.locale.languageCode == 'mr'
-                        ? width * 0.500
-                        : width * 0.450,
+                width: context.locale.languageCode == 'hi'
+                    ? width * 0.490
+                    : context.locale.languageCode == 'gu'
+                        ? width * 0.520
+                        : context.locale.languageCode == 'mr'
+                            ? width * 0.455
+                            : width * 0.450,
               ),
               Container(
                 width: width * 0.300,
@@ -1221,9 +1229,9 @@ class _HomeBagPageState extends State<HomeBagPage> {
                   width: context.locale.languageCode == 'gu'
                       ? width * 0.500
                       : context.locale.languageCode == 'hi'
-                          ? width * 0.595
+                          ? width * 0.585
                           : context.locale.languageCode == 'mr'
-                              ? width * 0.595
+                              ? width * 0.575
                               : width * 0.470),
               Container(
                 width: width * 0.300,
@@ -1272,9 +1280,9 @@ class _HomeBagPageState extends State<HomeBagPage> {
                 width: context.locale.languageCode == 'gu'
                     ? width * 0.510
                     : context.locale.languageCode == 'hi'
-                        ? width * 0.490
+                        ? width * 0.470
                         : context.locale.languageCode == 'mr'
-                            ? width * 0.440
+                            ? width * 0.400
                             : width * 0.365,
               ),
               Container(

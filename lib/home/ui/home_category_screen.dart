@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
@@ -202,6 +203,7 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
         child: Scaffold(
           backgroundColor: HexColor(AppColorsLight.backgroundColor),
           body: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
             child: Container(
               color: HexColor(themeController.isLight
                   ? AppColorsLight.backgroundColor
@@ -325,18 +327,20 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                     },
                   ));
                 } else {
-                  refresh = await Navigator.push(context, MaterialPageRoute(
+                  refresh = await Navigator.push(context, CupertinoPageRoute(
                     builder: (context) {
                       return ProductPage(
                         productModel: sortedList[index],
                       );
                     },
-                  ));
-
-                  if (refresh != null) {
-                    await fetchData();
-                    setState(() {});
-                  }
+                  )).then(
+                    (value) async {
+                      print("PAGE POPPED FROM PRODUCT TO CATEGORY");
+                      await fetchData();
+                      setState(() {});
+                      return null;
+                    },
+                  );
                 }
               },
               child: Column(
@@ -472,18 +476,20 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                       },
                     ));
                   } else {
-                    refresh = await Navigator.push(context, MaterialPageRoute(
+                    refresh = await Navigator.push(context, CupertinoPageRoute(
                       builder: (context) {
                         return ProductPage(
                           productModel: sortedList[index],
                         );
                       },
-                    ));
-
-                    if (refresh != null) {
-                      await fetchData();
-                      setState(() {});
-                    }
+                    )).then(
+                      (value) async {
+                        print("PAGE POPPED FROM PRODUCT TO CATEGORY");
+                        await fetchData();
+                        setState(() {});
+                        return null;
+                      },
+                    );
                   }
                 },
                 child: Container(

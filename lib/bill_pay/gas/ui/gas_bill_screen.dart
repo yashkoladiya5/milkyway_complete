@@ -253,7 +253,7 @@ class _GasBillScreenState extends State<GasBillScreen> {
                 },
                 child: value.selectedCategory == 0
                     ? Container(
-                        margin: EdgeInsets.only(left: width * 0.040),
+                        margin: EdgeInsets.only(left: width * 0.030),
                         height: height * 0.025,
                         width: width * 0.055,
                         decoration: BoxDecoration(
@@ -272,7 +272,7 @@ class _GasBillScreenState extends State<GasBillScreen> {
                         ),
                       )
                     : Container(
-                        margin: EdgeInsets.only(left: width * 0.040),
+                        margin: EdgeInsets.only(left: width * 0.030),
                         height: height * 0.025,
                         width: width * 0.055,
                         decoration: BoxDecoration(
@@ -283,7 +283,7 @@ class _GasBillScreenState extends State<GasBillScreen> {
                       ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: width * 0.030),
+                padding: EdgeInsets.only(left: width * 0.020),
                 child: Builder(builder: (context) {
                   return Text(
                     (AppStrings.payGasBill).tr(),
@@ -291,7 +291,7 @@ class _GasBillScreenState extends State<GasBillScreen> {
                         color: HexColor(themeController.isLight
                             ? AppColorsLight.darkBlueColor
                             : AppColorsDark.whiteColor),
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   );
                 }),
@@ -342,7 +342,7 @@ class _GasBillScreenState extends State<GasBillScreen> {
                         color: HexColor(themeController.isLight
                             ? AppColorsLight.darkBlueColor
                             : AppColorsDark.whiteColor),
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   );
                 }),

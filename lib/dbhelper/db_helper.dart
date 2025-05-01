@@ -376,6 +376,41 @@ class DbHelper {
     }
   }
 
+  Future<List<CartWalletModel>> fetchHomeScreenTableFutureDailyData(
+      {required String firstDate}) async {
+    Database? db = await database;
+
+    try {
+      final data = await db!.rawQuery(
+          "SELECT name,id,price,date,SUM(weightValue) as weightValue,weightUnit,isExpense,isIncome,quantity,image,isDaily from IncomeExpense WHERE date < ? AND isDaily = 1 GROUP BY name",
+          [firstDate]);
+
+      List<CartWalletModel> finalData = [];
+
+      for (int i = 0; i < data.length; i++) {
+        Map<String, dynamic> rawData = Map<String, dynamic>.from(data[i]);
+        rawData["weightValue"] = rawData["weightValue"].toString();
+        finalData.add(CartWalletModel.fromJson(rawData));
+      }
+
+      for (int i = 0; i < finalData.length; i++) {
+        int value = int.parse(finalData[i].weightValue);
+        if (finalData[i].weightUnit == "gm" && value >= 1000) {
+          finalData[i].weightUnit = "kg";
+          double weight = value / 1000;
+          String weightVal = weight.toString();
+          finalData[i].weightValue =
+              weightVal.substring(0, weightVal.length - 2);
+        }
+      }
+
+      return finalData;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<List<CartWalletModel>> fetchFutureWalletData(
       {required String date}) async {
     Database? db = await database;
