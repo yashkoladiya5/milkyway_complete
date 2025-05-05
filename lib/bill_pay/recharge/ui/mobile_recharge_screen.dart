@@ -350,12 +350,19 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
       child: Consumer<RechargeListController>(
         builder: (context, value, child) {
           return TextFormField(
+            cursorColor: themeController.isLight ? Colors.black : Colors.white,
             controller: value.mobileController,
             style: TextStyle(
                 color: HexColor(themeController.isLight
                     ? AppColorsLight.darkBlueColor
                     : AppColorsDark.whiteColor)),
             decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(13),
+                    borderSide: BorderSide(
+                        color: themeController.isLight
+                            ? Colors.black
+                            : Colors.white)),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(13),
                     borderSide: BorderSide(
@@ -413,6 +420,9 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
                   size: 35,
                 ),
               ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(13),
+                  borderSide: BorderSide(color: Colors.white)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(13),
                   borderSide: BorderSide(
@@ -483,6 +493,12 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
                     ? AppColorsLight.darkBlueColor
                     : AppColorsDark.whiteColor)),
             decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(13),
+                    borderSide: BorderSide(
+                      color:
+                          themeController.isLight ? Colors.black : Colors.white,
+                    )),
                 suffixIcon: Container(
                     // color: Colors.red,
                     padding: const EdgeInsets.only(right: 12.0),

@@ -400,6 +400,12 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
                               ? AppColorsLight.darkBlueColor
                               : AppColorsDark.whiteColor)),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: themeController.isLight
+                                ? Colors.black
+                                : Colors.white)),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
@@ -440,7 +446,14 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
                 fontWeight: FontWeight.bold,
                 overflow: TextOverflow.ellipsis,
                 fontSize: 17),
+            cursorColor: themeController.isLight ? Colors.black : Colors.white,
             decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                        color: themeController.isLight
+                            ? Colors.black
+                            : Colors.white)),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(

@@ -4,10 +4,15 @@ import 'package:intl/intl.dart';
 import 'package:milkyway/cart/model/cart_wallet_model.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_strings.dart';
+import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import 'invoice/data/invoice.dart';
+import 'invoice/data/pdf_invoice_generate.dart';
+import 'invoice/data/pdf_save.dart';
 
 class WalletPage extends StatefulWidget {
   bool isBottomBar;
@@ -29,6 +34,8 @@ class _WalletPageState extends State<WalletPage> {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) async {
         Provider.of<WalletScreenController>(context, listen: false).clearData();
+        Provider.of<WalletScreenController>(context, listen: false)
+            .fetchUserData();
       },
     );
   }
@@ -367,12 +374,25 @@ class _WalletPageState extends State<WalletPage> {
                 EdgeInsets.only(top: height * 0.010, bottom: height * 0.070),
             itemCount: value.transactionData.length,
             itemBuilder: (context, index) {
+              double finalPrice = 0.0;
               DateTime parsedDate =
                   DateTime.parse(value.transactionData[index].date);
               String formattedDate =
                   DateFormat('dd/MM/yyyy').format(parsedDate);
 
               int isIncome = value.transactionData[index].isIncome;
+              String price = value.transactionData[index].price
+                  .substring(1, value.transactionData[index].price.length);
+              String quantity = value.transactionData[index].quantity;
+
+              print("$price :::: price");
+              print("$quantity :::: quantity");
+              if (quantity == "1") {
+                finalPrice = double.parse(price);
+              } else {
+                finalPrice = double.parse(price) *
+                    int.parse(value.transactionData[index].quantity);
+              }
 
               return Padding(
                 padding: const EdgeInsets.all(3.0),
@@ -431,12 +451,12 @@ class _WalletPageState extends State<WalletPage> {
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.only(left: width * 0.100),
                         height: height * 0.070,
-                        width: width * 0.200,
+                        width: width * 0.210,
                         // color: Colors.red,
                         child: Text(
                           isIncome == 1
                               ? "+ ${value.transactionData[index].price}"
-                              : "- ${value.transactionData[index].price}",
+                              : "- ₹${finalPrice.toString()}0",
                           style: TextStyle(
                               color: isIncome == 1 ? Colors.green : Colors.red,
                               fontWeight: FontWeight.bold),
@@ -457,14 +477,123 @@ class _WalletPageState extends State<WalletPage> {
     return Positioned(
       bottom: widget.isBottomBar == false ? width * 0.100 : width * 0.250,
       left: width / 2.9,
-      child: Container(
-        height: height * 0.055,
-        width: width * 0.300,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: HexColor(AppColorsLight.orangeColor),
-        ),
-        child: Center(
+      child: Consumer<WalletScreenController>(
+        builder: (context, value, child) {
+          return InkWell(
+            onTap: () async {
+              if (value.invoiceData.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Select Date For transactions Data")));
+                return;
+              }
+              final date = DateTime.now();
+              final dueDate = date.add(Duration(days: 7));
+
+              final invoice = Invoice(
+                  supplier: Supplier(
+                    name: 'Milkyway india',
+                    address: 'B-502,Diamond World,surat',
+                    paymentInfo: 'https://paypal.me/milkyway',
+                  ),
+                  customer: Customer(
+                    name: value.userData["name"],
+                    address: value.userData["address"],
+                  ),
+                  info: InvoiceInfo(
+                    date: date,
+                    dueDate: dueDate,
+                    description: 'This is invoice of milkyway',
+                    number: '${DateTime.now().year}-9999',
+                  ),
+                  items: value.invoiceData.map(
+                    (item) {
+                      String price = item.price.substring(0, item.price.length);
+                      double totalPrice = double.parse(price);
+                      return InvoiceItem(
+                          description: item.name,
+                          date: DateTime.parse(item.date),
+                          quantity: int.parse(item.quantity),
+                          unitPrice: totalPrice);
+                    },
+                  ).toList());
+
+              final pdfFile = await PdfInvoiceApi.generate(invoice);
+
+              PdfApi.openFile(pdfFile);
+            },
+            child: Container(
+              height: height * 0.055,
+              width: width * 0.300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: HexColor(AppColorsLight.orangeColor),
+              ),
+              child: Center(
+                child: Builder(builder: (context) {
+                  return Text(
+                    (AppStrings.invoice).tr(),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: HexColor(AppColorsDark.whiteColor)),
+                  );
+                }),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/*
+Consumer<WalletScreenController>(
+        builder: (context, value, child) {
+          return InkWell(
+            onTap: () async {
+              final date = DateTime.now();
+              final dueDate = date.add(Duration(days: 7));
+
+              final invoice = Invoice(
+                  supplier: Supplier(
+                    name: 'Milkyway india',
+                    address: 'B-502,Diamond World,surat',
+                    paymentInfo: 'https://paypal.me/milkyway',
+                  ),
+                  customer: Customer(
+                    name: value.userData["name"],
+                    address: value.userData["address"],
+                  ),
+                  info: InvoiceInfo(
+                    date: date,
+                    dueDate: dueDate,
+                    description: 'This is invoice of milkyway',
+                    number: '${DateTime.now().year}-9999',
+                  ),
+                  items: value.transactionData.map(
+                    (item) {
+                      return InvoiceItem(
+                          description: item.name,
+                          date: DateTime.parse(item.date),
+                          quantity: int.parse(item.quantity),
+                          unitPrice: double.parse(item.weightValue));
+                    },
+                  ).toList());
+
+              final pdfFile = await PdfInvoiceApi.generate(invoice);
+
+              PdfApi.openFile(pdfFile);
+            },
+          );
+        },
+        child: Container(
+          height: height * 0.055,
+          width: width * 0.300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: HexColor(AppColorsLight.orangeColor),
+          ),
           child: Builder(builder: (context) {
             return Text(
               (AppStrings.invoice).tr(),
@@ -476,6 +605,4 @@ class _WalletPageState extends State<WalletPage> {
           }),
         ),
       ),
-    );
-  }
-}
+ */

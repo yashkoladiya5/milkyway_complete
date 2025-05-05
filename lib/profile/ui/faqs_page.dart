@@ -56,7 +56,7 @@ class _FaqsPageState extends State<FaqsPage> {
                               duration: Duration(milliseconds: 200),
                               height: value.expandedList[index]
                                   ? height * 0.170
-                                  : height * 0.050,
+                                  : height * 0.060,
                               decoration: BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
@@ -89,7 +89,7 @@ class _FaqsPageState extends State<FaqsPage> {
                                             padding: EdgeInsets.only(
                                                 left: width * 0.020),
                                             width: width * 0.720,
-                                            height: height * 0.025,
+                                            height: height * 0.030,
                                             // color: Colors.red,
                                             child: Text(
                                               (AppLists().faqTitleList[index])
@@ -152,7 +152,7 @@ class _FaqsPageState extends State<FaqsPage> {
                                                     padding: EdgeInsets.only(
                                                         left: width * 0.020),
                                                     width: width * 0.720,
-                                                    height: height * 0.025,
+                                                    height: height * 0.030,
                                                     // color: Colors.red,
                                                     child: Text(
                                                       (AppLists().faqTitleList[

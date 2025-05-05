@@ -132,6 +132,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         Provider.of<ProfileEditScreenController>(context, listen: false)
+            .clearImage();
+        Provider.of<ProfileEditScreenController>(context, listen: false)
             .fetchAndFillData(widget.userData);
       },
     );
@@ -222,6 +224,30 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       children: [
         Consumer<ProfileEditScreenController>(
           builder: (context, value, child) {
+            final hasPickedImage = value.imageUrl != "";
+            final hasNetworkImage = widget.userData["image"] != null &&
+                widget.userData["image"] != "";
+
+            Widget displayImage;
+
+            if (hasPickedImage) {
+              displayImage = Image.network(
+                value.imageUrl,
+                width: 100,
+                height: 100,
+                fit: BoxFit.fill,
+              );
+            } else if (hasNetworkImage) {
+              displayImage = Image.network(
+                widget.userData["image"],
+                width: 100,
+                height: 100,
+                fit: BoxFit.fill,
+              );
+            } else {
+              displayImage = Icon(Icons.person, size: 50);
+            }
+
             return InkWell(
               focusColor: Colors.transparent,
               highlightColor: Colors.transparent,
@@ -237,14 +263,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     borderRadius: BorderRadius.circular(50),
                     color: Colors.grey,
                   ),
-                  child: value.imageUrl.isEmpty
-                      ? Icon(
-                          Icons.person,
-                          size: 50,
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.network(value.imageUrl))),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: displayImage)),
             );
           },
         ),

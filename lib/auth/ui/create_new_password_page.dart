@@ -409,7 +409,13 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
             color: themeController.isLight
                 ? Colors.black
                 : HexColor(AppColorsDark.greyColor)),
+        cursorColor: themeController.isLight ? Colors.black : Colors.white,
         decoration: InputDecoration(
+            focusedBorder: UnderlineInputBorder(
+                // borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color:
+                        themeController.isLight ? Colors.black : Colors.white)),
             suffixIconColor: themeController.isLight
                 ? Colors.black
                 : HexColor(AppColorsDark.whiteColor),

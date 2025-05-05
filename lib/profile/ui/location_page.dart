@@ -41,7 +41,7 @@ class _LocationPageState extends State<LocationPage> {
             return Container(
               padding: EdgeInsets.symmetric(
                   horizontal: width * 0.020, vertical: height * 0.020),
-              height: height * 0.550,
+              height: height * 0.630,
               width: double.infinity,
               decoration: BoxDecoration(
                   color: HexColor(themeController.isLight
@@ -449,7 +449,7 @@ class _LocationPageState extends State<LocationPage> {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          margin: EdgeInsets.only(top: height * 0.020),
+          margin: EdgeInsets.only(top: height * 0.010),
           height: height * 0.050,
           width: width * 0.500,
           decoration: BoxDecoration(

@@ -155,7 +155,7 @@ class _OffersPageState extends State<OffersPage> {
                           "Congratulations!!You get $percentage% Discount On Order")));
                   double percentagePrice = bagPrice * percentage / 100;
                   print("PERCENTAGE PRICE ::::: $percentagePrice");
-                  Navigator.pop(context, "PERCENTAGE : $percentagePrice");
+                  Navigator.pop(context, "PERCENTAGE : ${percentagePrice}0");
                 }
               }
             },

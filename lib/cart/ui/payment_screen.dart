@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:milkyway/auth/model/location_model.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
 import 'package:milkyway/cart/provider/payment_page_controller.dart';
@@ -25,7 +26,7 @@ import 'package:http/http.dart' as http;
 
 class PaymentScreen extends StatefulWidget {
   String? bagTotal;
-  SignUpModel userData;
+  LocationModel userData;
   List<int> dailyProductList = [];
   PaymentScreen(
       {super.key,
@@ -526,7 +527,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildLocationContainer(
-    SignUpModel? userData,
+    LocationModel? userData,
   ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -939,9 +940,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       );
+      print('PaymentIntent response: ${response.body}');
 
-      return jsonDecode(response.body);
+      final jsonResponse = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return jsonResponse;
+      } else {
+        final errorMessage =
+            jsonResponse['error']['message'] ?? 'Unknown error';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+        throw Exception('Stripe error: $errorMessage');
+      }
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Something went wrong: ${e.toString()}")),
+      );
       throw Exception('Failed to create payment intent: $e');
     }
   }

@@ -198,10 +198,10 @@ class _HomeBagPageState extends State<HomeBagPage> {
         boxShadow: [
           if (themeController.isLight)
             BoxShadow(
-                offset: Offset(0, 10),
+                // offset: Offset(0, 10),
                 color: Colors.grey,
-                spreadRadius: 1,
-                blurRadius: 10)
+                spreadRadius: 0.5,
+                blurRadius: 4)
           else
             BoxShadow(
                 offset: Offset(0, 10),
@@ -261,7 +261,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
         return Container(
           height: cartItemListController.cartItemList.length * height * 0.165,
           child: ListView.builder(
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.only(top: height * 0.005),
             physics: NeverScrollableScrollPhysics(),
             itemCount: cartItemListController.cartItemList.length,
             itemBuilder: (context, index) {
@@ -277,7 +277,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
 
               print("LIST BUILD");
               return Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.0),
+                padding: EdgeInsets.symmetric(vertical: 3.0),
                 child: InkWell(
                   onTap: () async {
                     refresh = await Navigator.push(context, CupertinoPageRoute(
@@ -309,6 +309,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
                     height: height * 0.160,
                     width: double.infinity,
                     decoration: BoxDecoration(
+                        // color: Colors.red,
                         color: HexColor(themeController.isLight
                             ? AppColorsLight.backgroundColor
                             : AppColorsDark.darkGreyColor),
@@ -917,12 +918,14 @@ class _HomeBagPageState extends State<HomeBagPage> {
                             right: 5,
                             child: Container(
                               height: height * 0.045,
-                              width: width * 0.090,
+                              width: width * 0.0956,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Colors.grey,
+                                        color: themeController.isLight
+                                            ? Colors.grey
+                                            : Colors.black,
                                         blurRadius: 10,
                                         offset: Offset(3, 3),
                                         spreadRadius: 0.5)

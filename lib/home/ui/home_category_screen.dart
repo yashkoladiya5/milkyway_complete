@@ -443,7 +443,7 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
       height: height * 0.730,
       // color: Colors.blue,
       child: ListView.builder(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.only(top: height * 0.010),
         physics: const NeverScrollableScrollPhysics(),
         itemCount: sortedList.length,
         itemBuilder: (context, index) {

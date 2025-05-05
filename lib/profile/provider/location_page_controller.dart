@@ -12,6 +12,7 @@ class LocationPageController extends ChangeNotifier {
   TextEditingController _addressController = TextEditingController();
   String? _selectedArea;
   TextEditingController _pincodeController = TextEditingController();
+  int _selectedIndex = 0;
 
   List<LocationModel> get userData => _userData;
   LocationModel? get locationData => _locationData;
@@ -19,6 +20,7 @@ class LocationPageController extends ChangeNotifier {
   TextEditingController get addressController => _addressController;
   String? get selectedArea => _selectedArea;
   TextEditingController get pincodeController => _pincodeController;
+  int get selectedIndex => _selectedIndex;
 
   Future<void> fetchLocationDetails() async {
     final firestore = FirebaseFirestore.instance.collection("user");
@@ -137,5 +139,11 @@ class LocationPageController extends ChangeNotifier {
   void changeArea({required String newValue}) {
     _selectedArea = newValue;
     notifyListeners();
+  }
+
+  void changeSelectedIndex({required int index}) {
+    _selectedIndex = index;
+    notifyListeners();
+    print("SELECTED INDEX OF LOCATION CONTAINER:::: ${_selectedIndex}");
   }
 }

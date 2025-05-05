@@ -444,6 +444,12 @@ class _GasBillScreenState extends State<GasBillScreen> {
                 ? value.mobileController
                 : value.customerIdController,
             decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                        color: themeController.isLight
+                            ? Colors.black
+                            : Colors.white)),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(

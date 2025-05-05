@@ -173,7 +173,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: Image.network(value.userData["image"])),
+                        child: Image.network(
+                          value.userData["image"],
+                          fit: BoxFit.fill,
+                        )),
               ),
               Container(
                 padding: EdgeInsets.only(left: width * 0.050),
@@ -372,7 +375,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           margin: EdgeInsets.only(left: width * 0.020),
                           alignment: Alignment.bottomLeft,
                           height: height * 0.040,
-                          width: width * 0.500,
+                          width: width * 0.600,
                           // color: Colors.red,
                           child: Builder(builder: (context) {
                             return Text(
@@ -389,24 +392,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           }),
                         ),
                         index == 0
-                            ? Padding(
-                                padding: EdgeInsets.only(left: width * 0.080),
-                                child: Consumer<ProfileScreenController>(
-                                  builder: (context, value, child) {
-                                    return CupertinoSwitch(
-                                      thumbColor: Colors.black,
-                                      focusColor: Colors.red,
-                                      activeTrackColor: Colors.grey,
-                                      value: value.isSelected,
-                                      onChanged: (v) {
-                                        value.updateSelected();
-                                        Provider.of<ThemeController>(context,
-                                                listen: false)
-                                            .changeTheme();
-                                      },
-                                    );
-                                  },
-                                ),
+                            ? Consumer<ProfileScreenController>(
+                                builder: (context, value, child) {
+                                  return CupertinoSwitch(
+                                    thumbColor: Colors.black,
+                                    focusColor: Colors.red,
+                                    activeTrackColor: Colors.grey,
+                                    value: value.isSelected,
+                                    onChanged: (v) {
+                                      value.updateSelected();
+                                      Provider.of<ThemeController>(context,
+                                              listen: false)
+                                          .changeTheme();
+                                    },
+                                  );
+                                },
                               )
                             : SizedBox()
                       ],

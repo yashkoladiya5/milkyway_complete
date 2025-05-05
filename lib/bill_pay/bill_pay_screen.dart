@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/bill_pay/electricity/ui/electricity_bill_screen.dart';
@@ -73,11 +74,7 @@ class _BillPayScreenState extends State<BillPayScreen> {
           ),
           InkWell(
             onTap: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => PageViewScreen()),
-                (route) => false,
-              );
+              Navigator.pop(context);
             },
             child: Icon(
               Icons.arrow_back,

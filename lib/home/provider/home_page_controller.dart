@@ -51,9 +51,11 @@ class HomePageController extends ChangeNotifier {
   Future fetchTotalBalance() async {
     DbHelper dbHelper = DbHelper();
     _totalAmount = await dbHelper.fetchTotalBalanceData();
+
+    notifyListeners();
   }
 
-  Future<void> convertUiDateToYyyyMmDd(String uiDate) async {
+  Future<void> convertUiDateToYyyyMmDd(String uiDate, int index) async {
     int currentYear = 2025;
 
     List<String> parts = uiDate.split(" ");
@@ -78,16 +80,30 @@ class HomePageController extends ChangeNotifier {
 
       DbHelper dbHelper = DbHelper();
 
-      final data = await dbHelper.fetchHomeScreenTableData(
-          firstDate: firstDate, lastDate: endDate);
+      if (index > 0) {
+        final futureData = await dbHelper.fetchHomeScreenTableFutureDailyData(
+            firstDate: firstDate);
 
-      _dateWiseProductList = [];
-      for (int i = 0; i < data.length; i++) {
-        if (data[i].image != "") {
-          _dateWiseProductList.add(data[i]);
+        _dateWiseProductList = [];
+
+        for (int i = 0; i < futureData.length; i++) {
+          if (futureData[i].image != "") {
+            _dateWiseProductList.add(futureData[i]);
+          }
         }
+      } else {
+        final data = await dbHelper.fetchHomeScreenTableData(
+            firstDate: firstDate, lastDate: endDate);
+
+        _dateWiseProductList = [];
+        for (int i = 0; i < data.length; i++) {
+          if (data[i].image != "") {
+            _dateWiseProductList.add(data[i]);
+          }
+        }
+        print("DATE WISE LIST ::: ${_dateWiseProductList.length}");
       }
-      print("DATE WISE LIST ::: ${_dateWiseProductList.length}");
+
       notifyListeners();
     } catch (e) {
       print("ERROR :: $e");

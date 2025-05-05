@@ -94,61 +94,110 @@ class ProfileEditScreenController extends ChangeNotifier {
 
   Future<void> getGalleryImage(BuildContext context) async {
     var status = await Permission.camera.request();
+    if (Platform.isIOS) {
+      final XFile? photo = await _picker.pickImage(
+        source: ImageSource.gallery,
+      );
 
-    if (status.isGranted) {
-      try {
-        final XFile? photo = await _picker.pickImage(
-          source: ImageSource.gallery,
-        );
-        if (photo != null) {
-          _selectedFile = File(photo.path);
+      if (photo != null) {
+        _selectedFile = File(photo.path);
 
-          final user = Supabase.instance.client.auth.currentUser;
+        final user = Supabase.instance.client.auth.currentUser;
 
-          if (user == null) {
-            print("User is not authenticated");
+        if (user == null) {
+          print("User is not authenticated");
 
-            final response =
-                await Supabase.instance.client.auth.signInWithPassword(
-              email: 'yash.aviratinfo@gmail.com',
-              password: 'Yash@Avirat2489',
-            );
+          final response =
+              await Supabase.instance.client.auth.signInWithPassword(
+            email: 'yash.aviratinfo@gmail.com',
+            password: 'Yash@Avirat2489',
+          );
 
-            if (response.user == null) {
-              print('Authentication failed: ${response}');
-            } else {
-              print('User signed in: ${response}');
+          if (response.user == null) {
+            print('Authentication failed: ${response}');
+          } else {
+            print('User signed in: ${response}');
+          }
+
+          // return;
+        }
+
+        final storage = Supabase.instance.client.storage.from('user-images');
+        final filePath = 'uploads/${photo.name}';
+
+        final response = await storage.upload(filePath, _selectedFile!);
+
+        if (response.isNotEmpty) {
+          final fileUrl = await storage.getPublicUrl(filePath);
+          print('File URL: $fileUrl');
+          _imageUrl = fileUrl;
+
+          Future.microtask(() {
+            Navigator.pop(context);
+          });
+        } else {
+          print('Error uploading file: ${response}');
+        }
+
+        print("Image Path: ${photo.path}");
+      }
+    } else {
+      if (status.isGranted) {
+        try {
+          final XFile? photo = await _picker.pickImage(
+            source: ImageSource.gallery,
+          );
+          if (photo != null) {
+            _selectedFile = File(photo.path);
+
+            final user = Supabase.instance.client.auth.currentUser;
+
+            if (user == null) {
+              print("User is not authenticated");
+
+              final response =
+                  await Supabase.instance.client.auth.signInWithPassword(
+                email: 'yash.aviratinfo@gmail.com',
+                password: 'Yash@Avirat2489',
+              );
+
+              if (response.user == null) {
+                print('Authentication failed: ${response}');
+              } else {
+                print('User signed in: ${response}');
+              }
+
+              return;
             }
 
-            return;
+            final storage =
+                Supabase.instance.client.storage.from('user-images');
+            final filePath = 'uploads/${photo.name}';
+
+            final response = await storage.upload(filePath, _selectedFile!);
+
+            if (response.isNotEmpty) {
+              final fileUrl = await storage.getPublicUrl(filePath);
+              print('File URL: $fileUrl');
+              _imageUrl = fileUrl;
+
+              Future.microtask(() {
+                Navigator.pop(context);
+              });
+            } else {
+              print('Error uploading file: ${response}');
+            }
+
+            print("Image Path: ${photo.path}");
           }
-
-          final storage = Supabase.instance.client.storage.from('user-images');
-          final filePath = 'uploads/${photo.name}';
-
-          final response = await storage.upload(filePath, _selectedFile!);
-
-          if (response.isNotEmpty) {
-            final fileUrl = await storage.getPublicUrl(filePath);
-            print('File URL: $fileUrl');
-            _imageUrl = fileUrl;
-
-            Future.microtask(() {
-              Navigator.pop(context);
-            });
-          } else {
-            print('Error uploading file: ${response}');
-          }
-
-          print("Image Path: ${photo.path}");
+        } catch (e) {
+          print("Error capturing image: $e");
         }
-      } catch (e) {
-        print("Error capturing image: $e");
+      } else if (status.isDenied) {
+        print("Camera permission denied");
+      } else if (status.isPermanentlyDenied) {
+        openAppSettings();
       }
-    } else if (status.isDenied) {
-      print("Camera permission denied");
-    } else if (status.isPermanentlyDenied) {
-      openAppSettings();
     }
 
     notifyListeners();
@@ -248,5 +297,10 @@ class ProfileEditScreenController extends ChangeNotifier {
     } else {
       return null;
     }
+  }
+
+  clearImage() {
+    _imageUrl = "";
+    notifyListeners();
   }
 }

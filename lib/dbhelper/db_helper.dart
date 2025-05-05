@@ -359,15 +359,44 @@ class DbHelper {
       }
 
       for (int i = 0; i < finalData.length; i++) {
-        int value = int.parse(finalData[i].weightValue);
-        if (finalData[i].weightUnit == "gm" && value >= 1000) {
-          finalData[i].weightUnit = "kg";
-          double weight = value / 1000;
-          String weightVal = weight.toString();
-          finalData[i].weightValue =
-              weightVal.substring(0, weightVal.length - 2);
+        int value = int.parse(finalData[i].weightValue) *
+            int.parse(finalData[i].quantity);
+        if (finalData[i].isExpense == 1) {
+          if (finalData[i].weightUnit == "gm" && value >= 1000) {
+            finalData[i].weightUnit = "kg";
+            double weight = value / 1000;
+            String weightVal = weight.toString();
+            finalData[i].weightValue = weightVal;
+          } else {
+            finalData[i].weightValue = value.toString();
+          }
         }
       }
+
+      Map<String, List<CartWalletModel>> duplicateList = {};
+
+      for (var item in finalData) {
+        duplicateList.putIfAbsent(item.name, () => []);
+        duplicateList[item.name]!.add(item); // Always add the item
+      }
+
+      print("DUPLICATE LIST :::: ${duplicateList.values.map(
+        (e) => e.toList().map(
+              (e) => e.toJson(),
+            ),
+      )}");
+
+      List<List<CartWalletModel>> duplicates = duplicateList.values
+          .where(
+            (element) => element.length > 1,
+          )
+          .toList();
+
+      print("Duplicates ::: ${duplicates.map(
+        (e) => e.toList().map(
+              (e) => e.toJson(),
+            ),
+      )}");
 
       return finalData;
     } catch (e) {
@@ -394,16 +423,17 @@ class DbHelper {
       }
 
       for (int i = 0; i < finalData.length; i++) {
-        int value = int.parse(finalData[i].weightValue);
+        int value = int.parse(finalData[i].weightValue) *
+            int.parse(finalData[i].quantity);
         if (finalData[i].weightUnit == "gm" && value >= 1000) {
           finalData[i].weightUnit = "kg";
           double weight = value / 1000;
           String weightVal = weight.toString();
-          finalData[i].weightValue =
-              weightVal.substring(0, weightVal.length - 2);
+          finalData[i].weightValue = weightVal;
+        } else {
+          finalData[i].weightValue = value.toString();
         }
       }
-
       return finalData;
     } catch (e) {
       print(e);
@@ -445,10 +475,23 @@ class DbHelper {
       print(price);
 
       if (finalData[i].isExpense == 1) {
+        int quantity = int.parse(finalData[i].quantity);
+        if (quantity == 1) {
+          finalData[i].price = price.toString();
+        } else {
+          double finalPrice = price * quantity;
+          finalData[i].price = finalPrice.toString();
+          price = double.parse(finalData[i].price);
+        }
+      }
+
+      if (finalData[i].isExpense == 1) {
         _expense += price;
       } else if (finalData[i].isIncome == 1) {
         _income += price;
       }
+
+      print(finalData[i].toJson());
     }
 
     double total = _income - _expense;

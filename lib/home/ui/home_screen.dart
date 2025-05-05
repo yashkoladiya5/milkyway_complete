@@ -26,13 +26,14 @@ import 'package:milkyway/wallet/ui/wallet_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../bill_pay/bill_pay_screen.dart';
+import '../../cart/provider/home_bag_screen_controller.dart';
 import '../../profile/provider/language_page_controller.dart';
 import '../../profile/provider/profile_screen_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   final ValueNotifier<bool> refreshNotifier;
 
-  HomeScreen({super.key, required this.refreshNotifier});
+  const HomeScreen({super.key, required this.refreshNotifier});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -54,16 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String? date;
   late ThemeController themeController;
   String? refresh;
-
-  // Future fetchData() async {
-  //   favouriteProductList = await DbHelper().readFavouriteProductData();
-  //
-  //   if (favouriteProductList.isEmpty) {
-  //     print("NO DATA");
-  //   } else {
-  //     print(favouriteProductList.length);
-  //   }
-  // }
 
   Future<void> printDate() async {
     DateTime now = DateTime.now();
@@ -125,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
     int quantity =
         int.parse(homePageController.favouriteProductList[index].quantity!);
     if (quantity > 0) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           duration: Duration(milliseconds: 200),
           content: Text("Product is already in Cart")));
     } else {
@@ -133,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
       await DbHelper().updateProduct(
           homePageController.favouriteProductList[index].id!,
           homePageController.favouriteProductList[index].toJson());
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           duration: Duration(milliseconds: 200),
           content: Text("Product Added in Cart")));
     }
@@ -180,10 +171,10 @@ class _HomeScreenState extends State<HomeScreen> {
         loadingController.changeLoad();
         await homePageController.fetchFavouriteProductList();
         await homePageController.fetchTotalBalance();
-        DbHelper dbHelper = DbHelper();
-        await dbHelper.fetchTotalBalanceData();
+
+        await homePageController.fetchTotalBalance();
         Provider.of<HomePageController>(context, listen: false)
-            .convertUiDateToYyyyMmDd(allDatesFromToday[0]);
+            .convertUiDateToYyyyMmDd(allDatesFromToday[0], 0);
         Provider.of<ProfileScreenController>(context, listen: false)
             .fetchData();
         Provider.of<LanguagePageController>(context, listen: false)
@@ -240,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // bottomNavigationBar: CustomNavigationBar(),
           resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             scrollDirection: Axis.vertical,
             child: Container(
               color: themeController.isLight
@@ -293,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(
+            Navigator.push(context, CupertinoPageRoute(
               builder: (context) {
                 return WalletPage(
                   isBottomBar: false,
@@ -529,11 +520,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           _buildBillOptionsContainer(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return BillPayScreen();
-                  },
-                ));
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => const BillPayScreen()));
               },
               name: (AppStrings.billPay).tr(),
               image: themeController.isLight
@@ -548,7 +538,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     .setDefault();
                 Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => OffersPage(
                         amount: "",
                       ),
@@ -565,9 +555,13 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => const PayNowPage(),
-                    ));
+                    )).then(
+                  (value) {
+                    setState(() {});
+                  },
+                );
               },
               name: (AppStrings.payNow).tr(),
               image: themeController.isLight
@@ -605,7 +599,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   print(allDatesFromToday[index]);
                   value.changeIndex(index: index);
 
-                  value.convertUiDateToYyyyMmDd(allDatesFromToday[index]);
+                  value.convertUiDateToYyyyMmDd(
+                      allDatesFromToday[index], index);
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 15),
@@ -855,6 +850,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: double.infinity,
                         // color: Colors.blue,
                         child: ListView.builder(
+                          physics: const ClampingScrollPhysics(),
                           padding: EdgeInsets.zero,
                           itemCount: value.dateWiseProductList.isEmpty
                               ? 0
@@ -1126,7 +1122,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Center(child: Builder(builder: (context) {
             return Text(
               "NO PRODUCTS ARE IN FAVOURITE LIST...".tr(),
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
             );
           })));
     } else {
@@ -1334,39 +1331,54 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: width * 0.030,
-                                          top: height * 0.015),
-                                      height: height * 0.040,
-                                      width: width * 0.200,
-                                      decoration: BoxDecoration(
-                                          color: HexColor(themeController
-                                                  .isLight
-                                              ? AppColorsLight.lightGreyColor
-                                              : AppColorsDark.backgroundColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: themeController.isLight
-                                                    ? HexColor(AppColorsLight
-                                                            .greyColor)
-                                                        .withOpacity(0.5)
-                                                    : Colors.black,
-                                                blurRadius: 5,
-                                                offset: const Offset(0, 4),
-                                                spreadRadius: 0.2)
-                                          ]),
-                                      child: Center(
-                                        child: Text(
-                                          "Daily",
-                                          style: TextStyle(
-                                              color: HexColor(themeController
-                                                      .isLight
-                                                  ? AppColorsLight.darkBlueColor
-                                                  : AppColorsDark.whiteColor),
-                                              fontSize: 17),
+                                    InkWell(
+                                      onTap: () {
+                                        addToCart(index: index);
+                                        Provider.of<DailyProductListController>(
+                                                context,
+                                                listen: false)
+                                            .updateDailyProductList(
+                                                id: homePageController
+                                                    .favouriteProductList[index]
+                                                    .id!,
+                                                context: context);
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            left: width * 0.030,
+                                            top: height * 0.015),
+                                        height: height * 0.040,
+                                        width: width * 0.200,
+                                        decoration: BoxDecoration(
+                                            color: HexColor(themeController
+                                                    .isLight
+                                                ? AppColorsLight.lightGreyColor
+                                                : AppColorsDark
+                                                    .backgroundColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: themeController.isLight
+                                                      ? HexColor(AppColorsLight
+                                                              .greyColor)
+                                                          .withOpacity(0.5)
+                                                      : Colors.black,
+                                                  blurRadius: 5,
+                                                  offset: const Offset(0, 4),
+                                                  spreadRadius: 0.2)
+                                            ]),
+                                        child: Center(
+                                          child: Text(
+                                            "Daily",
+                                            style: TextStyle(
+                                                color: HexColor(themeController
+                                                        .isLight
+                                                    ? AppColorsLight
+                                                        .darkBlueColor
+                                                    : AppColorsDark.whiteColor),
+                                                fontSize: 17),
+                                          ),
                                         ),
                                       ),
                                     ),

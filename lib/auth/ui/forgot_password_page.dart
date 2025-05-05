@@ -329,7 +329,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     color: themeController.isLight
                         ? Colors.black
                         : HexColor(AppColorsDark.whiteColor)),
+                cursorColor:
+                    themeController.isLight ? Colors.black : Colors.white,
                 decoration: InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                        // borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: themeController.isLight
+                                ? Colors.black
+                                : Colors.white)),
                     border: UnderlineInputBorder(
                         borderSide: BorderSide(
                             color: HexColor(AppColorsLight.silverColor))),

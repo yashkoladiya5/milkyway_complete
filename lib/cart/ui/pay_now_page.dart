@@ -10,6 +10,7 @@ import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
+import 'package:milkyway/home/provider/home_page_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
@@ -515,6 +516,20 @@ class _PayNowPageState extends State<PayNowPage> {
       await dbHelper.insertWalletData(model: data);
       print("DATA INSERTED");
       Navigator.pop(context);
+      try {
+        final now = DateTime.now();
+        final formatter = DateFormat('MMM dd yyyy');
+        // formatter.format(now).toUpperCase();
+        String formattedDate = formatter.format(now).toUpperCase();
+
+        await Provider.of<HomePageController>(context, listen: false)
+            .convertUiDateToYyyyMmDd(formattedDate, 0);
+        await Provider.of<HomePageController>(context, listen: false)
+            .fetchTotalBalance();
+      } catch (error) {
+        print(error.toString());
+      }
+
       Navigator.pop(context);
 
       paymentIntent = null; // Reset after successful payment

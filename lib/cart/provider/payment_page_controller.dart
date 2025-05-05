@@ -28,7 +28,7 @@ class PaymentPageController extends ChangeNotifier {
     // _discountPrice = discount;
     double finalAmount = double.parse(_totalPrice) - double.parse(discount);
     _discountPrice = discount;
-    _totalPrice = finalAmount.toString();
+    _totalPrice = finalAmount.toString() + "0";
     notifyListeners();
   }
 

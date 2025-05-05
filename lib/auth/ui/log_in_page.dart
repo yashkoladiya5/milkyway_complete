@@ -481,7 +481,13 @@ class _LogInPageState extends State<LogInPage> {
             color: themeController.isLight
                 ? Colors.black
                 : HexColor(AppColorsDark.whiteColor)),
+        cursorColor: themeController.isLight ? Colors.black : Colors.white,
         decoration: InputDecoration(
+            focusedBorder: UnderlineInputBorder(
+                // borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color:
+                        themeController.isLight ? Colors.black : Colors.white)),
             hintStyle: TextStyle(
                 color: themeController.isLight
                     ? Colors.black
