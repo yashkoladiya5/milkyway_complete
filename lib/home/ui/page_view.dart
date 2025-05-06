@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/cart/ui/home_bag_page.dart';
@@ -28,7 +29,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
       // Push to HomeBagPage and wait
       final refresh = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const HomeBagPage()),
+        CupertinoPageRoute(builder: (context) => const HomeBagPage()),
       );
 
       // Wait for one frame before updating UI
@@ -42,6 +43,8 @@ class _PageViewScreenState extends State<PageViewScreen> {
             duration: const Duration(milliseconds: 100),
             curve: Curves.easeInOut,
           );
+
+          refreshNotifier.value = true;
         });
       }
     } else {

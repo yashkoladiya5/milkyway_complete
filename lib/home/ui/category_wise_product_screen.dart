@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -60,7 +61,7 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
+                              Navigator.push(context, CupertinoPageRoute(
                                 builder: (context) {
                                   return ProductPage(
                                       productModel: widget.productList[index]);
@@ -287,7 +288,7 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
+                              Navigator.push(context, CupertinoPageRoute(
                                 builder: (context) {
                                   return ProductPage(
                                       productModel: widget.productList[index]);

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/ui/create_new_password_page.dart';
@@ -229,7 +230,7 @@ class _OtpPageState extends State<OtpPage> {
           if (widget.email != null) {
             Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (context) => CreateNewPasswordPage(
                     email: widget.email,
                   ),
@@ -237,7 +238,7 @@ class _OtpPageState extends State<OtpPage> {
           } else {
             Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (context) => CreateNewPasswordPage(
                     mobileNumber: widget.mobileNumber,
                   ),

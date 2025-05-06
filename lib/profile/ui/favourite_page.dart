@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -160,7 +161,7 @@ class _FavouritePageState extends State<FavouritePage> {
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                 child: InkWell(
                   onTap: () async {
-                    await Navigator.push(context, MaterialPageRoute(
+                    await Navigator.push(context, CupertinoPageRoute(
                       builder: (context) {
                         return ProductPage(
                             productModel: value.favouriteList[index]);
@@ -537,7 +538,7 @@ class _FavouritePageState extends State<FavouritePage> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              await Navigator.push(context, MaterialPageRoute(
+                              await Navigator.push(context, CupertinoPageRoute(
                                 builder: (context) {
                                   return ProductPage(
                                       previousPageId:

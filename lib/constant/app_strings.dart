@@ -200,6 +200,7 @@ class SharedPreferenceKeys {
   static const String userDataKey = "userEmailPassword";
   static const String planKey = "selectedPlan";
   static const String locationIdKey = "locationId";
+  static const String dailyProductIdKey = "dailyProductId";
 }
 
 class DatabaseProductTableStrings {

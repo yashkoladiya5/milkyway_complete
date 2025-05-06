@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:milkyway/auth/ui/log_in_page.dart';
@@ -35,17 +36,16 @@ class _SplashScreenState extends State<SplashScreen> {
       print("isLogin value: $isLogin");
 
       if (prefs.getString(SharedPreferenceKeys.userIdKey) != null) {
-        context.setLocale(Locale('gu'));
         print("HOME PAGE.....");
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => PageViewScreen()),
+          CupertinoPageRoute(builder: (context) => PageViewScreen()),
         );
       } else {
         print("LOGIN PAGE.....");
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => LogInPage()),
+          CupertinoPageRoute(builder: (context) => LogInPage()),
         );
       }
     });

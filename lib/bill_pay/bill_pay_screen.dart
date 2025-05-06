@@ -144,19 +144,19 @@ class _BillPayScreenState extends State<BillPayScreen> {
       highlightColor: Colors.transparent,
       onTap: () {
         if (index == 0) {
-          Navigator.push(context, MaterialPageRoute(
+          Navigator.push(context, CupertinoPageRoute(
             builder: (context) {
               return MobileRechargeScreen();
             },
           ));
         } else if (index == 1) {
-          Navigator.push(context, MaterialPageRoute(
+          Navigator.push(context, CupertinoPageRoute(
             builder: (context) {
               return GasBillScreen();
             },
           ));
         } else {
-          Navigator.push(context, MaterialPageRoute(
+          Navigator.push(context, CupertinoPageRoute(
             builder: (context) {
               return ElectricityBillScreen();
             },

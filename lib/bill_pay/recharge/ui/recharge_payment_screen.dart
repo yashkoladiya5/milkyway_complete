@@ -561,7 +561,7 @@ class _RechargePaymentScreenState extends State<RechargePaymentScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BillPayScreen()),
+        CupertinoPageRoute(builder: (context) => BillPayScreen()),
       );
     } catch (e) {
       if (e is StripeException) {

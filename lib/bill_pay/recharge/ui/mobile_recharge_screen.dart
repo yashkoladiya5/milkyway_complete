@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/bill_pay/recharge/ui/recharge_payment_screen.dart';
@@ -422,7 +423,10 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
               ),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(13),
-                  borderSide: BorderSide(color: Colors.white)),
+                  borderSide: BorderSide(
+                      color: themeController.isLight
+                          ? Colors.black
+                          : Colors.white)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(13),
                   borderSide: BorderSide(
@@ -520,19 +524,18 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
                           return;
                         }
 
-                        String refresh =
-                            await Navigator.push(context, MaterialPageRoute(
+                        Navigator.push(context, CupertinoPageRoute(
                           builder: (context) {
                             return RechargePlansScreen(
                               operator: value.operatorController.text,
                               state: value.stateController.text,
                             );
                           },
-                        ));
-
-                        if (refresh != "") {
-                          value.updatePriceValue(price: refresh);
-                        } else {}
+                        )).then(
+                          (v) {
+                            value.updatePriceValue(price: v);
+                          },
+                        );
                       },
                       child: Text(
                         "View",
@@ -583,7 +586,7 @@ class _MobileRechargeScreenState extends State<MobileRechargeScreen> {
                 return;
               }
 
-              Navigator.push(context, MaterialPageRoute(
+              Navigator.push(context, CupertinoPageRoute(
                 builder: (context) {
                   return RechargePaymentScreen();
                 },

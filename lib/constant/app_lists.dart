@@ -4085,7 +4085,7 @@ class AppLists {
       quantity: "0",
       id: 97,
       name: "Frozen Ice Cream",
-      weight: "1 L",
+      weight: "1 litre",
       price: "₹350.00",
       isFavourite: 0,
       isDaily: 0,

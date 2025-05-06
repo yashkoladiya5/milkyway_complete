@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
@@ -112,7 +113,7 @@ class _LogInPageState extends State<LogInPage> {
         print("Electricity Data ADDED");
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
+            CupertinoPageRoute(
               builder: (context) => PageViewScreen(),
             ));
       } else {
@@ -376,7 +377,7 @@ class _LogInPageState extends State<LogInPage> {
                               FocusScope.of(context).unfocus();
 
                               setDefault();
-                              Navigator.push(context, MaterialPageRoute(
+                              Navigator.push(context, CupertinoPageRoute(
                                 builder: (context) {
                                   return const ForgotPasswordPage();
                                 },
@@ -422,7 +423,7 @@ class _LogInPageState extends State<LogInPage> {
                           InkWell(
                             onTap: () {
                               FocusScope.of(context).unfocus();
-                              Navigator.push(context, MaterialPageRoute(
+                              Navigator.push(context, CupertinoPageRoute(
                                 builder: (context) {
                                   return const SignUpPage();
                                 },

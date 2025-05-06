@@ -265,7 +265,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         SharedPreferenceKeys.locationIdKey, locationId);
                   },
                 );
-                Navigator.push(context, MaterialPageRoute(
+                Navigator.push(context, CupertinoPageRoute(
                   builder: (context) {
                     return PageViewScreen();
                   },
@@ -603,7 +603,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildCurrentLocationButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
+        Navigator.push(context, CupertinoPageRoute(
           builder: (context) {
             return PageViewScreen();
           },

@@ -347,8 +347,8 @@ class DbHelper {
 
     try {
       final data = await db!.rawQuery(
-          "SELECT name,id,price,date,SUM(weightValue) as weightValue,weightUnit,isExpense,isIncome,quantity,image,isDaily from IncomeExpense WHERE date BETWEEN ? AND ? GROUP BY name",
-          [firstDate, lastDate]);
+          "SELECT name,id,price,date,SUM(weightValue) as weightValue,weightUnit,isExpense,isIncome,quantity,image,isDaily from IncomeExpense WHERE (date BETWEEN ? AND ?) OR (date < ? AND isDaily = 1) GROUP BY name",
+          [firstDate, lastDate, firstDate]);
 
       List<CartWalletModel> finalData = [];
 
@@ -359,17 +359,40 @@ class DbHelper {
       }
 
       for (int i = 0; i < finalData.length; i++) {
-        int value = int.parse(finalData[i].weightValue) *
-            int.parse(finalData[i].quantity);
         if (finalData[i].isExpense == 1) {
+          double value = double.parse(finalData[i].weightValue) *
+              int.parse(finalData[i].quantity);
           if (finalData[i].weightUnit == "gm" && value >= 1000) {
             finalData[i].weightUnit = "kg";
+            double weight = value / 1000;
+            String weightVal = weight.toString();
+            finalData[i].weightValue = weightVal;
+          } else if (finalData[i].weightUnit == "ml" && value >= 1000) {
+            finalData[i].weightUnit = "litre";
+            double weight = value / 1000;
+            String weightVal = weight.toString();
+            finalData[i].weightValue = weightVal;
+          } else if (finalData[i].weightUnit == "ml" && value < 1000) {
+            finalData[i].weightUnit = "litre";
             double weight = value / 1000;
             String weightVal = weight.toString();
             finalData[i].weightValue = weightVal;
           } else {
             finalData[i].weightValue = value.toString();
           }
+        }
+      }
+
+      for (int i = 0; i < finalData.length; i++) {
+        String weightValue = finalData[i].weightValue.substring(
+            finalData[i].weightValue.length - 2,
+            finalData[i].weightValue.length);
+        print("WEIGHT VALUE :::: $weightValue");
+
+        if (weightValue == ".0") {
+          finalData[i].weightValue = finalData[i]
+              .weightValue
+              .substring(0, finalData[i].weightValue.length - 2);
         }
       }
 
@@ -400,7 +423,7 @@ class DbHelper {
 
       return finalData;
     } catch (e) {
-      print(e);
+      print("ERROR FROM DATABASE $e");
       return [];
     }
   }
@@ -423,17 +446,43 @@ class DbHelper {
       }
 
       for (int i = 0; i < finalData.length; i++) {
-        int value = int.parse(finalData[i].weightValue) *
+        double value = double.parse(finalData[i].weightValue) *
             int.parse(finalData[i].quantity);
-        if (finalData[i].weightUnit == "gm" && value >= 1000) {
-          finalData[i].weightUnit = "kg";
-          double weight = value / 1000;
-          String weightVal = weight.toString();
-          finalData[i].weightValue = weightVal;
-        } else {
-          finalData[i].weightValue = value.toString();
+        if (finalData[i].isExpense == 1) {
+          if (finalData[i].weightUnit == "gm" && value >= 1000) {
+            finalData[i].weightUnit = "kg";
+            double weight = value / 1000;
+            String weightVal = weight.toString();
+            finalData[i].weightValue = weightVal;
+          } else if (finalData[i].weightUnit == "ml" && value >= 1000) {
+            finalData[i].weightUnit = "litre";
+            double weight = value / 1000;
+            String weightVal = weight.toString();
+            finalData[i].weightValue = weightVal;
+          } else if (finalData[i].weightUnit == "ml" && value < 1000) {
+            finalData[i].weightUnit = "litre";
+            double weight = value / 1000;
+            String weightVal = weight.toString();
+            finalData[i].weightValue = weightVal;
+          } else {
+            finalData[i].weightValue = value.toString();
+          }
         }
       }
+
+      for (int i = 0; i < finalData.length; i++) {
+        String weightValue = finalData[i].weightValue.substring(
+            finalData[i].weightValue.length - 2,
+            finalData[i].weightValue.length);
+        print("WEIGHT VALUE :::: $weightValue");
+
+        if (weightValue == ".0") {
+          finalData[i].weightValue = finalData[i]
+              .weightValue
+              .substring(0, finalData[i].weightValue.length - 2);
+        }
+      }
+
       return finalData;
     } catch (e) {
       print(e);

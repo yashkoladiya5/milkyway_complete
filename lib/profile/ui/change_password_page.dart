@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/auth/ui/forgot_password_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -240,7 +241,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         padding: EdgeInsets.only(left: width * 0.50, top: height * 0.005),
         child: InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(
+            Navigator.push(context, CupertinoPageRoute(
               builder: (context) {
                 return ForgotPasswordPage();
               },

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -634,7 +635,7 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BillPayScreen()),
+        CupertinoPageRoute(builder: (context) => BillPayScreen()),
       );
     } catch (e) {
       if (e is StripeException) {

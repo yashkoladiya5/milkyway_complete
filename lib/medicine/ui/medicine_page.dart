@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,7 +45,7 @@ class _MedicinePageState extends State<MedicinePage> {
 
           print("Image Path: ${photo.path}");
 
-          Navigator.push(context, MaterialPageRoute(
+          Navigator.push(context, CupertinoPageRoute(
             builder: (context) {
               return MedicineAddPage(imagePath: selectedImage!.path);
             },

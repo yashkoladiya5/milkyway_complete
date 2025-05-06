@@ -318,7 +318,7 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                     .toList();
 
                 if (categoryList.isNotEmpty) {
-                  Navigator.push(context, MaterialPageRoute(
+                  Navigator.push(context, CupertinoPageRoute(
                     builder: (context) {
                       return CategoryWiseProductScreen(
                         pageTitle: text,
@@ -467,7 +467,7 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                       .toList();
 
                   if (categoryList.isNotEmpty) {
-                    Navigator.push(context, MaterialPageRoute(
+                    Navigator.push(context, CupertinoPageRoute(
                       builder: (context) {
                         return CategoryWiseProductScreen(
                           pageTitle: name,
@@ -727,7 +727,7 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                       .toList();
 
                   if (categoryList.isNotEmpty) {
-                    Navigator.push(context, MaterialPageRoute(
+                    Navigator.push(context, CupertinoPageRoute(
                       builder: (context) {
                         return CategoryWiseProductScreen(
                           pageTitle: name,
@@ -736,7 +736,7 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
                       },
                     ));
                   } else {
-                    refresh = await Navigator.push(context, MaterialPageRoute(
+                    refresh = await Navigator.push(context, CupertinoPageRoute(
                       builder: (context) {
                         return ProductPage(
                           productModel: sortedList[index],

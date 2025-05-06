@@ -114,6 +114,8 @@ class _HomeBagPageState extends State<HomeBagPage> {
         await favouriteListController
             .defaultFavouriteList(cartItemListController.cartItemList);
         await relatedProductListController.defaultRelatedProductList();
+        await dailyProductListController
+            .fetchDailyProductListDateFromSharedPreference();
         // await loadRelatedProductList();
         homeBagScreenController.changeLoading();
       },
@@ -1084,7 +1086,7 @@ class _HomeBagPageState extends State<HomeBagPage> {
             return InkWell(
               onTap: () {
                 if (value.cartItemList.isNotEmpty) {
-                  Navigator.push(context, MaterialPageRoute(
+                  Navigator.push(context, CupertinoPageRoute(
                     builder: (context) {
                       return LocationPage(
                         dailyProducts:

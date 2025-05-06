@@ -47,14 +47,14 @@ void main() async {
   await Stripe.instance.applySettings();
 
   await Supabase.initialize(
-    url: 'https://ozwbziudevgrgqcbmbbq.supabase.co', // Your Supabase URL
+    url: 'https://ozwbziudevgrgqcbmbbq.supabase.co',
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96d2J6aXVkZXZncmdxY2JtYmJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTcyMjksImV4cCI6MjA2MTEzMzIyOX0.DiJJrYAeHljAotcIgUCBWdtLsHaebWhdUjKJfDpvFo0', // Your Supabase Anon Key
   );
 
   runApp(
     EasyLocalization(
-      supportedLocales: [
+      supportedLocales: const [
         Locale('en'), // English
         Locale('hi'), // Hindi
         Locale('gu'), // Gujarati

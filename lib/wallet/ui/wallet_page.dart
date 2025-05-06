@@ -368,7 +368,7 @@ class _WalletPageState extends State<WalletPage> {
             ));
           }
           return ListView.builder(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: ClampingScrollPhysics(),
             // physics: NeverScrollableScrollPhysics(),
             padding:
                 EdgeInsets.only(top: height * 0.010, bottom: height * 0.070),
@@ -388,6 +388,8 @@ class _WalletPageState extends State<WalletPage> {
               print("$price :::: price");
               print("$quantity :::: quantity");
               if (quantity == "1") {
+                finalPrice = double.parse(price);
+              } else if (quantity == "") {
                 finalPrice = double.parse(price);
               } else {
                 finalPrice = double.parse(price) *

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/bill_pay/gas/provider/gas_bill_screen_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
@@ -648,7 +649,7 @@ class _GasBillScreenState extends State<GasBillScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BillPayScreen()),
+        CupertinoPageRoute(builder: (context) => BillPayScreen()),
       );
     } catch (e) {
       if (e is StripeException) {
@@ -761,7 +762,7 @@ class _GasBillScreenState extends State<GasBillScreen> {
                     .clearData();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => BillPayScreen()),
+                  CupertinoPageRoute(builder: (context) => BillPayScreen()),
                 );
               }
             },

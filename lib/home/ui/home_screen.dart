@@ -358,22 +358,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () async {
                         Provider.of<HomePageController>(context, listen: false)
                             .setDefault();
-                        refresh =
-                            await Navigator.push(context, CupertinoPageRoute(
+
+                        Navigator.push(context, CupertinoPageRoute(
                           builder: (_) {
                             return const SearchScreen();
                           },
                         )).then(
                           (value) async {
                             print("SCREEN BACK TO HOME");
-                            if (refresh == "searchScreen") {
-                              loadingController.changeLoad();
-                              await homePageController
-                                  .fetchFavouriteProductList();
-                              await homePageController.fetchTotalBalance();
-                              loadingController.changeLoad();
-                              setState(() {});
-                            }
+
+                            loadingController.changeLoad();
+                            await homePageController
+                                .fetchFavouriteProductList();
+                            await homePageController.fetchTotalBalance();
+                            loadingController.changeLoad();
+                            setState(() {});
+
                             return null;
                           },
                         );
@@ -913,7 +913,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               : context.locale.languageCode ==
                                                       'mr'
                                                   ? width * 0.145
-                                                  : width * 0.115,
+                                                  : width * 0.100,
                                       // color: Colors.red,
                                       child: Center(
                                         child: Text(
@@ -940,7 +940,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               : context.locale.languageCode ==
                                                       'mr'
                                                   ? width * 0.140
-                                                  : width * 0.115,
+                                                  : width * 0.105,
                                       // color: Colors.green,
                                       child: Center(
                                         child: Text(
@@ -1026,20 +1026,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () async {
                     Provider.of<HomePageController>(context, listen: false)
                         .setDefault();
-                    refresh = await Navigator.push(
+                    Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                           builder: (context) =>
                               HomeCategoryScreen(pageTitle: title),
-                        ));
+                        )).then(
+                      (value) async {
+                        loadingController.changeLoad();
+                        await homePageController.fetchFavouriteProductList();
+                        loadingController.changeLoad();
 
-                    if (refresh == "homeCategoryScreen") {
-                      loadingController.changeLoad();
-                      await homePageController.fetchFavouriteProductList();
-                      loadingController.changeLoad();
-
-                      setState(() {});
-                    }
+                        setState(() {});
+                      },
+                    );
                   },
                   child: Container(
                     height: height * 0.105,
@@ -1152,20 +1152,20 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: InkWell(
                 onTap: () async {
-                  refresh = await Navigator.push(context, MaterialPageRoute(
+                  Navigator.push(context, CupertinoPageRoute(
                     builder: (context) {
                       return ProductPage(
                           productModel:
                               homePageController.favouriteProductList[index]);
                     },
-                  ));
-
-                  if (refresh != null) {
-                    loadingController.changeLoad();
-                    await homePageController.fetchFavouriteProductList();
-                    loadingController.changeLoad();
-                    setState(() {});
-                  }
+                  )).then(
+                    (value) async {
+                      loadingController.changeLoad();
+                      await homePageController.fetchFavouriteProductList();
+                      loadingController.changeLoad();
+                      setState(() {});
+                    },
+                  );
                 },
                 child: Container(
                   height: height * 0.170,

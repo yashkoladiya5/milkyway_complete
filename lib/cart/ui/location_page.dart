@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
@@ -336,7 +337,7 @@ class _LocationPageState extends State<LocationPage> {
                   duration: Duration(milliseconds: 200),
                   content: Text("Wait for the address...!!")));
             } else {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(CupertinoPageRoute(
                 builder: (context) {
                   return PaymentScreen(
                     dailyProductList: widget.dailyProducts,

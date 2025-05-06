@@ -34,8 +34,15 @@ class PaymentPageController extends ChangeNotifier {
 
   clearData() {
     _expandedStates = [false, false, false, false];
+
+    notifyListeners();
+  }
+
+  clearAllData() {
+    _expandedStates = [false, false, false, false];
     _discountPrice = "00.00";
     _totalPrice = "00.00";
+
     notifyListeners();
   }
 
@@ -53,7 +60,8 @@ class PaymentPageController extends ChangeNotifier {
         }
       }
 
-      Provider.of<DailyProductListController>(context).clearList();
+      Provider.of<DailyProductListController>(context, listen: false)
+          .clearList();
     } else {
       print("No Daily Products...");
     }

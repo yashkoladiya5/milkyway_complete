@@ -146,4 +146,16 @@ class LocationPageController extends ChangeNotifier {
     notifyListeners();
     print("SELECTED INDEX OF LOCATION CONTAINER:::: ${_selectedIndex}");
   }
+
+  void cleanData() {
+    _userData = [];
+    _locationData = null;
+    _nameController.text = "";
+    _addressController.text = "";
+    _selectedArea = "";
+    _pincodeController.text = "";
+    _selectedIndex = 0;
+
+    notifyListeners();
+  }
 }

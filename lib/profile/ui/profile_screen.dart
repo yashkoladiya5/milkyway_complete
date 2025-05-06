@@ -274,7 +274,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () async {
                     if (index == 1) {
                       String refresh =
-                          await Navigator.push(context, MaterialPageRoute(
+                          await Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return ProfileEditScreen(
                             userData: value.userData,
@@ -288,55 +288,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         print("Refresh is Empty");
                       }
                     } else if (index == 2) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return ChangePasswordPage();
                         },
                       ));
                     } else if (index == 3) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return LocationPage();
                         },
                       ));
                     } else if (index == 4) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return OrderHistoryPage();
                         },
                       ));
                     } else if (index == 5) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return FavouritePage();
                         },
                       ));
                     } else if (index == 6) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return LanguagePage();
                         },
                       ));
                     } else if (index == 8) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return TermsAndConditionPage();
                         },
                       ));
                     } else if (index == 9) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return PrivacyPolicyPage();
                         },
                       ));
                     } else if (index == 10) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return CancellationPolicyPage();
                         },
                       ));
                     } else if (index == 12) {
-                      Navigator.push(context, MaterialPageRoute(
+                      Navigator.push(context, CupertinoPageRoute(
                         builder: (context) {
                           return FaqsPage();
                         },

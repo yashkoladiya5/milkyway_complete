@@ -19,6 +19,7 @@ import 'package:milkyway/constant/payment_constant_keys.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:milkyway/home/ui/home_screen.dart';
 import 'package:milkyway/home/ui/page_view.dart';
+import 'package:milkyway/profile/provider/location_page_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
@@ -697,7 +698,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     onTap: () async {
                       if (value.discountPrice == "00.00") {
                         String? refresh =
-                            await Navigator.push(context, MaterialPageRoute(
+                            await Navigator.push(context, CupertinoPageRoute(
                           builder: (context) {
                             return OffersPage(
                               amount: widget.bagTotal.toString(),
@@ -887,14 +888,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
       showPaymentDialog("Payment Successful", "Your payment was successful ✅");
       Provider.of<CartItemListController>(context, listen: false).clearList();
       Provider.of<QuantityListController>(context, listen: false).clearList();
-      Provider.of<PaymentPageController>(context, listen: false).clearData();
+      Provider.of<PaymentPageController>(context, listen: false).clearAllData();
       DbHelper dbHelper = DbHelper();
       Provider.of<PaymentPageController>(context, listen: false)
           .addToDailyProducts(data: widget.dailyProductList, context: context);
 
+      Provider.of<LocationPageController>(context, listen: false).cleanData();
+
       await dbHelper.fetchCartProductsData();
       await dbHelper.setDefaultQuantityOfProducts();
-      Navigator.pushReplacement(context, MaterialPageRoute(
+      Navigator.pushReplacement(context, CupertinoPageRoute(
         builder: (context) {
           return PageViewScreen();
         },

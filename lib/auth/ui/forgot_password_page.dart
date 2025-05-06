@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/sign_up_model.dart';
@@ -96,7 +97,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           content:
               Text("OTP Sent Successfully to ${textFieldController.text}")));
       String refresh;
-      refresh = await Navigator.push(context, MaterialPageRoute(
+      Navigator.push(context, CupertinoPageRoute(
         builder: (context) {
           return OtpPage(
             email: textFieldController.text,
@@ -104,12 +105,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             isEmailOrMobile: "Email",
           );
         },
-      ));
-
-      if (refresh == "refresh") {
-        textFieldController.clear();
-        print("Refreshed");
-      }
+      )).then(
+        (value) {
+          textFieldController.clear();
+          print("Refreshed");
+        },
+      );
     } else {
       print("OTP FAILED");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -131,7 +132,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Code sent successFully to +91$number")));
       String refresh;
-      refresh = await Navigator.push(context, MaterialPageRoute(
+      Navigator.push(context, CupertinoPageRoute(
         builder: (context) {
           return OtpPage(
             mobileNumber: "+91$number",
@@ -139,11 +140,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             isEmailOrMobile: "Mobile",
           );
         },
-      ));
-
-      if (refresh == "refresh") {
-        textFieldController.clear();
-      }
+      )).then(
+        (value) {
+          textFieldController.clear();
+        },
+      );
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Something went wrong...!!")));

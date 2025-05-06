@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:milkyway/home/model/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeBagScreenController extends ChangeNotifier {
   bool _isLoading = false;
@@ -196,9 +198,19 @@ class DailyProductListController extends ChangeNotifier {
 
   List<int> get dailyProductList => _dailyProductList;
 
-  updateDailyProductList({required int id, required BuildContext context}) {
+  updateDailyProductList(
+      {required int id, required BuildContext context}) async {
     if (!_dailyProductList.contains(id)) {
       _dailyProductList.add(id);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      List<String> intList = _dailyProductList
+          .map(
+            (e) => e.toString(),
+          )
+          .toList();
+
+      prefs.setStringList(SharedPreferenceKeys.dailyProductIdKey, intList);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Product is already in Daily Product List")));
@@ -217,9 +229,31 @@ class DailyProductListController extends ChangeNotifier {
     }
   }
 
-  clearList() {
+  clearList() async {
     _dailyProductList.clear();
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPreferenceKeys.dailyProductIdKey);
     notifyListeners();
+  }
+
+  fetchDailyProductListDateFromSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String>? dailyList =
+        prefs.getStringList(SharedPreferenceKeys.dailyProductIdKey);
+
+    if (dailyList != null) {
+      List<int> intList = [];
+      for (int i = 0; i < dailyList.length; i++) {
+        intList.add(int.parse(dailyList[i]));
+      }
+      _dailyProductList = [];
+      _dailyProductList.addAll(intList);
+      notifyListeners();
+      print(
+          "DAILY PRODUCT LIST FROM SHARED PREFERECNES ::: ${_dailyProductList}");
+    } else {
+      print("DAILY PRODUCT LIST FROM SHARED PREFERECNES IS null");
+    }
   }
 }
