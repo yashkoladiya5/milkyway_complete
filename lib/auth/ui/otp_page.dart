@@ -14,11 +14,11 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 class OtpPage extends StatefulWidget {
-  String? email;
-  String? mobileNumber;
-  String isEmailOrMobile;
-  String otp;
-  OtpPage(
+  final String? email;
+  final String? mobileNumber;
+  final String isEmailOrMobile;
+  final String otp;
+  const OtpPage(
       {super.key,
       required this.isEmailOrMobile,
       required this.otp,

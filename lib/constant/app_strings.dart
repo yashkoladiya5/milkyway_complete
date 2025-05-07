@@ -131,6 +131,7 @@ class AppStrings {
   static const String daily = "Daily";
   static const String bag = "Bag";
   static const String faqs = "FAQ's";
+  static const String logOutText = "Are sure want to\nLog Out?";
 
   static const String faq1Title = "How can I reset my password?";
   static const String faq1Answer =
@@ -196,15 +197,18 @@ class AppStrings {
 }
 
 class SharedPreferenceKeys {
-  static const String userIdKey = "userId";
-  static const String userDataKey = "userEmailPassword";
-  static const String planKey = "selectedPlan";
-  static const String locationIdKey = "locationId";
-  static const String dailyProductIdKey = "dailyProductId";
+  static String userIdKey = "userId";
+  static String userDataKey = "userEmailPassword";
+  static String planKey = "selectedPlan";
+  static String locationIdKey = "locationId";
+  static String dailyProductIdKey = "dailyProductId";
+  static String autoPayId = "autoPayId";
+  static String autoPayBalanceId = "autoPayBalanceId";
+  static String lastLogInUserId = "lastLogInUserId";
 }
 
 class DatabaseProductTableStrings {
-  static const String tableName = "ProductTable";
+  static String tableName = "ProductTable";
   static const String productId = "id";
   static const String productName = "name";
   static const String productWeight = "weight";
@@ -220,7 +224,7 @@ class DatabaseProductTableStrings {
 }
 
 class DatabaseRechargeTableStrings {
-  static const String tableName = "RechargePlansTable";
+  static String tableName = "RechargePlansTable";
   static const String companyName = "company";
   static const String companyCategory = "category";
   static const String companyData = "data";
@@ -233,7 +237,7 @@ class DatabaseRechargeTableStrings {
 }
 
 class DatabaseGasBookingTableStrings {
-  static const String tableName = "GasBooking";
+  static String tableName = "GasBooking";
   static const String providerName = "gasProviderName";
   static const String registeredMobile = "registeredMobile";
   static const String cylinderPrice = "cylinderPrice";
@@ -243,7 +247,7 @@ class DatabaseGasBookingTableStrings {
 }
 
 class DatabasePayGasBillTableStrings {
-  static const String tableName = "payGasBill";
+  static String tableName = "payGasBill";
   static const String providerName = "gasProviderName";
   static const String customerId = "customerId";
   static const String customerName = "customerName";
@@ -254,7 +258,7 @@ class DatabasePayGasBillTableStrings {
 }
 
 class DatabaseElectricityTableStrings {
-  static const String tableName = "Electricity";
+  static String tableName = "Electricity";
   static const String customerNo = "customerNo";
   static const String customerName = "name";
   static const String electricityProvider = "electricityProvider";
@@ -265,7 +269,7 @@ class DatabaseElectricityTableStrings {
 }
 
 class DatabaseIncomeExpenseTableStrings {
-  static const String tableName = "IncomeExpense";
+  static String tableName = "IncomeExpense";
   static const String name = "name";
   static const String price = "price";
   static const String date = "date";
@@ -278,5 +282,5 @@ class DatabaseIncomeExpenseTableStrings {
 }
 
 class DatabaseDailyTableStrings {
-  static const String tableName = "DailyProductsTable";
+  static String tableName = "DailyProductsTable";
 }

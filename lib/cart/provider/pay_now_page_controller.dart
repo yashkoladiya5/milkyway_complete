@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PayNowPageController extends ChangeNotifier {
-  int _selectedIndex = 6;
-  int _paymentIndex = 5;
+  int _selectedIndex = -1;
+  int _paymentIndex = -1;
 
   int get selectedIndex => _selectedIndex;
   int get paymentIndex => _paymentIndex;

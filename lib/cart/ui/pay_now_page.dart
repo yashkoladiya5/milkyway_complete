@@ -15,6 +15,7 @@ import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PayNowPage extends StatefulWidget {
   const PayNowPage({super.key});
@@ -256,9 +257,27 @@ class _PayNowPageState extends State<PayNowPage> {
       child: Consumer<PayNowPageController>(
         builder: (context, value, child) {
           return InkWell(
-            onTap: () {
-              if (value.selectedIndex != -1) {
+            onTap: () async {
+              if (value.paymentIndex == -1 && value.selectedIndex == -1) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Select At Least One Option")));
+              } else if (value.paymentIndex != -1) {
+                print("SELECTED PAYMENT ::: ${value.paymentIndex}");
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                String autoPayAmount =
+                    AppLists.autoPayList[value.paymentIndex].substring(0, 8);
+                String autoPayUnderAmount =
+                    AppLists.balanceList[value.paymentIndex];
+                prefs.setString(SharedPreferenceKeys.autoPayId, autoPayAmount);
+                prefs.setString(
+                    SharedPreferenceKeys.autoPayBalanceId, autoPayUnderAmount);
+                Navigator.pop(context);
+              } else if (value.selectedIndex != -1) {
                 makePayment(AppLists.upiBalanceList[value.selectedIndex]);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("You must have to select any option")));
               }
             },
             child: Container(
@@ -432,7 +451,7 @@ class _PayNowPageState extends State<PayNowPage> {
             splashColor: Colors.transparent,
             onTap: () {
               if (value.paymentIndex == index) {
-                value.changePaymentIndex(index: 5);
+                value.changePaymentIndex(index: -1);
               } else {
                 value.changePaymentIndex(index: index);
               }

@@ -96,7 +96,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:
               Text("OTP Sent Successfully to ${textFieldController.text}")));
-      String refresh;
       Navigator.push(context, CupertinoPageRoute(
         builder: (context) {
           return OtpPage(
@@ -131,7 +130,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     if (response.responseCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Code sent successFully to +91$number")));
-      String refresh;
       Navigator.push(context, CupertinoPageRoute(
         builder: (context) {
           return OtpPage(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +14,6 @@ import 'package:milkyway/profile/ui/profile_edit_screen.dart';
 import 'package:milkyway/profile/ui/terms_and_condition_page.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constant/app_strings.dart';
 import 'cancellation_policy_page.dart';
 import 'language_page.dart';
@@ -341,6 +337,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           return FaqsPage();
                         },
                       ));
+                    } else if (index == 13) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            contentPadding: EdgeInsets.zero,
+                            content: Container(
+                              height: height * 0.200,
+                              width: width * 0.800,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: HexColor(themeController.isLight
+                                      ? AppColorsLight.backgroundColor
+                                      : AppColorsDark.backgroundColor)),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: height * 0.140,
+                                    width: width * 0.700,
+                                    // color: Colors.red,
+                                    child: Text(
+                                      textAlign: TextAlign.center,
+                                      AppStrings.logOutText,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: HexColor(
+                                              themeController.isLight
+                                                  ? AppColorsLight.darkBlueColor
+                                                  : AppColorsDark.whiteColor)),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: height * 0.060,
+                                    width: width * 0.800,
+                                    decoration: BoxDecoration(
+                                        // color: Colors.red,
+                                        ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {},
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              height: height * 0.060,
+                                              decoration: BoxDecoration(
+                                                  color: HexColor(AppColorsLight
+                                                      .orangeColor),
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(15),
+                                                  )),
+                                              child: Text(
+                                                "Yes",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: HexColor(
+                                                        AppColorsLight
+                                                            .darkBlueColor)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: height * 0.060,
+                                            decoration: BoxDecoration(
+                                                color: HexColor(
+                                                    themeController.isLight
+                                                        ? AppColorsLight
+                                                            .lightGreyColor
+                                                        : AppColorsDark
+                                                            .darkGreyColor),
+                                                borderRadius: BorderRadius.only(
+                                                    bottomRight:
+                                                        Radius.circular(15))),
+                                            child: Center(
+                                              child: Text(
+                                                "No",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: HexColor(
+                                                        themeController.isLight
+                                                            ? AppColorsLight
+                                                                .darkBlueColor
+                                                            : AppColorsDark
+                                                                .whiteColor)),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     }
                   },
                   child: Container(

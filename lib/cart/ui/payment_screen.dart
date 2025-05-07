@@ -6,18 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:milkyway/auth/model/location_model.dart';
-import 'package:milkyway/auth/model/sign_up_model.dart';
 import 'package:milkyway/cart/provider/home_bag_screen_controller.dart';
 import 'package:milkyway/cart/provider/payment_page_controller.dart';
-import 'package:milkyway/cart/ui/home_bag_page.dart';
 import 'package:milkyway/cart/ui/offers_page.dart';
-import 'package:milkyway/cart/ui/pay_now_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
-import 'package:milkyway/constant/payment_constant_keys.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
-import 'package:milkyway/home/ui/home_screen.dart';
 import 'package:milkyway/home/ui/page_view.dart';
 import 'package:milkyway/profile/provider/location_page_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -585,8 +580,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ? Colors.grey.withOpacity(0.5)
                   : Colors.transparent,
               child: Text(
-                "${userData?.address} , \n${userData?.area}-${userData?.pincode}" ??
-                    "",
+                "${userData?.address} , \n${userData?.area}-${userData?.pincode}",
                 style: TextStyle(
                   fontSize: 18,
                   color: HexColor(themeController.isLight

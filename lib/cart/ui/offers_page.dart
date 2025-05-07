@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:milkyway/cart/ui/pay_now_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
@@ -12,8 +11,8 @@ import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
 
 class OffersPage extends StatefulWidget {
-  String amount;
-  OffersPage({super.key, required this.amount});
+  final String amount;
+  const OffersPage({super.key, required this.amount});
 
   @override
   State<OffersPage> createState() => _OffersPageState();
@@ -140,8 +139,7 @@ class _OffersPageState extends State<OffersPage> {
                 } else {
                   print("OFFER APPLIED");
 
-                  String price =
-                      AppLists.offerCategoryList[index].substring(5, 12);
+                  AppLists.offerCategoryList[index].substring(5, 12);
                   int first = int.parse(
                       AppLists.offerPercentageList[index].substring(0, 2));
                   int last = int.parse(

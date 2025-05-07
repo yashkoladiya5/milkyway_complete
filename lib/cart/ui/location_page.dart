@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +13,13 @@ import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../auth/model/location_model.dart';
 import '../../profile/provider/location_page_controller.dart';
 import '../../profile/widgets/custom_location_drop_down_button.dart';
 
 class LocationPage extends StatefulWidget {
-  String? bagTotal;
+  final String? bagTotal;
   List<int> dailyProducts = [];
   LocationPage({super.key, this.bagTotal, required this.dailyProducts});
 
@@ -242,7 +239,7 @@ class _LocationPageState extends State<LocationPage> {
                                 width: width * 0.700,
                                 // color: Colors.grey.withOpacity(0.5),
                                 child: Text(
-                                  value.userData[index].name ?? "",
+                                  value.userData[index].name,
                                   style: TextStyle(
                                       color: HexColor(themeController.isLight
                                           ? AppColorsLight.darkBlueColor
@@ -288,7 +285,7 @@ class _LocationPageState extends State<LocationPage> {
                             width: width * 0.70,
                             // color: Colors.grey.withOpacity(0.5),
                             child: Text(
-                              value.userData[index].mobileNumber ?? "",
+                              value.userData[index].mobileNumber,
                               style: TextStyle(
                                 fontSize: 18,
                                 color: HexColor(themeController.isLight
@@ -302,7 +299,7 @@ class _LocationPageState extends State<LocationPage> {
                             width: width * 0.70,
                             // color: Colors.grey.withOpacity(0.5),
                             child: Text(
-                              value.userData[index].email ?? "",
+                              value.userData[index].email,
                               style: TextStyle(
                                   color: HexColor(themeController.isLight
                                       ? AppColorsLight.silverColor

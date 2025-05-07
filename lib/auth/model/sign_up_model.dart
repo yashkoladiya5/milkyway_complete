@@ -1,5 +1,3 @@
-import 'package:milkyway/home/model/product_model.dart';
-
 class SignUpModel {
   String? name;
   String? area;

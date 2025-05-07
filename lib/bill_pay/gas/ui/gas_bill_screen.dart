@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/bill_pay/gas/provider/gas_bill_screen_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
-import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';

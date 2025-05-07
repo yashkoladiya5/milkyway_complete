@@ -12,9 +12,10 @@ import '../../../constant/app_strings.dart';
 import '../provider/recharge_plan_controller.dart';
 
 class RechargePlansScreen extends StatefulWidget {
-  String operator;
-  String state;
-  RechargePlansScreen({super.key, required this.operator, required this.state});
+  final String operator;
+  final String state;
+  const RechargePlansScreen(
+      {super.key, required this.operator, required this.state});
 
   @override
   State<RechargePlansScreen> createState() => _RechargePlansScreenState();

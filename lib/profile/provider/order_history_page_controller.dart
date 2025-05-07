@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkyway/cart/model/cart_wallet_model.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
-import 'package:milkyway/home/model/product_model.dart';
 
 class OrderHistoryPageController extends ChangeNotifier {
   int _selectedIndex = -1;

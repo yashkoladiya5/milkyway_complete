@@ -276,7 +276,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
         if (value.picked != null) {
           String? date = value.picked?.toString().substring(0, 10);
           DateTime convertedDate = DateTime.parse(date!);
-          String formattedDate = DateFormat('dd/MM/yyyy').format(convertedDate);
+          DateFormat('dd/MM/yyyy').format(convertedDate);
         }
 
         return Row(

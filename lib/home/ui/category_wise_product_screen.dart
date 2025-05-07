@@ -9,9 +9,9 @@ import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
 
 class CategoryWiseProductScreen extends StatefulWidget {
-  String pageTitle;
-  List<ProductModel> productList;
-  CategoryWiseProductScreen(
+  final String pageTitle;
+  final List<ProductModel> productList;
+  const CategoryWiseProductScreen(
       {super.key, required this.productList, required this.pageTitle});
 
   @override

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:milkyway/cart/model/cart_wallet_model.dart';
-import 'package:milkyway/constant/app_lists.dart';
+import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:milkyway/home/model/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageController extends ChangeNotifier {
   int _selectedIndex = 0;
@@ -51,6 +52,45 @@ class HomePageController extends ChangeNotifier {
   Future fetchTotalBalance() async {
     DbHelper dbHelper = DbHelper();
     _totalAmount = await dbHelper.fetchTotalBalanceData();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? autoPaymentBalanceAmount =
+        prefs.getString(SharedPreferenceKeys.autoPayBalanceId);
+    String? autoPaymentAmount = prefs.getString(SharedPreferenceKeys.autoPayId);
+
+    if (autoPaymentAmount != null && autoPaymentBalanceAmount != null) {
+      if (double.parse(_totalAmount) < double.parse(autoPaymentBalanceAmount)) {
+        String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+        String name = AppStrings.uploadBalanceWithUPIId;
+        int isIncome = 1;
+        String price1 = "₹" + autoPaymentAmount;
+        String weightValue = "";
+        String weightUnit = "";
+        String quantity = "";
+        String image = "";
+
+        final data = CartWalletModel(
+            isDaily: 0, //CHANGE
+            id: 0,
+            date: date,
+            image: image,
+            isExpense: 0,
+            isIncome: isIncome,
+            name: name,
+            price: price1,
+            quantity: quantity,
+            weightUnit: weightUnit,
+            weightValue: weightValue);
+
+        DbHelper dbHelper = DbHelper();
+
+        await dbHelper.insertWalletData(model: data);
+        print("DATA INSERTED");
+
+        _totalAmount = await dbHelper.fetchTotalBalanceData();
+      }
+    }
 
     notifyListeners();
   }

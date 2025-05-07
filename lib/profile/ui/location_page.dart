@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:milkyway/auth/widgets/custom_dropdown_button.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/profile/provider/location_page_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -321,7 +320,7 @@ class _LocationPageState extends State<LocationPage> {
                                 width: width * 0.700,
                                 // color: Colors.grey.withOpacity(0.5),
                                 child: Text(
-                                  value.userData[index].name ?? "",
+                                  value.userData[index].name,
                                   style: TextStyle(
                                       color: HexColor(themeController.isLight
                                           ? AppColorsLight.darkBlueColor
@@ -373,7 +372,7 @@ class _LocationPageState extends State<LocationPage> {
                             width: width * 0.70,
                             // color: Colors.grey.withOpacity(0.5),
                             child: Text(
-                              value.userData[index].mobileNumber ?? "",
+                              value.userData[index].mobileNumber,
                               style: TextStyle(
                                 fontSize: 18,
                                 color: HexColor(themeController.isLight
@@ -387,7 +386,7 @@ class _LocationPageState extends State<LocationPage> {
                             width: width * 0.70,
                             // color: Colors.grey.withOpacity(0.5),
                             child: Text(
-                              value.userData[index].email ?? "",
+                              value.userData[index].email,
                               style: TextStyle(
                                   color: HexColor(themeController.isLight
                                       ? AppColorsLight.darkBlueColor

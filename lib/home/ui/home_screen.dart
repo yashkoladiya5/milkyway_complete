@@ -21,7 +21,6 @@ import 'package:milkyway/home/ui/search_screen.dart';
 import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
-import 'package:milkyway/wallet/provider/wallet_screen_controller.dart';
 import 'package:milkyway/wallet/ui/wallet_page.dart';
 import 'package:provider/provider.dart';
 
@@ -151,12 +150,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   isConnectedToInternet = false;
                 });
                 break;
-
-              default:
-                setState(() {
-                  isConnectedToInternet = false;
-                });
-                break;
             }
           },
         );
@@ -172,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
         await homePageController.fetchFavouriteProductList();
         await homePageController.fetchTotalBalance();
 
-        await homePageController.fetchTotalBalance();
+        // await homePageController.fetchTotalBalance();
         Provider.of<HomePageController>(context, listen: false)
             .convertUiDateToYyyyMmDd(allDatesFromToday[0], 0);
         Provider.of<ProfileScreenController>(context, listen: false)
@@ -252,6 +245,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   _buildCategoriesTitle(),
                   _buildCategoriesGridView(),
                   _buildFavouriteProductsTitle(),
+                  SizedBox(
+                    height: height * 0.010,
+                  ),
                   _buildFavouriteProductList()
                 ],
               ),
@@ -558,7 +554,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     CupertinoPageRoute(
                       builder: (context) => const PayNowPage(),
                     )).then(
-                  (value) {
+                  (value) async {
+                    await homePageController.fetchTotalBalance();
                     setState(() {});
                   },
                 );
@@ -714,7 +711,10 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }),
         SizedBox(
-          width: width * 0.050,
+          width: context.locale.languageCode == 'hi' ||
+                  context.locale.languageCode == 'mr'
+              ? width * 0.070
+              : width * 0.050,
         ),
         Builder(builder: (context) {
           return Text(
@@ -726,7 +726,10 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }),
         SizedBox(
-          width: width * 0.050,
+          width: context.locale.languageCode == 'hi' ||
+                  context.locale.languageCode == 'mr'
+              ? width * 0.070
+              : width * 0.050,
         ),
         Builder(builder: (context) {
           return Text(
@@ -934,12 +937,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Container(
                                       height: height * 0.025,
                                       width: context.locale.languageCode == 'gu'
-                                          ? width * 0.150
+                                          ? width * 0.130
                                           : context.locale.languageCode == 'hi'
                                               ? width * 0.190
                                               : context.locale.languageCode ==
                                                       'mr'
-                                                  ? width * 0.140
+                                                  ? width * 0.150
                                                   : width * 0.105,
                                       // color: Colors.green,
                                       child: Center(
@@ -1034,6 +1037,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )).then(
                       (value) async {
                         loadingController.changeLoad();
+                        await homePageController.fetchTotalBalance();
                         await homePageController.fetchFavouriteProductList();
                         loadingController.changeLoad();
 
@@ -1161,6 +1165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )).then(
                     (value) async {
                       loadingController.changeLoad();
+                      await homePageController.fetchTotalBalance();
                       await homePageController.fetchFavouriteProductList();
                       loadingController.changeLoad();
                       setState(() {});
@@ -1174,11 +1179,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       // color: Colors.blue,
                       color: HexColor(themeController.isLight
                           ? AppColorsLight.backgroundColor
-                          : "#000000"),
+                          : "#0D0D0D"),
                       boxShadow: [
                         if (themeController.isLight)
                           const BoxShadow(
                               color: Colors.grey,
+                              blurRadius: 10,
+                              spreadRadius: 0.5)
+                        else
+                          BoxShadow(
+                              color: HexColor("000000"),
                               blurRadius: 10,
                               spreadRadius: 0.5)
                       ]),

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/profile/provider/language_page_controller.dart';
-import 'package:milkyway/profile/provider/location_page_controller.dart';
-import 'package:milkyway/provider/language_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';

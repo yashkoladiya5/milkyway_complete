@@ -204,7 +204,7 @@ class DbHelper {
     )}");
 
     for (int i = 0; i < finalData.length; i++) {
-      await db!.insert(tableName5, finalData[i].toJson());
+      await db.insert(tableName5, finalData[i].toJson());
     }
   }
 
@@ -578,7 +578,7 @@ class DbHelper {
         )
         .toList();
 
-    await db!.insert(tableName6, userData[0]);
+    await db.insert(tableName6, userData[0]);
 
     print("Data inserted to the Daily Products Table");
   }

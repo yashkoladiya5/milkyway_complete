@@ -1,6 +1,5 @@
 import 'package:milkyway/auth/model/location_model.dart';
 import 'package:milkyway/constant/app_strings.dart';
-import 'package:milkyway/dbhelper/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

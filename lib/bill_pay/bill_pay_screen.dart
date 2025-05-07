@@ -7,13 +7,11 @@ import 'package:milkyway/bill_pay/gas/ui/gas_bill_screen.dart';
 
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
-import 'package:milkyway/home/ui/page_view.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../constant/app_strings.dart';
-import '../home/ui/home_screen.dart';
 import 'recharge/ui/mobile_recharge_screen.dart';
 
 class BillPayScreen extends StatefulWidget {

@@ -7,7 +7,6 @@ import 'package:milkyway/auth/model/sign_up_model.dart';
 import 'package:milkyway/auth/provider/log_in_page_controller.dart';
 import 'package:milkyway/auth/provider/new_password_page_controller.dart';
 import 'package:milkyway/constant/app_colors.dart';
-import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/constant/app_strings.dart';
 
 import 'package:milkyway/home/ui/page_view.dart';
@@ -18,9 +17,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateNewPasswordPage extends StatefulWidget {
-  String? email;
-  String? mobileNumber;
-  CreateNewPasswordPage({super.key, this.email, this.mobileNumber});
+  final String? email;
+  final String? mobileNumber;
+  const CreateNewPasswordPage({super.key, this.email, this.mobileNumber});
 
   @override
   State<CreateNewPasswordPage> createState() => _CreateNewPasswordPageState();
@@ -64,11 +63,9 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection("user");
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool emailExist = false;
     bool mobileExist = false;
 
     if (widget.email != null) {
-      emailExist = true;
     } else {
       mobileExist = true;
     }
@@ -182,7 +179,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
                 fit: BoxFit.fill)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Container(
+          body: SizedBox(
             height: height,
             width: width,
             child: SingleChildScrollView(
@@ -253,7 +250,8 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
                                 hintText:
                                     (AppStrings.createNewPasswordTextField)
                                         .tr(),
-                                contentPadding: EdgeInsets.only(left: 15));
+                                contentPadding:
+                                    const EdgeInsets.only(left: 15));
                           }),
                           Builder(builder: (context) {
                             return _buildTextField(
@@ -281,7 +279,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
                                         .createConfirmNewPasswordTextField)
                                     .tr(),
                                 contentPadding:
-                                    EdgeInsets.only(left: 15, top: 12),
+                                    const EdgeInsets.only(left: 15, top: 12),
                                 obscureText: obscureTextController.isVisible,
                                 suffixIcon: IconButton(
                                     onPressed: () {
@@ -367,7 +365,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
                         fontWeight: FontWeight.w600),
                   );
                 })
-              : CircularProgressIndicator(
+              : const CircularProgressIndicator(
                   color: Colors.white,
                 ),
         ),

@@ -7,7 +7,6 @@ import 'package:milkyway/cart/ui/location_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_strings.dart';
 import 'package:milkyway/dbhelper/db_helper.dart';
-import 'package:milkyway/home/model/product_model.dart';
 
 import 'package:milkyway/home/ui/product_page.dart';
 import 'package:milkyway/provider/theme_controller.dart';
@@ -86,6 +85,8 @@ class _HomeBagPageState extends State<HomeBagPage> {
     await favouriteListController.updateFavouriteList(
         index: index,
         value: cartItemListController.cartItemList[index].isFavourite!);
+    await relatedProductListController.updateFavouriteProductFromCartList(
+        id: cartItemListController.cartItemList[index].id!);
 
     print("FAVOURITE LIST UPDATED");
   }

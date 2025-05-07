@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_strings.dart' show AppStrings;
 import 'package:milkyway/provider/theme_controller.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:milkyway/medicine/ui/medicine_add_page.dart';
@@ -37,8 +36,6 @@ class _MedicinePageState extends State<MedicinePage> {
           source: ImageSource.camera,
         );
         if (photo != null) {
-          final directory = await getTemporaryDirectory();
-
           setState(() {
             selectedImage = File(photo.path);
           });

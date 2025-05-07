@@ -3,14 +3,10 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:milkyway/auth/model/sign_up_model.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/profile/provider/profile_edit_screen_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constant/app_strings.dart';
@@ -352,7 +348,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       "mobileNumber": value.mobileController.text,
                       "password": userData["password"],
                       "pincode": userData["pincode"],
-                      "image": value.imageUrl ?? "",
+                      "image": value.imageUrl,
                     };
 
                     print("UPDATED DATA TYPE : ${updatedData}");

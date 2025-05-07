@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:milkyway/provider/language_controller.dart';
-import 'package:provider/provider.dart';
 
 class LanguagePageController extends ChangeNotifier {
   List<bool> _languageList = [false, false, false, false];

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -18,11 +17,10 @@ import 'package:milkyway/provider/loading_controller.dart';
 import 'package:milkyway/provider/theme_controller.dart';
 import 'package:milkyway/screens/network_error_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class HomeCategoryScreen extends StatefulWidget {
-  String pageTitle;
-  HomeCategoryScreen({super.key, required this.pageTitle});
+  final String pageTitle;
+  const HomeCategoryScreen({super.key, required this.pageTitle});
 
   @override
   State<HomeCategoryScreen> createState() => _HomeCategoryScreenState();
@@ -928,8 +926,8 @@ class _HomeCategoryScreenState extends State<HomeCategoryScreen> {
 }
 
 class ImagePlaceHolder extends StatelessWidget {
-  String? imagePath;
-  ImagePlaceHolder({super.key, this.imagePath});
+  final String? imagePath;
+  const ImagePlaceHolder({super.key, this.imagePath});
 
   @override
   Widget build(BuildContext context) {

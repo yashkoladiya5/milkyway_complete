@@ -191,6 +191,14 @@ class RelatedProductListController extends ChangeNotifier {
       }
     }
   }
+
+  updateFavouriteProductFromCartList({required int id}) {
+    for (int i = 0; i < _relatedProductList.length; i++) {
+      if (_relatedProductList[i].id == id) {
+        updateFavouriteProduct(index: i);
+      }
+    }
+  }
 }
 
 class DailyProductListController extends ChangeNotifier {
