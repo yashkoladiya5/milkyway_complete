@@ -39,7 +39,7 @@ class _CustomLocationDropDownState extends State<CustomLocationDropDown> {
             size: 40,
           ),
           padding: EdgeInsets.only(left: width * 0.030),
-          value: value.selectedArea,
+          value: value.selectedArea ?? "",
           style: TextStyle(
               fontFamily: "poppins",
               color: themeController.isLight

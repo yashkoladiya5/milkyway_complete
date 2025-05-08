@@ -745,15 +745,15 @@ class _ElectricityBillScreenState extends State<ElectricityBillScreen> {
               }
             },
             child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               alignment: Alignment.centerLeft,
               height: height * 0.085,
               width: value.electricityData["amount"] == null
-                  ? width * 0.250
+                  ? width * 0.230
                   //     :
                   // value.electricityData["amount"] != 0.0
                   //         ? value.electricityData["amount"] * 0.250
-                  : value.electricityData["amount"] * 0.230,
+                  : value.electricityData["amount"] * 0.220,
               decoration: BoxDecoration(
                   color: HexColor(AppColorsLight.orangeColor),
                   borderRadius: BorderRadius.circular(15)),

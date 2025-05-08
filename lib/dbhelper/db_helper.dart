@@ -119,8 +119,16 @@ class DbHelper {
 
   Future<void> insertData(ProductModel productModel) async {
     Database? db = await database;
+    String tableName = DatabaseProductTableStrings.tableName;
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
+    await db!.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName ($id INTEGER,$name TEXT,$weight TEXT,$price TEXT,$isFavourite INTEGER,$isDaily INTEGER,$description TEXT,$rating TEXT,$category TEXT,$relatedImages TEXT,$image TEXT,$quantity TEXT)');
 
-    await db!.insert(tableName, {
+    await db.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName5($id INTEGER,$incomeExpenseName TEXT,$incomeExpensePrice TEXT,$incomeExpenseDate DATE,$weightValue TEXT,$weightUnit TEXT, $isExpense INTEGER NOT NULL DEFAULT 0,$isIncome INTEGER NOT NULL DEFAULT 0,$quantity1 TEXT,$image TEXT,$isDaily int)');
+
+    print("DB CLASS TABLE NAME ::: ${tableName}");
+    await db.insert(tableName, {
       id: productModel.id,
       name: productModel.name,
       weight: productModel.weight,
@@ -138,7 +146,7 @@ class DbHelper {
 
   Future<List<ProductModel>> readData() async {
     Database? db = await database;
-
+    String tableName = DatabaseProductTableStrings.tableName;
     final data = await db!.query(tableName);
     List<ProductModel> finalData = data
         .map(
@@ -151,7 +159,7 @@ class DbHelper {
 
   Future<List<ProductModel>> readFavouriteProductData() async {
     Database? db = await database;
-
+    String tableName = DatabaseProductTableStrings.tableName;
     final data = await db!.query(
       tableName,
       where: 'isFavourite = 1',
@@ -167,7 +175,7 @@ class DbHelper {
 
   Future updateProduct(int id, Map<String, Object?> model) async {
     Database? db = await database;
-
+    String tableName = DatabaseProductTableStrings.tableName;
     await db!.update(tableName, model, where: 'id = ?', whereArgs: [id]);
 
     print("LIST UPDATED SUCCESSFULLY...");
@@ -176,6 +184,8 @@ class DbHelper {
   Future fetchCartProductsData() async {
     Database? db = await database;
 
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
+    String tableName = DatabaseProductTableStrings.tableName;
     final data = await db!.rawQuery('''
     SELECT 
       id,
@@ -186,7 +196,7 @@ class DbHelper {
       image,
       TRIM(SUBSTR(weight, 1, INSTR(weight, ' ') - 1)) AS weightValue,
       TRIM(SUBSTR(weight, INSTR(weight, ' ') + 1)) AS weightUnit
-    FROM ProductTable 
+    FROM ${tableName} 
     WHERE quantity > 0;
     ''');
 
@@ -203,6 +213,9 @@ class DbHelper {
       (e) => e.toJson(),
     )}");
 
+    await db!.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName5($id INTEGER,$incomeExpenseName TEXT,$incomeExpensePrice TEXT,$incomeExpenseDate DATE,$weightValue TEXT,$weightUnit TEXT, $isExpense INTEGER NOT NULL DEFAULT 0,$isIncome INTEGER NOT NULL DEFAULT 0,$quantity1 TEXT,$image TEXT,$isDaily int)');
+
     for (int i = 0; i < finalData.length; i++) {
       await db.insert(tableName5, finalData[i].toJson());
     }
@@ -210,7 +223,7 @@ class DbHelper {
 
   Future setDefaultQuantityOfProducts() async {
     Database? db = await database;
-
+    String tableName = DatabaseProductTableStrings.tableName;
     int rowsAffected = await db!
         .rawUpdate('UPDATE $tableName SET $quantity = 0 WHERE $quantity > 0');
 
@@ -220,15 +233,19 @@ class DbHelper {
   Future<void> insertPlansData() async {
     Database? db = await database;
 
+    String tableName1 = DatabaseRechargeTableStrings.tableName;
+    await db!.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName1(id INTEGER PRIMARY KEY AUTOINCREMENT, $company TEXT, $category1 TEXT, $data TEXT, $voice TEXT, $sms TEXT, $validity TEXT, $subscription TEXT, $offer TEXT,$price1 TEXT)');
+
     for (var item in AppLists().allRechargePlansList) {
-      await db!.insert(tableName1, item);
+      await db.insert(tableName1, item);
     }
   }
 
   Future<List<Map<String, dynamic>>> fetchPlansData(
       {required String companyValue, required String planValue}) async {
     Database? db = await database;
-
+    String tableName1 = DatabaseRechargeTableStrings.tableName;
     final plans = await db!.query(tableName1,
         where: '$company = ? AND $category = ?',
         whereArgs: [companyValue, planValue]);
@@ -239,19 +256,30 @@ class DbHelper {
 
   Future<void> insertGasData() async {
     Database? db = await database;
+    String tableName2 = DatabaseGasBookingTableStrings.tableName;
+    String tableName3 = DatabasePayGasBillTableStrings.tableName;
+    String gasProviderName1 = DatabasePayGasBillTableStrings.providerName;
+    await db!.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName2(id INTEGER PRIMARY KEY AUTOINCREMENT, $gasProviderName TEXT,$registeredMobile TEXT,$cylinderPrice REAL, $paymentStatus TEXT,$dealerName TEXT,$imageGas TEXT)');
     for (var item in AppLists().gasBookingData) {
-      await db!.insert(tableName2, item);
+      await db.insert(tableName2, item);
     }
 
+    await db.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName3(id INTEGER PRIMARY KEY AUTOINCREMENT,$gasProviderName1 TEXT,$customerId TEXT,$customerName TEXT,$registeredMobile1 TEXT,$billAmountRemain REAL,$dealerName1 TEXT,$imagePay TEXT)');
+
     for (var item in AppLists().payGasBillData) {
-      await db!.insert(tableName3, item);
+      await db.insert(tableName3, item);
     }
   }
 
   Future<List<Map<String, dynamic>>> fetchGasProviderData() async {
     Database? db = await database;
-    final data =
-        await db!.rawQuery('SELECT * from GasBooking GROUP BY gasProviderName');
+
+    String tableName2 = DatabaseGasBookingTableStrings.tableName;
+
+    final data = await db!
+        .rawQuery('SELECT * from ${tableName2} GROUP BY gasProviderName');
 
     print(data);
     List<Map<String, dynamic>> myData = data;
@@ -261,6 +289,9 @@ class DbHelper {
   Future<List<Map<String, dynamic>>> fetchGasBookingData(
       {required String company, required String mobile}) async {
     Database? db = await database;
+
+    String tableName2 = DatabaseGasBookingTableStrings.tableName;
+
     List<Map<String, dynamic>> data = await db!.query(tableName2,
         where: '$gasProviderName = ? AND $registeredMobile = ?',
         whereArgs: [company, mobile]);
@@ -271,8 +302,10 @@ class DbHelper {
       {required String operator, required String mobile}) async {
     Database? db = await database;
 
+    String tableName3 = DatabasePayGasBillTableStrings.tableName;
+    String tableName2 = DatabaseGasBookingTableStrings.tableName;
     final data = await db!.rawQuery(
-        'SELECT p.* from payGasBill p, GasBooking g where g.registeredMobile = p.registeredMobile AND g.gasProviderName = ? AND g.registeredMobile = ?',
+        'SELECT p.* from ${tableName3} p, ${tableName2} g where g.registeredMobile = p.registeredMobile AND g.gasProviderName = ? AND g.registeredMobile = ?',
         [operator, mobile]);
 
     return data;
@@ -282,8 +315,10 @@ class DbHelper {
       {required String customerId, required String provider}) async {
     Database? db = await database;
 
+    String tableName3 = DatabasePayGasBillTableStrings.tableName;
+
     final data = await db!.rawQuery(
-        'SELECT * from payGasBill where customerId = ? AND gasProviderName = ? ',
+        'SELECT * from ${tableName3} where customerId = ? AND gasProviderName = ? ',
         [customerId, provider]);
 
     return data;
@@ -292,16 +327,22 @@ class DbHelper {
   Future<void> insertElectricityData() async {
     Database? db = await database;
 
+    String tableName4 = DatabaseElectricityTableStrings.tableName;
+
+    await db!.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName4($customerNo TEXT,$electricityProvider TEXT,$image2 TEXT,$dueDate TEXT,$amount REAL,$state TEXT,$customerName1 TEXT)');
     for (int i = 0; i < AppLists().electricityBillData.length; i++) {
-      await db!.insert(tableName4, AppLists().electricityBillData[i]);
+      await db.insert(tableName4, AppLists().electricityBillData[i]);
     }
   }
 
   Future<List<Map<String, dynamic>>> fetchElectricityData() async {
     Database? db = await database;
 
+    String tableName4 = DatabaseElectricityTableStrings.tableName;
+
     final data = db!.rawQuery(
-        'SELECT DISTINCT(electricityProvider),image from Electricity');
+        'SELECT DISTINCT(electricityProvider),image from ${tableName4}');
 
     return data;
   }
@@ -311,6 +352,8 @@ class DbHelper {
       required String provider,
       required String number}) async {
     Database? db = await database;
+
+    String tableName4 = DatabaseElectricityTableStrings.tableName;
 
     final data = await db!.query(tableName4,
         where: 'state = ? AND electricityProvider = ? AND customerNo = ?',
@@ -322,12 +365,19 @@ class DbHelper {
   Future insertWalletData({required CartWalletModel model}) async {
     Database? db = await database;
 
-    await db!.insert(tableName5, model.toJson());
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
+
+    await db!.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName5($id INTEGER,$incomeExpenseName TEXT,$incomeExpensePrice TEXT,$incomeExpenseDate DATE,$weightValue TEXT,$weightUnit TEXT, $isExpense INTEGER NOT NULL DEFAULT 0,$isIncome INTEGER NOT NULL DEFAULT 0,$quantity1 TEXT,$image TEXT,$isDaily int)');
+
+    await db.insert(tableName5, model.toJson());
   }
 
   Future<List<CartWalletModel>> fetchWalletData(
       {required String start, required String end}) async {
     Database? db = await database;
+
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
 
     final data = await db!.query(tableName5,
         where: '$incomeExpenseDate BETWEEN ? AND ?', whereArgs: [start, end]);
@@ -344,10 +394,10 @@ class DbHelper {
   Future<List<CartWalletModel>> fetchHomeScreenTableData(
       {required String firstDate, required String lastDate}) async {
     Database? db = await database;
-
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
     try {
       final data = await db!.rawQuery(
-          "SELECT name,id,price,date,SUM(weightValue) as weightValue,weightUnit,isExpense,isIncome,quantity,image,isDaily from IncomeExpense WHERE (date BETWEEN ? AND ?) OR (date < ? AND isDaily = 1) GROUP BY name",
+          "SELECT name,id,price,date,SUM(weightValue) as weightValue,weightUnit,isExpense,isIncome,quantity,image,isDaily from ${tableName5} WHERE (date BETWEEN ? AND ?) OR (date < ? AND isDaily = 1) GROUP BY name",
           [firstDate, lastDate, firstDate]);
 
       List<CartWalletModel> finalData = [];
@@ -431,10 +481,10 @@ class DbHelper {
   Future<List<CartWalletModel>> fetchHomeScreenTableFutureDailyData(
       {required String firstDate}) async {
     Database? db = await database;
-
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
     try {
       final data = await db!.rawQuery(
-          "SELECT name,id,price,date,SUM(weightValue) as weightValue,weightUnit,isExpense,isIncome,quantity,image,isDaily from IncomeExpense WHERE date < ? AND isDaily = 1 GROUP BY name",
+          "SELECT name,id,price,date,SUM(weightValue) as weightValue,weightUnit,isExpense,isIncome,quantity,image,isDaily from ${tableName5} WHERE date < ? AND isDaily = 1 GROUP BY name",
           [firstDate]);
 
       List<CartWalletModel> finalData = [];
@@ -494,6 +544,8 @@ class DbHelper {
       {required String date}) async {
     Database? db = await database;
 
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
+
     final data = await db!.query(tableName5,
         where: '$incomeExpenseDate < ? AND $isDaily = 1', whereArgs: [date]);
     List<CartWalletModel> finalData = [];
@@ -507,6 +559,8 @@ class DbHelper {
 
   Future<String> fetchTotalBalanceData() async {
     Database? db = await database;
+
+    String tableName5 = DatabaseIncomeExpenseTableStrings.tableName;
 
     final data = await db!.query(tableName5);
 
@@ -556,6 +610,8 @@ class DbHelper {
     Database? db = await database;
     List<ProductModel> productList = [];
 
+    String tableName6 = DatabaseDailyTableStrings.tableName;
+
     final data = await db!.query(tableName6);
 
     productList = data
@@ -570,13 +626,20 @@ class DbHelper {
   Future insertDailyProductData({required int id}) async {
     Database? db = await database;
 
-    final data = await db!.query(tableName, where: 'id = ?', whereArgs: [id]);
+    String tableName = DatabaseProductTableStrings.tableName;
+
+    await db!.execute(
+        'CREATE TABLE IF NOT EXISTS $tableName($id INTEGER,$name TEXT,$weight TEXT,$price TEXT,$isFavourite INTEGER,$isDaily INTEGER,$description TEXT,$rating TEXT,$category TEXT,$relatedImages TEXT,$image TEXT,$quantity TEXT )');
+
+    final data = await db.query(tableName, where: 'id = ?', whereArgs: [id]);
 
     List<Map<String, dynamic>> userData = data
         .map(
           (e) => e,
         )
         .toList();
+
+    String tableName6 = DatabaseDailyTableStrings.tableName;
 
     await db.insert(tableName6, userData[0]);
 

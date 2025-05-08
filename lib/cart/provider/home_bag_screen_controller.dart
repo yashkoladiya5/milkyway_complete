@@ -218,7 +218,11 @@ class DailyProductListController extends ChangeNotifier {
           )
           .toList();
 
-      prefs.setStringList(SharedPreferenceKeys.dailyProductIdKey, intList);
+      print("SHARED PREFERENCE KEY LIST :::; ${intList}");
+      prefs.setStringList(
+        SharedPreferenceKeys.dailyProductIdKey,
+        intList.map((e) => e.toString()).toList(),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Product is already in Daily Product List")));
@@ -250,18 +254,19 @@ class DailyProductListController extends ChangeNotifier {
     List<String>? dailyList =
         prefs.getStringList(SharedPreferenceKeys.dailyProductIdKey);
 
-    if (dailyList != null) {
-      List<int> intList = [];
-      for (int i = 0; i < dailyList.length; i++) {
-        intList.add(int.parse(dailyList[i]));
-      }
+    print("DAILY PRODUCT RAW LIST FROM SHARED PREFERENCES ::: $dailyList");
+
+    if (dailyList != null && dailyList.isNotEmpty) {
+      List<int> intList = dailyList.map((e) => int.tryParse(e) ?? 0).toList();
+
       _dailyProductList = [];
       _dailyProductList.addAll(intList);
+
       notifyListeners();
       print(
-          "DAILY PRODUCT LIST FROM SHARED PREFERECNES ::: ${_dailyProductList}");
+          "DAILY PRODUCT LIST FROM SHARED PREFERENCES ::: $_dailyProductList");
     } else {
-      print("DAILY PRODUCT LIST FROM SHARED PREFERECNES IS null");
+      print("DAILY PRODUCT LIST FROM SHARED PREFERENCES IS empty or null");
     }
   }
 }

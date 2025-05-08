@@ -211,16 +211,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 if (userList[i].mobileNumber ==
                     "+91${_mobileController.text}") {
                   userId = value.docs[i].id;
-
-                  prefs.setString(SharedPreferenceKeys.userIdKey, userId);
+                  break;
                 } else {
                   userId = "";
                 }
               }
-              loadingController.changeLoad();
 
               DbHelper dbHelper = DbHelper();
 
+              await setTableAndSharedPrefData();
+
+              print("TABLE WILL BE CREATED WITH ID ::: ${userId}");
               for (int i = 0; i < AppLists().dairyProductList.length; i++) {
                 await dbHelper.insertData(AppLists().dairyProductList[i]);
               }
@@ -265,6 +266,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         SharedPreferenceKeys.locationIdKey, locationId);
                   },
                 );
+                signUpController.setDefaultToAllFields();
+                signUpController.setDefault();
+                loadingController.changeLoad();
                 Navigator.push(context, CupertinoPageRoute(
                   builder: (context) {
                     return PageViewScreen();
@@ -282,6 +286,39 @@ class _SignUpPageState extends State<SignUpPage> {
         },
       );
     }
+  }
+
+  Future setTableAndSharedPrefData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferenceKeys.autoPayId =
+        "${userId}.${SharedPreferenceKeys.autoPayId}";
+    SharedPreferenceKeys.autoPayBalanceId =
+        "${userId}.${SharedPreferenceKeys.autoPayBalanceId}";
+    SharedPreferenceKeys.dailyProductIdKey =
+        "${userId}.${SharedPreferenceKeys.dailyProductIdKey}";
+    SharedPreferenceKeys.locationIdKey =
+        "${userId}.${SharedPreferenceKeys.locationIdKey}";
+    SharedPreferenceKeys.userDataKey =
+        "${userId}.${SharedPreferenceKeys.userDataKey}";
+    SharedPreferenceKeys.planKey = "${userId}.${SharedPreferenceKeys.planKey}";
+    DatabaseDailyTableStrings.tableName =
+        "${DatabaseDailyTableStrings.tableName}_${userId}";
+    DatabaseElectricityTableStrings.tableName =
+        "${DatabaseElectricityTableStrings.tableName}_${userId}";
+    DatabaseGasBookingTableStrings.tableName =
+        "${DatabaseGasBookingTableStrings.tableName}_${userId}";
+    DatabaseIncomeExpenseTableStrings.tableName =
+        "${DatabaseIncomeExpenseTableStrings.tableName}_${userId}";
+    DatabasePayGasBillTableStrings.tableName =
+        "${DatabasePayGasBillTableStrings.tableName}_${userId}";
+    DatabaseProductTableStrings.tableName =
+        "${DatabaseProductTableStrings.tableName}_${userId}";
+    DatabaseRechargeTableStrings.tableName =
+        "${DatabaseRechargeTableStrings.tableName}_${userId}";
+    print("DATABASE TABLE NAME ::: ${DatabaseProductTableStrings.tableName}");
+
+    prefs.setString(SharedPreferenceKeys.lastLogInUserId, userId);
+    prefs.setString(SharedPreferenceKeys.userIdKey, userId);
   }
 
   @override

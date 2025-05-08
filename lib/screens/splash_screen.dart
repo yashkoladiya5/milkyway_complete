@@ -30,7 +30,35 @@ class _SplashScreenState extends State<SplashScreen> {
       String? isAlreadyLoggedIn =
           prefs.getString(SharedPreferenceKeys.lastLogInUserId);
 
-      if (isAlreadyLoggedIn != null) {
+      if (isAlreadyLoggedIn != "" && isAlreadyLoggedIn != null) {
+        print("LOG IN ID :::: ${isAlreadyLoggedIn}");
+        SharedPreferenceKeys.autoPayId =
+            "${isAlreadyLoggedIn}.${SharedPreferenceKeys.autoPayId}";
+        SharedPreferenceKeys.autoPayBalanceId =
+            "${isAlreadyLoggedIn}.${SharedPreferenceKeys.autoPayBalanceId}";
+        SharedPreferenceKeys.dailyProductIdKey =
+            "${isAlreadyLoggedIn}.${SharedPreferenceKeys.dailyProductIdKey}";
+        SharedPreferenceKeys.locationIdKey =
+            "${isAlreadyLoggedIn}.${SharedPreferenceKeys.locationIdKey}";
+        SharedPreferenceKeys.userDataKey =
+            "${isAlreadyLoggedIn}.${SharedPreferenceKeys.userDataKey}";
+        SharedPreferenceKeys.planKey =
+            "${isAlreadyLoggedIn}.${SharedPreferenceKeys.planKey}";
+        DatabaseDailyTableStrings.tableName =
+            "${DatabaseDailyTableStrings.tableName}_${isAlreadyLoggedIn}";
+        DatabaseElectricityTableStrings.tableName =
+            "${DatabaseElectricityTableStrings.tableName}_${isAlreadyLoggedIn}";
+        DatabaseGasBookingTableStrings.tableName =
+            "${DatabaseGasBookingTableStrings.tableName}_${isAlreadyLoggedIn}";
+        DatabaseIncomeExpenseTableStrings.tableName =
+            "${DatabaseIncomeExpenseTableStrings.tableName}_${isAlreadyLoggedIn}";
+        DatabasePayGasBillTableStrings.tableName =
+            "${DatabasePayGasBillTableStrings.tableName}_${isAlreadyLoggedIn}";
+        DatabaseProductTableStrings.tableName =
+            "${DatabaseProductTableStrings.tableName}_${isAlreadyLoggedIn}";
+        DatabaseRechargeTableStrings.tableName =
+            "${DatabaseRechargeTableStrings.tableName}_${isAlreadyLoggedIn}";
+
         print("HOME PAGE.....");
         Navigator.pushReplacement(
           context,

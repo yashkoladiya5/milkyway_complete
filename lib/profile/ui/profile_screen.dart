@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:milkyway/auth/ui/log_in_page.dart';
 import 'package:milkyway/constant/app_colors.dart';
 import 'package:milkyway/constant/app_lists.dart';
 import 'package:milkyway/profile/provider/profile_screen_controller.dart';
@@ -18,6 +19,8 @@ import '../../constant/app_strings.dart';
 import 'cancellation_policy_page.dart';
 import 'language_page.dart';
 import 'order_history_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,6 +33,179 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late double height;
   late double width;
   late ThemeController themeController;
+
+  Future<void> navigateToLogInPage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? userId = prefs.getString(SharedPreferenceKeys.userIdKey);
+    final firebase = FirebaseFirestore.instance
+        .collection("user")
+        .doc(userId)
+        .collection("shared_preference");
+
+    final value = await firebase.get();
+    Map<String, dynamic> userData = {};
+    if (value.docs.isEmpty) {
+      String? locationId = prefs.getString(SharedPreferenceKeys.locationIdKey);
+      String? userDataValue = prefs.getString(SharedPreferenceKeys.userDataKey);
+      String? planKey = prefs.getString(SharedPreferenceKeys.planKey);
+      List<String>? dailyProductIdKey =
+          prefs.getStringList(SharedPreferenceKeys.dailyProductIdKey);
+      String? autoPayId = prefs.getString(SharedPreferenceKeys.autoPayId);
+      String? autoPayBalanceId =
+          prefs.getString(SharedPreferenceKeys.autoPayBalanceId);
+
+      userData = {
+        SharedPreferenceKeys.userIdKey: userId,
+        SharedPreferenceKeys.userDataKey: userDataValue,
+        SharedPreferenceKeys.planKey: planKey,
+        SharedPreferenceKeys.locationIdKey: locationId,
+        SharedPreferenceKeys.dailyProductIdKey: dailyProductIdKey,
+        SharedPreferenceKeys.autoPayId: autoPayId,
+        SharedPreferenceKeys.autoPayBalanceId: autoPayBalanceId,
+      };
+
+      firebase.add(userData);
+    } else {
+      firebase.doc(value.docs.first.id).set(userData);
+    }
+
+    prefs.remove(SharedPreferenceKeys.lastLogInUserId);
+    prefs.remove(SharedPreferenceKeys.userIdKey);
+    prefs.remove(SharedPreferenceKeys.locationIdKey);
+    prefs.remove(SharedPreferenceKeys.planKey);
+    prefs.remove(SharedPreferenceKeys.dailyProductIdKey);
+    prefs.remove(SharedPreferenceKeys.autoPayId);
+    prefs.remove(SharedPreferenceKeys.autoPayBalanceId);
+
+    prefs.remove(SharedPreferenceKeys.userDataKey);
+
+    SharedPreferenceKeys.userIdKey = "userId";
+    SharedPreferenceKeys.userDataKey = "userEmailPassword";
+    SharedPreferenceKeys.planKey = "selectedPlan";
+    SharedPreferenceKeys.locationIdKey = "locationId";
+    SharedPreferenceKeys.dailyProductIdKey = "dailyProductId";
+    SharedPreferenceKeys.autoPayId = "autoPayId";
+    SharedPreferenceKeys.autoPayBalanceId = "autoPayBalanceId";
+    SharedPreferenceKeys.lastLogInUserId = "lastLogInUserId";
+
+    DatabaseDailyTableStrings.tableName = "DailyProductsTable";
+    DatabaseElectricityTableStrings.tableName = "Electricity";
+    DatabaseGasBookingTableStrings.tableName = "GasBooking";
+    DatabaseIncomeExpenseTableStrings.tableName = "IncomeExpense";
+    DatabasePayGasBillTableStrings.tableName = "payGasBill";
+    DatabaseProductTableStrings.tableName = "ProductTable";
+    DatabaseRechargeTableStrings.tableName = "RechargePlansTable";
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      CupertinoPageRoute(
+        builder: (context) {
+          return LogInPage();
+        },
+      ),
+      (route) => false,
+    );
+  }
+
+  void showLogOutDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Container(
+            height: height * 0.200,
+            width: width * 0.800,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: HexColor(themeController.isLight
+                    ? AppColorsLight.backgroundColor
+                    : AppColorsDark.backgroundColor)),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  height: height * 0.140,
+                  width: width * 0.700,
+                  // color: Colors.red,
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    AppStrings.logOutText,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: HexColor(themeController.isLight
+                            ? AppColorsLight.darkBlueColor
+                            : AppColorsDark.whiteColor)),
+                  ),
+                ),
+                Container(
+                  height: height * 0.060,
+                  width: width * 0.800,
+                  decoration: BoxDecoration(
+                      // color: Colors.red,
+                      ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            await navigateToLogInPage();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: height * 0.060,
+                            decoration: BoxDecoration(
+                                color: HexColor(AppColorsLight.orangeColor),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                )),
+                            child: Text(
+                              "Yes",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color:
+                                      HexColor(AppColorsLight.darkBlueColor)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: height * 0.060,
+                            decoration: BoxDecoration(
+                                color: HexColor(themeController.isLight
+                                    ? AppColorsLight.lightGreyColor
+                                    : AppColorsDark.darkGreyColor),
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(15))),
+                            child: Center(
+                              child: Text(
+                                "No",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: HexColor(themeController.isLight
+                                        ? AppColorsLight.darkBlueColor
+                                        : AppColorsDark.whiteColor)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -338,107 +514,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ));
                     } else if (index == 13) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            contentPadding: EdgeInsets.zero,
-                            content: Container(
-                              height: height * 0.200,
-                              width: width * 0.800,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: HexColor(themeController.isLight
-                                      ? AppColorsLight.backgroundColor
-                                      : AppColorsDark.backgroundColor)),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: height * 0.140,
-                                    width: width * 0.700,
-                                    // color: Colors.red,
-                                    child: Text(
-                                      textAlign: TextAlign.center,
-                                      AppStrings.logOutText,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: HexColor(
-                                              themeController.isLight
-                                                  ? AppColorsLight.darkBlueColor
-                                                  : AppColorsDark.whiteColor)),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: height * 0.060,
-                                    width: width * 0.800,
-                                    decoration: BoxDecoration(
-                                        // color: Colors.red,
-                                        ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              height: height * 0.060,
-                                              decoration: BoxDecoration(
-                                                  color: HexColor(AppColorsLight
-                                                      .orangeColor),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    bottomLeft:
-                                                        Radius.circular(15),
-                                                  )),
-                                              child: Text(
-                                                "Yes",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: HexColor(
-                                                        AppColorsLight
-                                                            .darkBlueColor)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            height: height * 0.060,
-                                            decoration: BoxDecoration(
-                                                color: HexColor(
-                                                    themeController.isLight
-                                                        ? AppColorsLight
-                                                            .lightGreyColor
-                                                        : AppColorsDark
-                                                            .darkGreyColor),
-                                                borderRadius: BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(15))),
-                                            child: Center(
-                                              child: Text(
-                                                "No",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: HexColor(
-                                                        themeController.isLight
-                                                            ? AppColorsLight
-                                                                .darkBlueColor
-                                                            : AppColorsDark
-                                                                .whiteColor)),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                      showLogOutDialog();
                     }
                   },
                   child: Container(

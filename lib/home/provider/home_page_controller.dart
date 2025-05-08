@@ -10,7 +10,7 @@ class HomePageController extends ChangeNotifier {
   int _selectedIndex = 0;
   int _activePage = 0;
   List<ProductModel> _favouriteProductList = [];
-  String _totalAmount = "";
+  String _totalAmount = "0.0";
   List<CartWalletModel> _dateWiseProductList = [];
 
   int get selectedIndex => _selectedIndex;
@@ -55,41 +55,44 @@ class HomePageController extends ChangeNotifier {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? autoPaymentBalanceAmount =
-        prefs.getString(SharedPreferenceKeys.autoPayBalanceId);
-    String? autoPaymentAmount = prefs.getString(SharedPreferenceKeys.autoPayId);
+    String autoPaymentBalanceAmount =
+        prefs.getString(SharedPreferenceKeys.autoPayBalanceId) ?? "0.0";
+    String autoPaymentAmount =
+        prefs.getString(SharedPreferenceKeys.autoPayId) ?? "0.0";
 
-    if (autoPaymentAmount != null && autoPaymentBalanceAmount != null) {
-      if (double.parse(_totalAmount) < double.parse(autoPaymentBalanceAmount)) {
-        String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
-        String name = AppStrings.uploadBalanceWithUPIId;
-        int isIncome = 1;
-        String price1 = "₹" + autoPaymentAmount;
-        String weightValue = "";
-        String weightUnit = "";
-        String quantity = "";
-        String image = "";
+    double autoBalance = double.tryParse(autoPaymentBalanceAmount) ?? 0.0;
+    double autoAmount = double.tryParse(autoPaymentAmount) ?? 0.0;
+    double totalAmount = double.tryParse(_totalAmount) ?? 0.0;
 
-        final data = CartWalletModel(
-            isDaily: 0, //CHANGE
-            id: 0,
-            date: date,
-            image: image,
-            isExpense: 0,
-            isIncome: isIncome,
-            name: name,
-            price: price1,
-            quantity: quantity,
-            weightUnit: weightUnit,
-            weightValue: weightValue);
+    if ((totalAmount >= 0 || autoAmount != 0.0) && totalAmount < autoBalance) {
+      String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+      String name = AppStrings.uploadBalanceWithUPIId;
+      int isIncome = 1;
+      String price1 = "₹" + autoPaymentAmount;
+      String weightValue = "";
+      String weightUnit = "";
+      String quantity = "";
+      String image = "";
 
-        DbHelper dbHelper = DbHelper();
+      final data = CartWalletModel(
+          isDaily: 0, //CHANGE
+          id: 0,
+          date: date,
+          image: image,
+          isExpense: 0,
+          isIncome: isIncome,
+          name: name,
+          price: price1,
+          quantity: quantity,
+          weightUnit: weightUnit,
+          weightValue: weightValue);
 
-        await dbHelper.insertWalletData(model: data);
-        print("DATA INSERTED");
+      DbHelper dbHelper = DbHelper();
 
-        _totalAmount = await dbHelper.fetchTotalBalanceData();
-      }
+      await dbHelper.insertWalletData(model: data);
+      print("DATA INSERTED");
+
+      _totalAmount = await dbHelper.fetchTotalBalanceData();
     }
 
     notifyListeners();

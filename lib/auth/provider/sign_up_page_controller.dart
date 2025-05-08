@@ -79,4 +79,17 @@ class SignUpPageController extends ChangeNotifier {
     print("TEXT === ${_stateController.text}");
     notifyListeners();
   }
+
+  setDefaultToAllFields() {
+    _isAddressFieldTouched = false;
+    _isNameFieldTouched = false;
+    _isPincodeFieldTouched = false;
+    _isNumberFieldTouched = false;
+    _isEmailFieldTouched = false;
+    _isPasswordFieldTouched = false;
+    _isConfirmPasswordFieldTouched = false;
+    _isStateFieldTouched = false;
+    _stateController.text = "";
+    notifyListeners();
+  }
 }

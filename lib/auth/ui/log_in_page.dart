@@ -94,23 +94,75 @@ class _LogInPageState extends State<LogInPage> {
 
       if (userCheck == 1) {
         print(userId);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        SharedPreferenceKeys.autoPayId =
+            "${userId}.${SharedPreferenceKeys.autoPayId}";
+        SharedPreferenceKeys.autoPayBalanceId =
+            "${userId}.${SharedPreferenceKeys.autoPayBalanceId}";
+        SharedPreferenceKeys.dailyProductIdKey =
+            "${userId}.${SharedPreferenceKeys.dailyProductIdKey}";
+        SharedPreferenceKeys.locationIdKey =
+            "${userId}.${SharedPreferenceKeys.locationIdKey}";
+        SharedPreferenceKeys.userDataKey =
+            "${userId}.${SharedPreferenceKeys.userDataKey}";
+        SharedPreferenceKeys.planKey =
+            "${userId}.${SharedPreferenceKeys.planKey}";
+        DatabaseDailyTableStrings.tableName =
+            "${DatabaseDailyTableStrings.tableName}_${userId}";
+        DatabaseElectricityTableStrings.tableName =
+            "${DatabaseElectricityTableStrings.tableName}_${userId}";
+        DatabaseGasBookingTableStrings.tableName =
+            "${DatabaseGasBookingTableStrings.tableName}_${userId}";
+        DatabaseIncomeExpenseTableStrings.tableName =
+            "${DatabaseIncomeExpenseTableStrings.tableName}_${userId}";
+        DatabasePayGasBillTableStrings.tableName =
+            "${DatabasePayGasBillTableStrings.tableName}_${userId}";
+        DatabaseProductTableStrings.tableName =
+            "${DatabaseProductTableStrings.tableName}_${userId}";
+        DatabaseRechargeTableStrings.tableName =
+            "${DatabaseRechargeTableStrings.tableName}_${userId}";
+
+        prefs.setString(SharedPreferenceKeys.lastLogInUserId, userId!);
+
+        final firestore = await FirebaseFirestore.instance
+            .collection("user")
+            .doc(userId)
+            .collection("shared_preference")
+            .get()
+            .then(
+          (value) {
+            final data = value.docs[0].data();
+
+            String autoPayBalanceId;
+            String autoPayId;
+
+            String locationId;
+            String selectedPlan;
+
+            autoPayBalanceId = data["${userId}.autoPayBalanceId"] ?? "";
+            autoPayId = data["${userId}.autoPayId"] ?? "";
+            List<String> dailyProductId =
+                List<String>.from(data["${userId}.dailyProductId"] ?? []);
+
+            locationId = data["${userId}.locationId"] ?? "";
+            selectedPlan = data["${userId}.selectedPlan"] ?? "";
+            prefs.setString(
+                SharedPreferenceKeys.autoPayBalanceId, autoPayBalanceId);
+
+            prefs.setString(SharedPreferenceKeys.autoPayId, autoPayId);
+            prefs.setStringList(
+                SharedPreferenceKeys.dailyProductIdKey, dailyProductId);
+            prefs.setString(SharedPreferenceKeys.locationIdKey, locationId);
+            prefs.setString(SharedPreferenceKeys.planKey, selectedPlan);
+          },
+        );
+
         await rememberEmailAndPassword();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             duration: Duration(milliseconds: 200),
             content: Text("Successfully Logged In User")));
 
-        DbHelper dbHelper = DbHelper();
-
-        for (int i = 0; i < AppLists().dairyProductList.length; i++) {
-          await dbHelper.insertData(AppLists().dairyProductList[i]);
-        }
-        print("Data Successfully ADDED");
-        await dbHelper.insertPlansData();
-        print("Plans Data ADDED");
-        await dbHelper.insertGasData();
-        print("Gas Data ADDED");
-        await dbHelper.insertElectricityData();
-        print("Electricity Data ADDED");
         Navigator.pushReplacement(
             context,
             CupertinoPageRoute(
