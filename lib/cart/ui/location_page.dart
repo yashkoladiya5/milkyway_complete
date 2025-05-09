@@ -323,47 +323,49 @@ class _LocationPageState extends State<LocationPage> {
   Widget _buildContinueButton() {
     return Consumer<LocationPageController>(
       builder: (context, value, child) {
-        return InkWell(
-          focusColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          onTap: () {
-            if (value.userData.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  duration: Duration(milliseconds: 200),
-                  content: Text("Wait for the address...!!")));
-            } else {
-              Navigator.of(context).push(CupertinoPageRoute(
-                builder: (context) {
-                  return PaymentScreen(
-                    dailyProductList: widget.dailyProducts,
-                    bagTotal: widget.bagTotal,
-                    userData: value.userData[value.selectedIndex],
-                  );
-                },
-              ));
-            }
-          },
-          child: Container(
-            height: height * 0.070,
-            width: width * 0.320,
-            decoration: BoxDecoration(
-                color: HexColor(AppColorsLight.orangeColor),
-                borderRadius: BorderRadius.circular(10)),
-            child: Center(
-              child: Builder(builder: (context) {
-                return Text(
+        return Builder(builder: (context) {
+          return InkWell(
+            focusColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            onTap: () {
+              if (value.userData.isEmpty ||
+                  value.selectedIndex >= value.userData.length ||
+                  widget.dailyProducts.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    duration: Duration(milliseconds: 200),
+                    content: Text("Wait for the address...!!")));
+              } else {
+                Navigator.of(context).push(CupertinoPageRoute(
+                  builder: (context) {
+                    return PaymentScreen(
+                      dailyProductList: widget.dailyProducts,
+                      bagTotal: widget.bagTotal,
+                      userData: value.userData[value.selectedIndex],
+                    );
+                  },
+                ));
+              }
+            },
+            child: Container(
+              height: height * 0.070,
+              width: width * 0.320,
+              decoration: BoxDecoration(
+                  color: HexColor(AppColorsLight.orangeColor),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                child: Text(
                   (AppStrings.continueText).tr(),
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold),
-                );
-              }),
+                ),
+              ),
             ),
-          ),
-        );
+          );
+        });
       },
     );
   }
