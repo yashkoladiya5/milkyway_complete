@@ -1,0 +1,2 @@
+/Users/yash/studioprojects/milkyway-main/android/app/.cxx/Debug/2s2s1gy6/x86_64/CMakeFiles/edit_cache.dir
+/Users/yash/studioprojects/milkyway-main/android/app/.cxx/Debug/2s2s1gy6/x86_64/CMakeFiles/rebuild_cache.dir

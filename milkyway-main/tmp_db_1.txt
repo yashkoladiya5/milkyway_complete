@@ -1,0 +1,11 @@
+26:String quantity = DatabaseProductTableStrings.productQuantity;
+27-
+28-String tableName1 = DatabaseRechargeTableStrings.tableName;
+29-String company = DatabaseRechargeTableStrings.companyName;
+30-String category1 = DatabaseRechargeTableStrings.companyCategory;
+31-String data = DatabaseRechargeTableStrings.companyData;
+32-String voice = DatabaseRechargeTableStrings.companyVoice;
+33-String sms = DatabaseRechargeTableStrings.companySms;
+34-String validity = DatabaseRechargeTableStrings.companyValidity;
+35-String subscription = DatabaseRechargeTableStrings.companySubscription;
+36-String offer = DatabaseRechargeTableStrings.companyOffer;

@@ -1,0 +1,2 @@
+/Users/yash/Desktop/Yash/Milkyway-AI/milkyway-main/android/app/.cxx/Debug/3c6r2tt2/x86/CMakeFiles/edit_cache.dir
+/Users/yash/Desktop/Yash/Milkyway-AI/milkyway-main/android/app/.cxx/Debug/3c6r2tt2/x86/CMakeFiles/rebuild_cache.dir

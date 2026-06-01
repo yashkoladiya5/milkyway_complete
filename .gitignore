@@ -1,45 +1,38 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
+# Miscellaneous / OS-specific
 .DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.log
 
-# IntelliJ related
+# IDEs and editors
+.idea/
+.vscode/
 *.iml
 *.ipr
 *.iws
-.idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# --- Flutter (milkyway-main) ignores ---
+milkyway-main/.dart_tool/
+milkyway-main/.flutter-plugins
+milkyway-main/.flutter-plugins-dependencies
+milkyway-main/.pub-cache/
+milkyway-main/.pub/
+milkyway-main/build/
+milkyway-main/android/app/debug/
+milkyway-main/android/app/profile/
+milkyway-main/android/app/release/
+milkyway-main/.fvm/
+milkyway-main/ios/Flutter/.last_build_id
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
-
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# --- Backend (Milkyway-Backend) ignores ---
+Milkyway-Backend/node_modules/
+Milkyway-Backend/.env
+Milkyway-Backend/dist/
+Milkyway-Backend/build/
+Milkyway-Backend/npm-debug.log*
+Milkyway-Backend/yarn-debug.log*
+Milkyway-Backend/yarn-error.log*
